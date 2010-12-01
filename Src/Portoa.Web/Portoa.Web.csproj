@@ -31,7 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -43,6 +53,14 @@
     <Compile Include="ErrorHandling\ErrorModel.cs" />
     <Compile Include="ErrorHandling\ErrorViewEngine.cs" />
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
+    <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />
+    <Compile Include="Unity\CallHandlerExtensions.cs" />
+    <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
+    <Compile Include="Unity\DoesNotHaveGenericMethods.cs" />
+    <Compile Include="Unity\IInterceptRule.cs" />
+    <Compile Include="Unity\InterceptOnRegister.cs" />
+    <Compile Include="Unity\NotUnityInterceptionAssembly.cs" />
+    <Compile Include="Unity\UnityExtensions.cs" />
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\IErrorController.cs" />
     <Compile Include="InjectableFilterActionInvoker.cs" />
