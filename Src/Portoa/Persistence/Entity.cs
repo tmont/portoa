@@ -9,21 +9,24 @@ namespace Portoa.Persistence {
 		public override bool Equals(object obj) {
 			var comparisonObj = obj as T;
 
-			if (comparisonObj == null)
+			if (comparisonObj == null) {
 				return false;
+			}
 
-			bool comparisonIsTransient = Equals(comparisonObj.Id, default(TId));
-			bool thisIsTransient = Equals(Id, default(TId));
+			var comparisonIsTransient = Equals(comparisonObj.Id, default(TId));
+			var thisIsTransient = Equals(Id, default(TId));
 
-			if (comparisonIsTransient && thisIsTransient)
+			if (comparisonIsTransient && thisIsTransient) {
 				return ReferenceEquals(comparisonObj, this);
+			}
 
 			return comparisonObj.Id.Equals(Id);
 		}
 
 		public override int GetHashCode() {
-			if (originalHashCode.HasValue)
+			if (originalHashCode.HasValue) {
 				return originalHashCode.Value;
+			}
 
 			var thisIsTransient = Equals(Id, default(TId));
 

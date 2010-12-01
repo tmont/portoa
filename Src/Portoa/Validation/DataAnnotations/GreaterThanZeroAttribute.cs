@@ -6,9 +6,8 @@ namespace Portoa.Validation.DataAnnotations {
 	/// </summary>
 	public sealed class GreaterThanZeroAttribute : ValidationAttribute {
 
+		public GreaterThanZeroAttribute() : this("Value must be greater than zero.") { }
 		public GreaterThanZeroAttribute(string errorMessage) : base(errorMessage) { }
-
-		public GreaterThanZeroAttribute() : base("Value must be greater than zero.") { }
 
 		public override bool IsValid(object value) {
 			if (value == null) {
