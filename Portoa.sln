@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa", "Src\Portoa\Portoa.csproj", "{FE1019C1-D129-48B4-9026-A4B06039D258}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.NHibernate", "Src\Portoa.NHibernate\Portoa.NHibernate.csproj", "{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Log4Net", "Src\Portoa.Logging\Portoa.Log4Net.csproj", "{C3F58164-7A28-4FC8-B44B-333431B02978}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE1019C1-D129-48B4-9026-A4B06039D258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE1019C1-D129-48B4-9026-A4B06039D258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE1019C1-D129-48B4-9026-A4B06039D258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE1019C1-D129-48B4-9026-A4B06039D258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F58164-7A28-4FC8-B44B-333431B02978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F58164-7A28-4FC8-B44B-333431B02978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F58164-7A28-4FC8-B44B-333431B02978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F58164-7A28-4FC8-B44B-333431B02978}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

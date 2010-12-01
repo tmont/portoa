@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FE1019C1-D129-48B4-9026-A4B06039D258}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Portoa</RootNamespace>
+    <AssemblyName>Portoa</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Logging\AbstractLogger.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\DebugLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
+    <Compile Include="Persistence\PersistenceException.cs" />
+    <Compile Include="Util\CollectionExtensions.cs" />
+    <Compile Include="Security\DefaultPasswordProtector.cs" />
+    <Compile Include="Persistence\Entity.cs" />
+    <Compile Include="Persistence\EntityExtensions.cs" />
+    <Compile Include="EventLog\ActivatorEventLogPropertyHandlerFactory.cs" />
+    <Compile Include="EventLog\DefaultEventLogPropertyHandler.cs" />
+    <Compile Include="EventLog\EventData.cs" />
+    <Compile Include="EventLog\EventLogExtensions.cs" />
+    <Compile Include="EventLog\EventLogPropertyAttribute.cs" />
+    <Compile Include="EventLog\GenericEventLogPropertyHandler.cs" />
+    <Compile Include="EventLog\IEventLoggable.cs" />
+    <Compile Include="EventLog\IEventLogPropertyHandler.cs" />
+    <Compile Include="EventLog\IEventLogPropertyHandlerFactory.cs" />
+    <Compile Include="EventLog\ServiceProviderEventLogPropertyHandlerFactory.cs" />
+    <Compile Include="Security\IPasswordProtected.cs" />
+    <Compile Include="Persistence\IIdentifiable.cs" />
+    <Compile Include="Persistence\IRepository.cs" />
+    <Compile Include="Persistence\ISoftDeletable.cs" />
+    <Compile Include="Persistence\IUnitOfWork.cs" />
+    <Compile Include="Util\LinqExtensions.cs" />
+    <Compile Include="Security\NullAllowingPasswordProtector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ReflectionExtensions.cs" />
+    <Compile Include="Security\SaltedPasswordProtector.cs" />
+    <Compile Include="Security\SecurityExtensions.cs" />
+    <Compile Include="Util\ServiceProviderExtensions.cs" />
+    <Compile Include="Util\StringBuilderExtensions.cs" />
+    <Compile Include="Testing\DbTestingUtility.cs" />
+    <Compile Include="Testing\DeferredScript.cs" />
+    <Compile Include="Testing\EmbeddedResourceScript.cs" />
+    <Compile Include="Testing\IDbFactory.cs" />
+    <Compile Include="Testing\ISqlScript.cs" />
+    <Compile Include="Testing\QueryExecutor.cs" />
+    <Compile Include="Validation\DataAnnotations\AccumulatedValidationException.cs" />
+    <Compile Include="Validation\DataAnnotations\EmailAttribute.cs" />
+    <Compile Include="Validation\DataAnnotations\EntityValidator.cs" />
+    <Compile Include="Validation\DataAnnotations\ExceptionFactory.cs" />
+    <Compile Include="Validation\DataAnnotations\GreaterThanZeroAttribute.cs" />
+    <Compile Include="Validation\DataAnnotations\ReflectionCache.cs" />
+    <Compile Include="Validation\DataAnnotations\ResultAdapter.cs" />
+    <Compile Include="Validation\DataAnnotations\ValidationResultExtensions.cs" />
+    <Compile Include="Validation\DataAnnotations\Validator.cs" />
+    <Compile Include="Validation\IEntityValidator.cs" />
+    <Compile Include="Validation\IValidationExceptionFactory.cs" />
+    <Compile Include="Validation\IValidationResult.cs" />
+    <Compile Include="Validation\IValidationResultsProvider.cs" />
+    <Compile Include="Validation\ValidationExceptionExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
