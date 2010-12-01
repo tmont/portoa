@@ -87,7 +87,6 @@
     <Compile Include="Validation\DataAnnotations\EntityValidator.cs" />
     <Compile Include="Validation\DataAnnotations\ExceptionFactory.cs" />
     <Compile Include="Validation\DataAnnotations\GreaterThanZeroAttribute.cs" />
-    <Compile Include="Validation\DataAnnotations\ReflectionCache.cs" />
     <Compile Include="Validation\DataAnnotations\ResultAdapter.cs" />
     <Compile Include="Validation\DataAnnotations\ValidationResultExtensions.cs" />
     <Compile Include="Validation\DataAnnotations\Validator.cs" />
