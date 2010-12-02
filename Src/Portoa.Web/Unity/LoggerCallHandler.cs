@@ -21,7 +21,7 @@ namespace Portoa.Web.Unity {
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext) {
 			if (ShouldLog(input)) {
-				logger.Debug(FormatMethodInvocation(input));
+				logger.Debug("call: " + FormatMethodInvocation(input));
 			}
 
 			var stopwatch = Stopwatch.StartNew();
@@ -29,7 +29,7 @@ namespace Portoa.Web.Unity {
 			stopwatch.Stop();
 
 			if (ShouldLog(input)) {
-				logger.Debug(CreateMethodReturnMessage(input, result, stopwatch));
+				logger.Debug("return: " + CreateMethodReturnMessage(input, result, stopwatch));
 			}
 
 			return result;
