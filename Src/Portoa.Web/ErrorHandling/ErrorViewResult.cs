@@ -5,10 +5,15 @@ using Portoa.Web.Filters;
 
 namespace Portoa.Web.ErrorHandling {
 	public class ErrorViewResult : ViewResult, IStatusOverridable {
-		public HttpStatusCode StatusCode { get; set; }
 
+		public ErrorViewResult() {
+			ModelCreator = exception => new ErrorModel { Exception = exception };
+		}
+
+		public HttpStatusCode StatusCode { get; set; }
 		public string Message { get; set; }
 		public Exception Error { get; set; }
+		public Func<Exception, object> ModelCreator { get; set; }
 
 		/// <summary>
 		/// Sets the HTTP status code on the response object before
@@ -16,9 +21,7 @@ namespace Portoa.Web.ErrorHandling {
 		/// </summary>
 		public override void ExecuteResult(ControllerContext context) {
 			context.HttpContext.Response.StatusCode = (int)StatusCode;
-			ViewData.Model = new ErrorModel {
-				Exception = Error ?? context.RouteData.Values["error"] as Exception
-			};
+			ViewData.Model = ModelCreator(Error ?? context.RouteData.Values["error"] as Exception);
 
 			ViewData["message"] = Message ?? (context.RouteData.Values["message"] ?? "An error occurred.");
 			base.ExecuteResult(context);

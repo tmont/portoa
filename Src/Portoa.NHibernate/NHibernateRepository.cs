@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using NHibernate;
 using NHibernate.Linq;
 using Portoa.Persistence;
 
 namespace Portoa.NHibernate {
-	
+
+	//public interface INHibernateRepository<T, TId> : IRepository<T, TId> where T : Entity<T, TId> {
+	//    new INHibernateQueryable<T> Records { get; }
+	//}
+
+	//public interface INHibernateRepository<T> : INHibernateRepository<T, int> where T : Entity<T, int> {}
+
 	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : Entity<T, int> {
 		public NHibernateRepository(ISession session) : base(session) { }
 	}
@@ -46,13 +52,15 @@ namespace Portoa.NHibernate {
 		public virtual T FindById(TId id) {
 			var entity = Session.Get<T>(id);
 			if (entity == null) {
-				throw new Exception(string.Format("Unable to find entity of type {0} with ID {1}", typeof(T).Name, id));
+				throw new PersistenceException(string.Format("Unable to find entity of type {0} with ID {1}", typeof(T).Name, id));
 			}
 
 			return entity;
 		}
 
-		public virtual IEnumerable<T> Records { get { return Session.Linq<T>(); } }
+		public virtual IQueryable<T> Records { get { return Session.Linq<T>(); } }
 
+		//public virtual INHibernateQueryable<T> Records { get { return Session.Linq<T>(); } }
+		//IQueryable<T> IRepository<T, TId>.Records { get { return Records; } }
 	}
 }
