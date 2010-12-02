@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Practices.Unity;
 using Portoa.Util;
 
 namespace Portoa.Web {
@@ -23,12 +25,17 @@ namespace Portoa.Web {
 			return this;
 		}
 
+		public InjectableFilterActionInvoker AddExceptionFilter(IExceptionFilter filter) {
+			exceptionFilters.Add(filter);
+			return this;
+		}
+
 		public InjectableFilterActionInvoker AddActionFilter<TFilter>() where TFilter : IActionFilter {
 			actionFilters.Add(serviceProvider.GetService<TFilter>());
 			return this;
 		}
 
-		public virtual IActionInvoker AddResultFilter<TFilter>() where TFilter : IResultFilter {
+		public InjectableFilterActionInvoker AddResultFilter<TFilter>() where TFilter : IResultFilter {
 			resultFilters.Add(serviceProvider.GetService<TFilter>());
 			return this;
 		}
@@ -42,7 +49,28 @@ namespace Portoa.Web {
 			filters.ExceptionFilters.AddRange(exceptionFilters);
 			filters.ResultFilters.AddRange(resultFilters);
 
+			var container = serviceProvider.GetService<IUnityContainer>();
+			foreach (var filter in filters.Flatten().Where(filter => filter.GetType().HasAttribute<NeedsBuildUpAttribute>())) {
+				container.BuildUp(filter);
+			}
+
 			return filters;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public sealed class NeedsBuildUpAttribute : Attribute { }
+
+	public static class FilterInfoExtensions {
+		public static List<object> Flatten(this FilterInfo filterInfo) {
+			return filterInfo
+				.ResultFilters
+				.Cast<object>()
+				.Concat(filterInfo.ActionFilters)
+				.Concat(filterInfo.ExceptionFilters)
+				.Concat(filterInfo.AuthorizationFilters)
+				.ToList();
+		}
+	}
+
 }

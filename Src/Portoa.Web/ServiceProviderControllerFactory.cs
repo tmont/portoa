@@ -10,11 +10,11 @@ namespace Portoa.Web {
 	[DebuggerNonUserCode]
 	public class ServiceProviderControllerFactory : DefaultControllerFactory {
 		private readonly IServiceProvider serviceProvider;
-		private readonly IActionInvoker actionInvoker;
 
-		public ServiceProviderControllerFactory(IServiceProvider serviceProvider, IActionInvoker actionInvoker) {
+		public event Action<IController> OnControllerInstantiated;
+
+		public ServiceProviderControllerFactory(IServiceProvider serviceProvider) {
 			this.serviceProvider = serviceProvider;
-			this.actionInvoker = actionInvoker;
 		}
 
 		protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType) {
@@ -22,13 +22,14 @@ namespace Portoa.Web {
 				return base.GetControllerInstance(requestContext, controllerType);
 			}
 
-			var controllerImpl = serviceProvider.GetService(controllerType) as IController;
-			var controller = controllerImpl as Controller;
-			if (controller != null) {
-				controller.ActionInvoker = actionInvoker;
+			var controller = serviceProvider.GetService(controllerType) as IController;
+
+			if (OnControllerInstantiated != null) {
+				OnControllerInstantiated.Invoke(controller);
 			}
 
-			return controller ?? controllerImpl;
+			return controller;
 		}
+
 	}
 }

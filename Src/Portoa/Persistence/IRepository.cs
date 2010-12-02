@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace Portoa.Persistence {
 
@@ -9,6 +9,6 @@ namespace Portoa.Persistence {
 		T Reload(T entity);
 		void Delete(TId id);
 		T FindById(TId id);
-		IEnumerable<T> Records { get; }
+		IQueryable<T> Records { get; }
 	}
 }

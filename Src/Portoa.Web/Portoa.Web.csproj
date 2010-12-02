@@ -59,7 +59,8 @@
     <Compile Include="Unity\DoesNotHaveGenericMethods.cs" />
     <Compile Include="Unity\IInterceptRule.cs" />
     <Compile Include="Unity\InterceptOnRegister.cs" />
-    <Compile Include="Unity\NotUnityInterceptionAssembly.cs" />
+    <Compile Include="Unity\LoggerCallHandler.cs" />
+    <Compile Include="Unity\NotAssemblyOf.cs" />
     <Compile Include="Unity\UnityExtensions.cs" />
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\IErrorController.cs" />

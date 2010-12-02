@@ -12,7 +12,7 @@ namespace Portoa.Web.Unity {
 		public InterceptOnRegister() {
 			interceptor = new TransparentProxyInterceptor();
 			rules = new List<IInterceptRule> {
-				new NotUnityInterceptionAssembly(),
+				new NotAssemblyOf<Interception>(),
 				new DoesNotHaveGenericMethods()
 			};
 		}
@@ -34,7 +34,7 @@ namespace Portoa.Web.Unity {
 
 		protected override void Initialize() {
 			Container.AddExtensionOnce<Interception>();
-			Context.Registering += (sender, e) => SetInterceptorFor(e.TypeFrom, e.TypeTo ?? e.TypeFrom);
+			Context.Registering += (sender, e) => SetInterceptorFor(e.TypeFrom ?? e.TypeTo, e.TypeTo ?? e.TypeFrom);
 		}
 
 		private void SetInterceptorFor(Type typeToIntercept, Type typeOfInstance) {

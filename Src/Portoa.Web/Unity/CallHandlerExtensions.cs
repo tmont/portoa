@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace Portoa.Web.Unity {
 	public static class CallHandlerExtensions {
-
 		/// <summary>
 		/// Gets the MethodInfo associated with the actual object instance
 		/// in a CallHandler's method invocation
@@ -21,6 +21,15 @@ namespace Portoa.Web.Unity {
 						.Select(param => param.ParameterType)
 						.ToArray()
 				);
+		}
+
+		/// <summary>
+		/// LINQifies an annoying IParameterCollection
+		/// </summary>
+		public static IEnumerable<ParameterInfo> GetParameters(this IParameterCollection parameterCollection) {
+			for (var i = 0; i < parameterCollection.Count; i++) {
+				yield return parameterCollection.GetParameterInfo(i);
+			}
 		}
 	}
 }
