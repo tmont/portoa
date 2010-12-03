@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace Portoa.Web.Unity {
+	[DebuggerNonUserCode]
 	public static class CallHandlerExtensions {
 		/// <summary>
 		/// Gets the MethodInfo associated with the actual object instance

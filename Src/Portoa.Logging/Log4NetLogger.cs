@@ -1,7 +1,10 @@
 ﻿using log4net;
 using Portoa.Logging;
+using System.Diagnostics;
 
 namespace Portoa.Log4Net {
+	
+	[DebuggerNonUserCode]
 	public class Log4NetLogger : ILogger {
 		private readonly ILog log4NetLogger;
 

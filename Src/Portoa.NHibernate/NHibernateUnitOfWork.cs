@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using Portoa.Logging;
 using Portoa.Persistence;
 
 namespace Portoa.NHibernate {
@@ -7,10 +8,12 @@ namespace Portoa.NHibernate {
 	/// </summary>
 	public class NHibernateUnitOfWork : IUnitOfWork {
 		private readonly ISession session;
+		private readonly ILogger logger;
 		private ITransaction tx;
 
-		public NHibernateUnitOfWork(ISession session) {
+		public NHibernateUnitOfWork(ISession session, ILogger logger) {
 			this.session = session;
+			this.logger = logger;
 		}
 
 		/// <summary>
@@ -18,6 +21,7 @@ namespace Portoa.NHibernate {
 		/// </summary>
 		public IUnitOfWork Start() {
 			tx = session.BeginTransaction();
+			logger.Debug("Starting transaction");
 			return this;
 		}
 
@@ -30,6 +34,7 @@ namespace Portoa.NHibernate {
 				throw new PersistenceException("Transaction not started.");
 			}
 
+			logger.Debug("Committing transaction");
 			tx.Commit();
 		}
 
@@ -42,6 +47,7 @@ namespace Portoa.NHibernate {
 				throw new PersistenceException("Transaction not started.");
 			}
 
+			logger.Warn("Rolling back transaction");
 			tx.Rollback();
 		}
 

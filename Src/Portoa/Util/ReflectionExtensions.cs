@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -16,9 +17,7 @@ namespace Portoa.Util {
 		}
 
 		public static bool HasAttribute<T>(this Enum e) where T : Attribute {
-			var type = e.GetType();
-			var member = type.GetMember(e.ToString())[0];
-			return member.HasAttribute<T>();
+			return e.GetType().GetMember(e.ToString())[0].HasAttribute<T>();
 		}
 
 		public static IEnumerable<FieldInfo> GetAllValidatableFields(this Type type) {
@@ -41,6 +40,7 @@ namespace Portoa.Util {
 		/// Gets a human-readable string representing the given type
 		/// </summary>
 		/// <parparam name="fullyQualified">Whether to use the fully qualified name of each type</parparam>
+		[DebuggerNonUserCode]
 		public static string GetFriendlyName(this Type type, bool fullyQualified = true) {
 			//the namespace is null if it's an anonymous type
 			var name = (fullyQualified && type.Namespace != null) ? type.Namespace : string.Empty;

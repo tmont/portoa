@@ -9,6 +9,7 @@ using Portoa.Logging;
 using Portoa.Util;
 
 namespace Portoa.Web.Unity {
+	[DebuggerNonUserCode]
 	public class LoggerCallHandler : ICallHandler {
 		private readonly ILogger logger;
 		private string formattedInvocation;
@@ -21,7 +22,7 @@ namespace Portoa.Web.Unity {
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext) {
 			if (ShouldLog(input)) {
-				logger.Debug("call: " + FormatMethodInvocation(input));
+				logger.Debug("call:   " + FormatMethodInvocation(input));
 			}
 
 			var stopwatch = Stopwatch.StartNew();
