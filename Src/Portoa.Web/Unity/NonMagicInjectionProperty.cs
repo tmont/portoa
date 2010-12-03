@@ -10,6 +10,7 @@ namespace Portoa.Web.Unity {
 	}
 
 	public class NonMagicInjectionProperty<T, TReturn> : InjectionMember {
+		private const string ErrorMessage = "Expected lambda expression like: foo => foo.Bar, where Bar is the name of the property to be injected";
 		private readonly InjectionProperty injectionProperty;
 
 		public NonMagicInjectionProperty(Expression<Func<T, TReturn>> propertyAccessor) {
@@ -24,12 +25,12 @@ namespace Portoa.Web.Unity {
 			var parameterName = expression.Parameters[0].Name;
 			var memberExpression = expression.Body as MemberExpression;
 			if (memberExpression == null) {
-				throw new ArgumentException("Expected lambda expression like: foo => foo.Bar, where Bar is the name of the property to be injected");
+				throw new ArgumentException(ErrorMessage);
 			}
 
 			var leftSide = memberExpression.Expression as ParameterExpression;
 			if (leftSide == null || leftSide.Name != parameterName) {
-				throw new ArgumentException("Expected lambda expression like: foo => foo.Bar, where Bar is the name of the property to be injected");
+				throw new ArgumentException(ErrorMessage);
 			}
 
 			return memberExpression.Member.Name;
