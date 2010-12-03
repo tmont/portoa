@@ -7,7 +7,8 @@ using Portoa.Util;
 
 namespace Portoa.Web {
 	/// <summary>
-	/// Enables you to dynamically add filters to a ControllerActionInvoker
+	/// Enables you to dynamically add filters to a ControllerActionInvoker. This class will also
+	/// perform injection on all filters that are annotated with NeedsBuildUpAttribute.
 	/// </summary>
 	/// <remarks> Adapted from http://blog.ploeh.dk/2009/12/01/GlobalErrorHandlingInASPNETMVC.aspx </remarks>
 	public class InjectableFilterActionInvoker : ControllerActionInvoker {
@@ -35,8 +36,18 @@ namespace Portoa.Web {
 			return this;
 		}
 
+		public InjectableFilterActionInvoker AddActionFilter(IActionFilter filter)  {
+			actionFilters.Add(filter);
+			return this;
+		}
+
 		public InjectableFilterActionInvoker AddResultFilter<TFilter>() where TFilter : IResultFilter {
 			resultFilters.Add(serviceProvider.GetService<TFilter>());
+			return this;
+		}
+
+		public InjectableFilterActionInvoker AddResultFilter(IResultFilter filter) {
+			resultFilters.Add(filter);
 			return this;
 		}
 
@@ -50,27 +61,14 @@ namespace Portoa.Web {
 			filters.ResultFilters.AddRange(resultFilters);
 
 			var container = serviceProvider.GetService<IUnityContainer>();
-			foreach (var filter in filters.Flatten().Where(filter => filter.GetType().HasAttribute<NeedsBuildUpAttribute>())) {
-				container.BuildUp(filter);
-			}
+
+			filters
+				.Flatten()
+				.Where(filter => filter.GetType().HasAttribute<NeedsBuildUpAttribute>())
+				.ToList()
+				.ForEach(filter => container.BuildUp(filter.GetType(), filter, null));
 
 			return filters;
 		}
 	}
-
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public sealed class NeedsBuildUpAttribute : Attribute { }
-
-	public static class FilterInfoExtensions {
-		public static List<object> Flatten(this FilterInfo filterInfo) {
-			return filterInfo
-				.ResultFilters
-				.Cast<object>()
-				.Concat(filterInfo.ActionFilters)
-				.Concat(filterInfo.ExceptionFilters)
-				.Concat(filterInfo.AuthorizationFilters)
-				.ToList();
-		}
-	}
-
 }

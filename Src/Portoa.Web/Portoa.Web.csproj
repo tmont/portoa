@@ -53,6 +53,8 @@
     <Compile Include="ErrorHandling\ErrorModel.cs" />
     <Compile Include="ErrorHandling\ErrorViewEngine.cs" />
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
+    <Compile Include="FilterInfoExtensions.cs" />
+    <Compile Include="NeedsBuildUpAttribute.cs" />
     <Compile Include="Unity\AlwaysApply.cs" />
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />
     <Compile Include="Unity\CallHandlerExtensions.cs" />
@@ -64,12 +66,13 @@
     <Compile Include="Unity\InterceptOnRegister.cs" />
     <Compile Include="Unity\LogAllMethodCalls.cs" />
     <Compile Include="Unity\LoggerCallHandler.cs" />
+    <Compile Include="Unity\NonMagicInjectionProperty.cs" />
     <Compile Include="Unity\NotAssemblyOf.cs" />
     <Compile Include="Unity\NotInstanceOf.cs" />
     <Compile Include="Unity\NotPropertyGetOrSet.cs" />
     <Compile Include="Unity\PerRequestLifetimeManager.cs" />
     <Compile Include="Unity\UnitOfWorkCallHandler.cs" />
-    <Compile Include="Unity\UnityExtensions.cs" />
+    <Compile Include="Unity\UnityContainerExtensions.cs" />
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="Controllers\IErrorController.cs" />
     <Compile Include="InjectableFilterActionInvoker.cs" />
