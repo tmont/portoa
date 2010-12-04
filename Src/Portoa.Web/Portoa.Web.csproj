@@ -54,6 +54,7 @@
     <Compile Include="ErrorHandling\ErrorViewEngine.cs" />
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
     <Compile Include="FilterInfoExtensions.cs" />
+    <Compile Include="Filters\DoNotValidateInput.cs" />
     <Compile Include="NeedsBuildUpAttribute.cs" />
     <Compile Include="Unity\AlwaysApply.cs" />
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />

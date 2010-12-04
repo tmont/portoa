@@ -16,9 +16,20 @@ namespace Portoa.Web {
 		private readonly IList<IExceptionFilter> exceptionFilters = new List<IExceptionFilter>();
 		private readonly IList<IActionFilter> actionFilters = new List<IActionFilter>();
 		private readonly IList<IResultFilter> resultFilters = new List<IResultFilter>();
+		private readonly IList<IAuthorizationFilter> authorizationFilters = new List<IAuthorizationFilter>();
 
 		public InjectableFilterActionInvoker(IServiceProvider serviceProvider) {
 			this.serviceProvider = serviceProvider;
+		}
+
+		public InjectableFilterActionInvoker AddAuthorizationFilter<TFilter>() where TFilter : IAuthorizationFilter {
+			authorizationFilters.Add(serviceProvider.GetService<TFilter>());
+			return this;
+		}
+
+		public InjectableFilterActionInvoker AddAuthorizationFilter(IAuthorizationFilter filter) {
+			authorizationFilters.Add(filter);
+			return this;
 		}
 
 		public InjectableFilterActionInvoker AddExceptionFilter<TFilter>() where TFilter : IExceptionFilter {
@@ -59,9 +70,11 @@ namespace Portoa.Web {
 			filters.ActionFilters.AddRange(actionFilters);
 			filters.ExceptionFilters.AddRange(exceptionFilters);
 			filters.ResultFilters.AddRange(resultFilters);
+			filters.AuthorizationFilters.AddRange(authorizationFilters);
 
 			var container = serviceProvider.GetService<IUnityContainer>();
 
+			//perform injection if necessary
 			filters
 				.Flatten()
 				.Where(filter => filter.GetType().HasAttribute<NeedsBuildUpAttribute>())
