@@ -16,7 +16,7 @@ namespace Portoa.Web.Models {
 		/// using the given service provider to resolve the binder
 		/// </summary>
 		public static ModelBinderDictionary Add<T, TBinder>(this ModelBinderDictionary binders, IServiceProvider serviceProvider) where TBinder : IModelBinder {
-			binders.Add(typeof(T), new ServiceProviderModelBinder<TBinder>(serviceProvider));
+			binders.Add(typeof(T), new ResolveWithServiceProviderModelBinder<TBinder>(serviceProvider));
 			return binders;
 		}
 
