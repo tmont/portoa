@@ -87,7 +87,7 @@
     <Compile Include="Util\NoTempDataProvider.cs" />
     <Compile Include="Filters\OverrideStatusCodeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\IFormsAuthenticationService.cs" />
+    <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="ServiceProviderControllerFactory.cs" />
     <Compile Include="Results\StatusOverrideActionResult.cs" />
     <Compile Include="Util\UrlHelperExtensions.cs" />
