@@ -38,6 +38,5 @@ namespace Portoa.Web.Controllers {
 			controller.TempDataProvider = new NoTempDataProvider();
 			return controller;
 		}
-
 	}
 }

@@ -48,6 +48,8 @@
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerContextExtensions.cs" />
+    <Compile Include="HttpRequestBaseExtensions.cs" />
     <Compile Include="ErrorHandling\ApplicationErrorHandler.cs" />
     <Compile Include="Controllers\ControllerExtensions.cs" />
     <Compile Include="ErrorHandling\ErrorModel.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
     <Compile Include="FilterInfoExtensions.cs" />
     <Compile Include="Filters\DoNotValidateInput.cs" />
+    <Compile Include="Models\ServiceProviderModelBinder.cs" />
     <Compile Include="NeedsBuildUpAttribute.cs" />
     <Compile Include="Unity\AlwaysApply.cs" />
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />

@@ -52,7 +52,7 @@ namespace Portoa.NHibernate {
 		public virtual T FindById(TId id) {
 			var entity = Session.Get<T>(id);
 			if (entity == null) {
-				throw new PersistenceException(string.Format("Unable to find entity of type {0} with ID {1}", typeof(T).Name, id));
+				throw new EntityNotFoundException<T, TId>(id);
 			}
 
 			return entity;
