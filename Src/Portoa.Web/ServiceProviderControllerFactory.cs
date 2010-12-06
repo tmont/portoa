@@ -11,8 +11,6 @@ namespace Portoa.Web {
 	public class ServiceProviderControllerFactory : DefaultControllerFactory {
 		private readonly IServiceProvider serviceProvider;
 
-		public event Action<IController> OnControllerInstantiated;
-
 		public ServiceProviderControllerFactory(IServiceProvider serviceProvider) {
 			this.serviceProvider = serviceProvider;
 		}
@@ -22,14 +20,7 @@ namespace Portoa.Web {
 				return base.GetControllerInstance(requestContext, controllerType);
 			}
 
-			var controller = serviceProvider.GetService(controllerType) as IController;
-
-			if (OnControllerInstantiated != null) {
-				OnControllerInstantiated.Invoke(controller);
-			}
-
-			return controller;
+			return serviceProvider.GetService(controllerType) as IController;
 		}
-
 	}
 }
