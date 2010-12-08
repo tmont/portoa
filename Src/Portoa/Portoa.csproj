@@ -52,6 +52,7 @@
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Persistence\PersistenceException.cs" />
     <Compile Include="Persistence\UnitOfWorkAttribute.cs" />
+    <Compile Include="ReSharper\JetBrains.Annotations.cs" />
     <Compile Include="Util\CollectionExtensions.cs" />
     <Compile Include="Security\DefaultPasswordProtector.cs" />
     <Compile Include="Persistence\Entity.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Validation\IValidationResultsProvider.cs" />
     <Compile Include="Validation\ValidationExceptionExtensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
