@@ -56,7 +56,6 @@
     <Compile Include="ErrorHandling\ErrorViewEngine.cs" />
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
     <Compile Include="FilterInfoExtensions.cs" />
-    <Compile Include="Filters\DoNotValidateInput.cs" />
     <Compile Include="IInjectableControllerFactory.cs" />
     <Compile Include="Models\ResolveWithServiceProviderModelBinder.cs" />
     <Compile Include="NeedsBuildUpAttribute.cs" />
