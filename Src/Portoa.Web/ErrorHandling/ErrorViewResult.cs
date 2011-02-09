@@ -23,7 +23,7 @@ namespace Portoa.Web.ErrorHandling {
 			context.HttpContext.Response.StatusCode = (int)StatusCode;
 			ViewData.Model = ModelCreator(Error ?? context.RouteData.Values["error"] as Exception);
 
-			ViewData["message"] = Message ?? (context.RouteData.Values["message"] ?? "An error occurred.");
+			ViewData["message"] = Message ?? context.RouteData.Values["message"] ?? "An error occurred.";
 			base.ExecuteResult(context);
 		}
 

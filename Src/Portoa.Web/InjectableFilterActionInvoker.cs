@@ -22,6 +22,7 @@ namespace Portoa.Web {
 			this.serviceProvider = serviceProvider;
 		}
 
+		#region adding stuff
 		public InjectableFilterActionInvoker AddAuthorizationFilter<TFilter>() where TFilter : IAuthorizationFilter {
 			authorizationFilters.Add(serviceProvider.GetService<TFilter>());
 			return this;
@@ -61,6 +62,7 @@ namespace Portoa.Web {
 			resultFilters.Add(filter);
 			return this;
 		}
+		#endregion
 
 		/// <summary>
 		/// Overridden to add the new filters to the default filters
