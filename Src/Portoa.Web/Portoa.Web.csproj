@@ -73,7 +73,6 @@
     <Compile Include="Unity\InterceptOnRegister.cs" />
     <Compile Include="Unity\LogAllMethodCalls.cs" />
     <Compile Include="Unity\LoggerCallHandler.cs" />
-    <Compile Include="Unity\NonMagicInjectionProperty.cs" />
     <Compile Include="Unity\NotAssemblyOf.cs" />
     <Compile Include="Unity\NotInstanceOf.cs" />
     <Compile Include="Unity\NotPropertyGetOrSet.cs" />

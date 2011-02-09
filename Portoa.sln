@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Log4Net", "Src\Porto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Web", "Src\Portoa.Web\Portoa.Web.csproj", "{7C208EF0-7430-49E6-975F-35C54DF36231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Web.Tests", "Portoa.Web.Tests\Portoa.Web.Tests.csproj", "{DAEB3C41-EFF8-4E32-B84D-D3CD894667A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Web.Tests", "Tests\Portoa.Web.Tests\Portoa.Web.Tests.csproj", "{DAEB3C41-EFF8-4E32-B84D-D3CD894667A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{DDAE992F-95A1-4BA3-8513-81107A5A430A}"
 EndProject
