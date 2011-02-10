@@ -12,19 +12,19 @@ namespace Portoa.Web {
 	/// </summary>
 	/// <remarks> Adapted from http://blog.ploeh.dk/2009/12/01/GlobalErrorHandlingInASPNETMVC.aspx </remarks>
 	public class InjectableFilterActionInvoker : ControllerActionInvoker {
-		private readonly IServiceProvider serviceProvider;
+		private readonly IUnityContainer container;
 		private readonly IList<IExceptionFilter> exceptionFilters = new List<IExceptionFilter>();
 		private readonly IList<IActionFilter> actionFilters = new List<IActionFilter>();
 		private readonly IList<IResultFilter> resultFilters = new List<IResultFilter>();
 		private readonly IList<IAuthorizationFilter> authorizationFilters = new List<IAuthorizationFilter>();
 
-		public InjectableFilterActionInvoker(IServiceProvider serviceProvider) {
-			this.serviceProvider = serviceProvider;
+		public InjectableFilterActionInvoker(IUnityContainer container) {
+			this.container = container;
 		}
 
 		#region adding stuff
 		public InjectableFilterActionInvoker AddAuthorizationFilter<TFilter>() where TFilter : IAuthorizationFilter {
-			authorizationFilters.Add(serviceProvider.GetService<TFilter>());
+			authorizationFilters.Add(container.Resolve<TFilter>());
 			return this;
 		}
 
@@ -34,7 +34,7 @@ namespace Portoa.Web {
 		}
 
 		public InjectableFilterActionInvoker AddExceptionFilter<TFilter>() where TFilter : IExceptionFilter {
-			exceptionFilters.Add(serviceProvider.GetService<TFilter>());
+			exceptionFilters.Add(container.Resolve<TFilter>());
 			return this;
 		}
 
@@ -44,7 +44,7 @@ namespace Portoa.Web {
 		}
 
 		public InjectableFilterActionInvoker AddActionFilter<TFilter>() where TFilter : IActionFilter {
-			actionFilters.Add(serviceProvider.GetService<TFilter>());
+			actionFilters.Add(container.Resolve<TFilter>());
 			return this;
 		}
 
@@ -54,7 +54,7 @@ namespace Portoa.Web {
 		}
 
 		public InjectableFilterActionInvoker AddResultFilter<TFilter>() where TFilter : IResultFilter {
-			resultFilters.Add(serviceProvider.GetService<TFilter>());
+			resultFilters.Add(container.Resolve<TFilter>());
 			return this;
 		}
 
@@ -73,8 +73,6 @@ namespace Portoa.Web {
 			filters.ExceptionFilters.AddRange(exceptionFilters);
 			filters.ResultFilters.AddRange(resultFilters);
 			filters.AuthorizationFilters.AddRange(authorizationFilters);
-
-			var container = serviceProvider.GetService<IUnityContainer>();
 
 			//perform injection if necessary
 			filters

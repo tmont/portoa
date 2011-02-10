@@ -7,12 +7,6 @@ using Portoa.Persistence;
 
 namespace Portoa.NHibernate {
 
-	//public interface INHibernateRepository<T, TId> : IRepository<T, TId> where T : Entity<T, TId> {
-	//    new INHibernateQueryable<T> Records { get; }
-	//}
-
-	//public interface INHibernateRepository<T> : INHibernateRepository<T, int> where T : Entity<T, int> {}
-
 	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : Entity<T, int> {
 		public NHibernateRepository(ISession session) : base(session) { }
 	}
@@ -59,8 +53,5 @@ namespace Portoa.NHibernate {
 		}
 
 		public virtual IQueryable<T> Records { get { return Session.Linq<T>(); } }
-
-		//public virtual INHibernateQueryable<T> Records { get { return Session.Linq<T>(); } }
-		//IQueryable<T> IRepository<T, TId>.Records { get { return Records; } }
 	}
 }
