@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\Lib\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -70,6 +71,7 @@
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />
     <Compile Include="Unity\CallHandlerExtensions.cs" />
     <Compile Include="Unity\ConfigureInterception.cs" />
+    <Compile Include="Unity\ConfigureLog4Net.cs" />
     <Compile Include="Unity\ConfigureUnitOfWorkAspect.cs" />
     <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
     <Compile Include="Unity\DoesNotHaveGenericMethods.cs" />
@@ -100,6 +102,10 @@
     <Compile Include="Util\UrlHelperExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Portoa.Logging\Portoa.Log4Net.csproj">
+      <Project>{C3F58164-7A28-4FC8-B44B-333431B02978}</Project>
+      <Name>Portoa.Log4Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Portoa.NHibernate\Portoa.NHibernate.csproj">
       <Project>{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}</Project>
       <Name>Portoa.NHibernate</Name>

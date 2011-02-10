@@ -3,7 +3,6 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using JetBrains.Annotations;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using NHibernate.Cfg;
@@ -72,21 +71,19 @@ namespace Portoa.Web {
 			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>()).HandleError(exception, new DefaultErrorController());
 		}
 
-		[UsedImplicitly]
-		private void Application_Start() {
-			var cfg = new Configuration().Configure();
-			cfg.SetInterceptor(new BuildWithProviderInterceptor(Container.Resolve<IServiceProvider>(), cfg.ClassMappings));
-
+		protected void Application_Start() {
 			Container
-				.AddNewExtension<ApplyUnityConfigurationSection>()
+				.AddNewExtension<ConfigureInterception>()
 				.AddNewExtension<ConfigureUnitOfWorkAspect>()
+				.AddNewExtension<ApplyUnityConfigurationSection>()
+				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterType<IIdentity>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<HttpContextBase>().User.Identity))
-				.RegisterInstance<IServiceProvider>(new ContainerResolvingServiceProvider(Container), new ContainerControlledLifetimeManager())
+				.RegisterType<IServiceProvider, ContainerResolvingServiceProvider>(new ContainerControlledLifetimeManager())
 				.RegisterType(typeof(IRepository<>), typeof(NHibernateRepository<>))
 				.RegisterType(typeof(IRepository<,>), typeof(NHibernateRepository<,>))
 				.RegisterType<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
-				.RegisterType<ISessionFactory>(new PerRequestLifetimeManager(), new InjectionFactory(container => cfg.BuildSessionFactory()))
+				.RegisterType<ISessionFactory>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
 				.RegisterType<ISession>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<ISessionFactory>().OpenSession()))
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
 
@@ -94,6 +91,18 @@ namespace Portoa.Web {
 			ConfigureControllerFactory();
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
+		}
+
+		/// <summary>
+		/// Creates the configuration used for NHibernate; default implementation uses the default
+		/// NHibernate configuration, and sets a custom interceptor. The configuration can be retrieved
+		/// outside of this method (if needed) via the container. Do not call this method directly.
+		/// </summary>
+		/// <seealso cref="BuildWithProviderInterceptor"/>
+		protected virtual Configuration CreateNHibernateConfiguration(IUnityContainer container) {
+			var cfg = new Configuration().Configure();
+			cfg.SetInterceptor(new BuildWithProviderInterceptor(container.Resolve<IServiceProvider>(), cfg.ClassMappings));
+			return cfg;
 		}
 
 		/// <summary>
