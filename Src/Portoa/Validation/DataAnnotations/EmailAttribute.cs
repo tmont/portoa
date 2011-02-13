@@ -14,6 +14,9 @@ namespace Portoa.Validation.DataAnnotations {
 
 		public EmailAttribute() : base("Email address is invalid.") { }
 
+		/// <summary>
+		/// Gets or sets whether to allow empty strings
+		/// </summary>
 		public bool AllowEmpty { get; set; }
 
 		public override bool IsValid(object value) {
