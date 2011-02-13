@@ -1,13 +1,10 @@
 ﻿using System;
-using Portoa.Logging;
 
 namespace Portoa.Persistence {
 	/// <summary>
 	/// Represents a transaction
 	/// </summary>
-	[DoNotLog]
 	public interface IUnitOfWork : IDisposable {
-
 		/// <summary>
 		/// Starts a transaction
 		/// </summary>

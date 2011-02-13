@@ -12,7 +12,7 @@ namespace Portoa.Web.Unity {
 				.AddExtensionOnce<Interception>()
 				.Configure<Interception>()
 				.AddPolicy("LoggingPolicy")
-				.AddCallHandler<LoggerCallHandler>()
+				.AddCallHandler<LoggerCallHandler>(new ContainerControlledLifetimeManager())
 				.AddMatchingRule<AlwaysApply>()
 				.AddMatchingRule<NotInstanceOf<ILogger>>();
 		}

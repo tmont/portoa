@@ -15,7 +15,7 @@ namespace Portoa.Web.Unity {
 	[DebuggerNonUserCode]
 	public class LoggerCallHandler : ICallHandler {
 		private readonly ILogger logger;
-		private string formattedInvocation;
+		private int depth;
 
 		public LoggerCallHandler(ILogger logger) {
 			this.logger = logger;
@@ -24,8 +24,11 @@ namespace Portoa.Web.Unity {
 		public int Order { get; set; }
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext) {
+			string formattedInvocation = string.Empty;
 			if (ShouldLog(input)) {
-				logger.Debug("call:   " + FormatMethodInvocation(input));
+				depth++;
+				formattedInvocation = FormatMethodInvocation(input);
+				logger.Debug(new string(' ', depth - 1) + "call:   " + formattedInvocation);
 			}
 
 			var stopwatch = Stopwatch.StartNew();
@@ -33,7 +36,8 @@ namespace Portoa.Web.Unity {
 			stopwatch.Stop();
 
 			if (ShouldLog(input)) {
-				logger.Debug("return: " + CreateMethodReturnMessage(input, result, stopwatch));
+				logger.Debug(new string(' ', depth - 1) + "return: " + CreateMethodReturnMessage(formattedInvocation, result, stopwatch));
+				depth--;
 			}
 
 			return result;
@@ -54,34 +58,31 @@ namespace Portoa.Web.Unity {
 			return type.GetFriendlyName(false);
 		}
 
-		private string CreateMethodReturnMessage(IMethodInvocation input, IMethodReturn result, Stopwatch stopwatch) {
+		private static string CreateMethodReturnMessage(string formattedInvocation, IMethodReturn result, Stopwatch stopwatch) {
 			return string.Format(
 				CultureInfo.InvariantCulture,
 				"{0} -> {1} [{2} ms]",
-				FormatMethodInvocation(input),
+				formattedInvocation,
 				FormatMethodReturn(result),
 				stopwatch.ElapsedMilliseconds
 			);
 		}
 
-		private string FormatMethodInvocation(IMethodInvocation invocation) {
-			if (string.IsNullOrEmpty(formattedInvocation)) {
-				var builder = new StringBuilder();
-				builder.Append(GetTypeName(invocation.Target.GetType()));
-				builder.Append("." + invocation.MethodBase.Name + "(");
-				if (invocation.Arguments != null && invocation.Arguments.Count > 0) {
-					builder.Append(
-						invocation
-							.Arguments
-							.GetParameters()
-							.Implode(param => param.IsLoggable() ? FormatForLog(invocation.Arguments[param.Name]) : param.Name + ":******", ", ")
-					);
-				}
-				builder.Append(")");
-				formattedInvocation = builder.ToString();
+		private static string FormatMethodInvocation(IMethodInvocation invocation) {
+			var builder = new StringBuilder();
+			builder.Append(GetTypeName(invocation.Target.GetType()));
+			builder.Append("." + invocation.MethodBase.Name + "(");
+			if (invocation.Arguments != null && invocation.Arguments.Count > 0) {
+				builder.Append(
+					invocation
+						.Arguments
+						.GetParameters()
+						.Implode(param => param.IsLoggable() ? FormatForLog(invocation.Arguments[param.Name]) : param.Name + ":******", ", ")
+				);
 			}
+			builder.Append(")");
 
-			return formattedInvocation;
+			return builder.ToString();
 		}
 
 		private static string FormatMethodReturn(IMethodReturn methodReturn) {

@@ -6,6 +6,7 @@ namespace Portoa.NHibernate {
 	/// <summary>
 	/// Handles transactions in NHibernate, does not support nested transactions
 	/// </summary>
+	[DoNotLog]
 	public class NHibernateUnitOfWork : IUnitOfWork {
 		private readonly ISession session;
 		private readonly ILogger logger;
