@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 // ReSharper disable CheckNamespace
 namespace JetBrains.Annotations {
 // ReSharper restore CheckNamespace

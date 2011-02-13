@@ -1,6 +1,11 @@
 ﻿using Portoa.Util;
 
 namespace Portoa.Persistence {
+	/// <summary>
+	/// Represents a domain object that can be persisted by an <see cref="IRepository{T, TId}"/>
+	/// </summary>
+	/// <typeparam name="T">The entity type</typeparam>
+	/// <typeparam name="TId">The entity's identifier type</typeparam>
 	public abstract class Entity<T, TId> : IIdentifiable<TId> where T : Entity<T, TId> {
 		private int? originalHashCode;
 

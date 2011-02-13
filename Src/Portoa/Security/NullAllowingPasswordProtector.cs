@@ -1,4 +1,7 @@
 ﻿namespace Portoa.Security {
+	/// <summary>
+	/// Password protector that allows nulls
+	/// </summary>
 	public class NullAllowingPasswordProtector : SaltedPasswordProtector {
 		public NullAllowingPasswordProtector() : this(null) { }
 		public NullAllowingPasswordProtector(string salt) : base(salt) {}

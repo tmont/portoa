@@ -1,19 +1,22 @@
 ﻿namespace Portoa.Logging {
+	/// <summary>
+	/// Empty implementation of <see cref="ILogger"/>
+	/// </summary>
 	public abstract class AbstractLogger : ILogger {
 
-		public bool IsDebugEnabled {
+		public virtual bool IsDebugEnabled {
 			get { return true; }
 		}
 
-		public bool IsInfoEnabled {
+		public virtual bool IsInfoEnabled {
 			get { return true; }
 		}
 
-		public bool IsWarnEnabled {
+		public virtual bool IsWarnEnabled {
 			get { return true; }
 		}
 
-		public bool IsErrorEnabled {
+		public virtual bool IsErrorEnabled {
 			get { return true; }
 		}
 
@@ -33,6 +36,10 @@
 			Log(message);
 		}
 
+		/// <summary>
+		/// Logs the specified message
+		/// </summary>
+		/// <param name="message">The message to log</param>
 		protected abstract void Log(object message);
 	}
 }
