@@ -4,6 +4,11 @@ using System.Web.Mvc;
 
 namespace Portoa.Web {
 	public static class FilterInfoExtensions {
+		/// <summary>
+		/// Flattens a <c>FilterInfo</c> object into a single <c>IEnumerable</c> containing
+		/// the <c>ActionFilter</c>, <c>ExceptionFilter</c>, <c>ResultFilter</c> and
+		/// <c>AuthorizationFilter</c> collections
+		/// </summary>
 		public static IEnumerable<object> Flatten(this FilterInfo filterInfo) {
 			return filterInfo
 				.ResultFilters

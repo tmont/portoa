@@ -9,6 +9,9 @@ using Portoa.Logging;
 using Portoa.Util;
 
 namespace Portoa.Web.Unity {
+	/// <summary>
+	/// Performs automatic logging on method calls (but respects <see cref="DoNotLogAttribute"/>)
+	/// </summary>
 	[DebuggerNonUserCode]
 	public class LoggerCallHandler : ICallHandler {
 		private readonly ILogger logger;
@@ -37,10 +40,14 @@ namespace Portoa.Web.Unity {
 		}
 
 		private bool ShouldLog(IMethodInvocation invocation) {
-			var instanceIsLoggable = invocation.GetInstanceMethodInfo().IsLoggable();
+			if (!logger.IsDebugEnabled) {
+				return false;
+			}
 
+			var instanceIsLoggable = invocation.GetInstanceMethodInfo().IsLoggable();
 			var targetIsLoggable = invocation.Target.GetType().IsLoggable();
-			return logger.IsDebugEnabled && instanceIsLoggable && targetIsLoggable;
+
+			return instanceIsLoggable && targetIsLoggable;
 		}
 
 		private static string GetTypeName(Type type) {

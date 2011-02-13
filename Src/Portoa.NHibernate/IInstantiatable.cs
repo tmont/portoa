@@ -1,6 +1,10 @@
 ﻿using System;
 
 namespace Portoa.NHibernate {
+	/// <summary>
+	/// Interface used to enable events before and after NHibernate constructs an entity
+	/// </summary>
+	/// <seealso cref="BuildWithProviderInterceptor"/>
 	public interface IInstantiatable {
 		/// <summary>
 		/// Invoked before an entity is instantiated. Arguments are the entity name, its ID

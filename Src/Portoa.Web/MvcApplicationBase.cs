@@ -17,12 +17,15 @@ using Portoa.Web.Unity;
 
 namespace Portoa.Web {
 	/// <summary>
-	/// Base for an Unity/NHibernate MVC application
+	/// Base for an MVC application using Unity/NHibernate
 	/// </summary>
-	public abstract class ApplicationBase : HttpApplication {
+	public abstract class MvcApplicationBase : HttpApplication {
+		/// <summary>
+		/// The container associated with this application
+		/// </summary>
 		protected static readonly IUnityContainer Container = new UnityContainer();
 
-		protected ApplicationBase() {
+		protected MvcApplicationBase() {
 			BeginRequest += (sender, args) => {
 				if (!Container.IsRegistered<ILogger>()) {
 					return;
@@ -68,7 +71,8 @@ namespace Portoa.Web {
 				throw exception;
 			}
 
-			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>()).HandleError(exception, new DefaultErrorController());
+			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>())
+				.HandleError(exception, new DefaultErrorController());
 		}
 
 		protected void Application_Start() {

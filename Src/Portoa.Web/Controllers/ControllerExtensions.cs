@@ -17,6 +17,11 @@ namespace Portoa.Web.Controllers {
 				.Implode(error => error.ErrorMessage, "\n");
 		}
 
+		/// <summary>
+		/// Creates a JSON response if an error occurred
+		/// </summary>
+		/// <param name="errorMessage">The error message to display to the user</param>
+		/// <see cref="CreateJsonResponse"/>
 		public static object CreateJsonErrorResponse(this Controller controller, string errorMessage) {
 			var data = new Dictionary<string, string>();
 
@@ -27,6 +32,11 @@ namespace Portoa.Web.Controllers {
 			return controller.CreateJsonResponse(errorMessage, data);
 		}
 
+		/// <summary>
+		/// Creates a JSON response object
+		/// </summary>
+		/// <param name="errorMessage">The error message to display to the user</param>
+		/// <param name="data">Any data that needs to be passed to the client</param>
 		public static object CreateJsonResponse(this Controller controller, string errorMessage = null, IDictionary<string, string> data = null) {
 			return new JsonReturn { Error = errorMessage, Data = data ?? new Dictionary<string, string>() };
 		}

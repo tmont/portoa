@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace Portoa.Log4Net {
 	
+	/// <summary>
+	/// log4net implementation of <see cref="ILogger"/>
+	/// </summary>
 	[DebuggerNonUserCode]
 	public class Log4NetLogger : ILogger {
 		private readonly ILog log4NetLogger;

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Web.Mvc;
+using JetBrains.Annotations;
 using Portoa.Web.Filters;
 
 namespace Portoa.Web.ErrorHandling {
+	/// <summary>
+	/// Represents a view for when an error occurs
+	/// </summary>
 	public class ErrorViewResult : ViewResult, IStatusOverridable {
 
 		public ErrorViewResult() {
@@ -11,8 +15,21 @@ namespace Portoa.Web.ErrorHandling {
 		}
 
 		public HttpStatusCode StatusCode { get; set; }
+		/// <summary>
+		/// Gets or sets the error message
+		/// </summary>
 		public string Message { get; set; }
+
+		/// <summary>
+		/// Gets or sets the error that occurred
+		/// </summary>
+		[CanBeNull]
 		public Exception Error { get; set; }
+
+		/// <summary>
+		/// Gets or sets the delegate to create the error model. By default it creates
+		/// an instance of <see cref="ErrorModel"/>.
+		/// </summary>
 		public Func<Exception, object> ModelCreator { get; set; }
 
 		/// <summary>

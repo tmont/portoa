@@ -1,6 +1,11 @@
 ﻿using System.Web.Mvc;
 
 namespace Portoa.Web.Filters {
+	/// <summary>
+	/// If the result implements <see cref="IStatusOverridable"/>, then the HTTP status
+	/// code on the <c>Response</c> will be set according to the value of
+	/// <see cref="IStatusOverridable.StatusCode"/>
+	/// </summary>
 	public class OverrideStatusCodeFilter : IResultFilter {
 		public void OnResultExecuting(ResultExecutingContext filterContext) { }
 

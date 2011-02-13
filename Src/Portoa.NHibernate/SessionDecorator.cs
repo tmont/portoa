@@ -8,8 +8,15 @@ using NHibernate.Stat;
 using NHibernate.Type;
 
 namespace Portoa.NHibernate {
+	/// <summary>
+	/// Empty session decorator, for easier implementing of the <c>ISession</c> object
+	/// </summary>
+	/// <remarks>This is why you don't create interfaces with dozens of methods.</remarks>
 	[DebuggerNonUserCode]
 	public class SessionDecorator : ISession {
+		/// <summary>
+		/// The <c>ISession</c> being decorated
+		/// </summary>
 		protected ISession Session { get; private set; }
 
 		public SessionDecorator(ISession session) {

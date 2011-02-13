@@ -5,6 +5,10 @@ using NHibernate;
 using NHibernate.Mapping;
 
 namespace Portoa.NHibernate {
+	///<summary>
+	/// Interceptor that instructs NHibernate to build entities using an 
+	/// implementation of <c>IServiceProvider</c>
+	/// </summary>
 	/// <remarks>Stolen mostly from Mike Valenty</remarks>
 	public class BuildWithProviderInterceptor : EmptyInterceptor, IInstantiatable {
 		private readonly ICollection<PersistentClass> classMappings;

@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 
 namespace Portoa.Web {
 	/// <summary>
-	/// Uses a container to create controllers
+	/// Uses an <c>IUnityContainer</c> to create controllers
 	/// </summary>
 	[DebuggerNonUserCode]
 	public class ContainerControllerFactory : DefaultControllerFactory {

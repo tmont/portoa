@@ -7,6 +7,7 @@
 		/// Gets or sets an item from the backing store
 		/// </summary>
 		/// <param name="key">The key of the item to retrieve</param>
+		/// <returns>The value stored in the specified key, or null if no such key exists</returns>
 		object this[string key] { get; set; }
 	}
 }
