@@ -18,7 +18,7 @@ namespace Portoa.NHibernate {
 		}
 
 		public IUnitOfWork Start() {
-			if (tx != null && tx.IsActive) {
+			if (IsActive) {
 				throw new PersistenceException("Cannot start another transaction while another is still active");
 			}
 
@@ -28,7 +28,7 @@ namespace Portoa.NHibernate {
 		}
 
 		public void Commit() {
-			if (tx == null) {
+			if (!IsActive) {
 				throw new PersistenceException("Transaction not started.");
 			}
 
@@ -37,13 +37,15 @@ namespace Portoa.NHibernate {
 		}
 
 		public void Rollback() {
-			if (tx == null) {
+			if (!IsActive) {
 				throw new PersistenceException("Transaction not started.");
 			}
 
 			logger.Warn("Rolling back transaction");
 			tx.Rollback();
 		}
+
+		public bool IsActive { get { return tx != null && tx.IsActive; } }
 
 		public void Dispose() {
 			if (tx != null) {

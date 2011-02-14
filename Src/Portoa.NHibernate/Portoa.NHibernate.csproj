@@ -36,9 +36,6 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\Lib\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Linq">
-      <HintPath>..\..\Lib\NHibernate.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
   </ItemGroup>

@@ -7,10 +7,10 @@ namespace Portoa.Web.Results {
 	/// <c>ActionResult</c> decorator that enables you to override the HTTP status code
 	/// </summary>
 	/// <see cref="OverrideStatusCodeFilter"/>
-	public class StatusOverrideActionResult : ActionResult, IStatusOverridable {
+	public class StatusOverrideResult : ActionResult, IStatusOverridable {
 		private readonly ActionResult result;
 
-		public StatusOverrideActionResult(ActionResult result) {
+		public StatusOverrideResult(ActionResult result) {
 			this.result = result;
 		}
 

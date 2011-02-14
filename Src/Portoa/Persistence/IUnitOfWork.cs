@@ -22,5 +22,10 @@ namespace Portoa.Persistence {
 		/// </summary>
 		/// <exception cref="PersistenceException">If a transaction has not been started</exception>
 		void Rollback();
+
+		/// <summary>
+		/// Gets whether or not the transaction is currently active
+		/// </summary>
+		bool IsActive { get; }
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Data;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.Stat;
@@ -167,42 +167,6 @@ namespace Portoa.NHibernate {
 			Session.Delete(entityName, obj);
 		}
 
-		public virtual IList Find(string query) {
-			return Session.Find(query);
-		}
-
-		public virtual IList Find(string query, object value, IType type) {
-			return Session.Find(query, value, type);
-		}
-
-		public virtual IList Find(string query, object[] values, IType[] types) {
-			return Session.Find(query, values, types);
-		}
-
-		public virtual IEnumerable Enumerable(string query) {
-			return Session.Enumerable(query);
-		}
-
-		public virtual IEnumerable Enumerable(string query, object value, IType type) {
-			return Session.Enumerable(query, value, type);
-		}
-
-		public virtual IEnumerable Enumerable(string query, object[] values, IType[] types) {
-			return Session.Enumerable(query, values, types);
-		}
-
-		public virtual ICollection Filter(object collection, string filter) {
-			return Session.Filter(collection, filter);
-		}
-
-		public virtual ICollection Filter(object collection, string filter, object value, IType type) {
-			return Session.Filter(collection, filter, value, type);
-		}
-
-		public virtual ICollection Filter(object collection, string filter, object[] values, IType[] types) {
-			return Session.Filter(collection, filter, values, types);
-		}
-
 		public virtual int Delete(string query) {
 			return Session.Delete(query);
 		}
@@ -267,8 +231,20 @@ namespace Portoa.NHibernate {
 			return Session.CreateCriteria(entityName, alias);
 		}
 
+		public IQueryOver<T, T> QueryOver<T>() where T : class {
+			return Session.QueryOver<T>();
+		}
+
+		public IQueryOver<T, T> QueryOver<T>(Expression<Func<T>> alias) where T : class {
+			return Session.QueryOver(alias);
+		}
+
 		public virtual IQuery CreateQuery(string queryString) {
 			return Session.CreateQuery(queryString);
+		}
+
+		public IQuery CreateQuery(IQueryExpression queryExpression) {
+			throw new NotImplementedException();
 		}
 
 		public virtual IQuery CreateFilter(object collection, string queryString) {
@@ -277,14 +253,6 @@ namespace Portoa.NHibernate {
 
 		public virtual IQuery GetNamedQuery(string queryName) {
 			return Session.GetNamedQuery(queryName);
-		}
-
-		public virtual IQuery CreateSQLQuery(string sql, string returnAlias, Type returnClass) {
-			return Session.CreateSQLQuery(sql, returnAlias, returnClass);
-		}
-
-		public virtual IQuery CreateSQLQuery(string sql, string[] returnAliases, Type[] returnClasses) {
-			return Session.CreateSQLQuery(sql, returnAliases, returnClasses);
 		}
 
 		public virtual ISQLQuery CreateSQLQuery(string queryString) {

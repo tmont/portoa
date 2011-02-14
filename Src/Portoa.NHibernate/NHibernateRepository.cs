@@ -66,6 +66,6 @@ namespace Portoa.NHibernate {
 			return entity;
 		}
 
-		public virtual IQueryable<T> Records { get { return Session.Linq<T>(); } }
+		public virtual IQueryable<T> Records { get { return Session.Query<T>(); } }
 	}
 }

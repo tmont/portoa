@@ -19,6 +19,5 @@ namespace Portoa.Web.Models {
 			binders.Add(typeof(T), new ResolveWithServiceProviderModelBinder<TBinder>(serviceProvider));
 			return binders;
 		}
-
 	}
 }

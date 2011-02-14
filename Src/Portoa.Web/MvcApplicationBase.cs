@@ -93,9 +93,16 @@ namespace Portoa.Web {
 
 			ConfigureUnity();
 			ConfigureControllerFactory();
+			ConfigureModelBinders(ModelBinders.Binders);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
 		}
+
+		/// <summary>
+		/// Override to configure the model binders for the application; default implementation
+		/// does nothing
+		/// </summary>
+		protected virtual void ConfigureModelBinders(ModelBinderDictionary binders) { }
 
 		/// <summary>
 		/// Creates the configuration used for NHibernate; default implementation uses the default
