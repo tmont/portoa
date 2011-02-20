@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\FlagEnumModelBinder.cs" />
+    <Compile Include="Models\PagedModel.cs" />
+    <Compile Include="Models\ResolveWithContainerModelBinder.cs" />
     <Compile Include="MvcApplicationBase.cs" />
     <Compile Include="ContainerControllerFactory.cs" />
     <Compile Include="ControllerContextExtensions.cs" />
@@ -96,7 +98,7 @@
     <Compile Include="InjectableFilterActionInvoker.cs" />
     <Compile Include="Filters\IStatusOverridable.cs" />
     <Compile Include="Models\EnumBinder.cs" />
-    <Compile Include="Models\JsonReturn.cs" />
+    <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\ModelBinderDictionaryExtensions.cs" />
     <Compile Include="Util\NoTempDataProvider.cs" />
     <Compile Include="Filters\OverrideStatusCodeFilter.cs" />

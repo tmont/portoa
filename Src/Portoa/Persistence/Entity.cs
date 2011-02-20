@@ -2,7 +2,7 @@
 
 namespace Portoa.Persistence {
 	/// <summary>
-	/// Represents a domain object that can be persisted by an <see cref="IRepository{T, TId}"/>
+	/// Represents a domain object that can be persisted by a <c cref="IRepository{T, TId}">repository</c>
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
 	/// <typeparam name="TId">The entity's identifier type</typeparam>
@@ -33,9 +33,7 @@ namespace Portoa.Persistence {
 				return originalHashCode.Value;
 			}
 
-			var thisIsTransient = Equals(Id, default(TId));
-
-			if (thisIsTransient) {
+			if (this.IsTransient()) {
 				originalHashCode = base.GetHashCode();
 				return originalHashCode.Value;
 			}

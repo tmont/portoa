@@ -96,7 +96,13 @@ namespace Portoa.Web {
 			ConfigureModelBinders(ModelBinders.Binders);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
+			AfterStartUp();
 		}
+
+		/// <summary>
+		/// Override to perform any extra startup tasks; default implementation does nothing
+		/// </summary>
+		protected virtual void AfterStartUp() { }
 
 		/// <summary>
 		/// Override to configure the model binders for the application; default implementation

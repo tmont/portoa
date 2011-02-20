@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using JetBrains.Annotations;
-using Portoa.Persistence;
 using Portoa.Util;
 using Portoa.Web.Models;
 using Portoa.Web.Util;
@@ -21,16 +19,16 @@ namespace Portoa.Web.Controllers {
 		}
 
 		/// <summary>
-		/// Creates a JSON response if an error occurred, appending all <c>ModelState</c> errors
+		/// Creates a JSON response if an error occurred, appending all <see cref="Controller.ModelState"/> errors
 		/// to the response object
 		/// </summary>
-		/// <param name="errorMessage">The error message to display to the user</param>
+		/// <param name="errorMessage">The error message to display to the user, this value cannot be null</param>
 		/// <see cref="CreateJsonResponse"/>
 		public static object CreateJsonErrorResponse(this Controller controller, [NotNull]string errorMessage) {
-			var data = new Dictionary<string, string>();
-			foreach (var kvp in controller.ModelState.Where(kvp => kvp.Value.Errors.Any())) {
-				data[kvp.Key] = kvp.Value.Errors.Implode(error => error.ErrorMessage, ", ");
-			}
+			var data = controller
+				.ModelState
+				.Where(kvp => kvp.Value.Errors.Any())
+				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Errors.Implode(error => error.ErrorMessage, ", "));
 
 			return controller.CreateJsonResponse(errorMessage, data);
 		}
@@ -47,36 +45,20 @@ namespace Portoa.Web.Controllers {
 		/// <summary>
 		/// Creates a JSON response object
 		/// </summary>
-		/// <param name="errorMessage">The error message to display to the user</param>
-		/// <param name="data">Any data that needs to be passed to the client</param>
-		public static object CreateJsonResponse(this Controller controller, string errorMessage = null, IDictionary<string, string> data = null) {
-			return new JsonReturn { Error = errorMessage, Data = data ?? new Dictionary<string, string>() };
+		/// <param name="errorMessage">The error message to display to the user (<c>null</c> if no error occurred)</param>
+		/// <param name="data">Any extra data that needs to be passed to the client</param>
+		/// <see cref="JsonResponse"/>
+		public static object CreateJsonResponse(this Controller controller, string errorMessage = null, object data = null) {
+			return new JsonResponse { Error = errorMessage, Data = data ?? new object() };
 		}
 
 		/// <summary>
 		/// Sets up the temporary data provider so that it won't barf with Session errors
 		/// </summary>
+		/// <seealso cref="NoTempDataProvider"/>
 		public static Controller DoNotUseTempData(this Controller controller) {
 			controller.TempDataProvider = new NoTempDataProvider();
 			return controller;
-		}
-
-		/// <summary>
-		/// Runs an action in a transaction. If an exception is thrown during execution, the transaction
-		/// will be <c cref="IUnitOfWork.Rollback">rolled back</c> and the exception will be raised.
-		/// </summary>
-		/// <param name="service">Service that can create a transaction</param>
-		/// <param name="action">The action to execute inside the transaction</param>
-		public static void RunInTransaction(this IController controller, ITransactableService service, Action action) {
-			using (var tx = service.BeginTransaction()) {
-				try {
-					action();
-					tx.Commit();
-				} catch {
-					tx.Rollback();
-					throw;
-				}
-			}
 		}
 	}
 }
