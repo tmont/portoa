@@ -55,6 +55,10 @@
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandling\ErrorViewResultFactory.cs" />
+    <Compile Include="ErrorHandling\ErrorWithUserResultFactory.cs" />
+    <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
+    <Compile Include="ICurrentUserProvider.cs" />
     <Compile Include="Models\FlagEnumModelBinder.cs" />
     <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\ResolveWithContainerModelBinder.cs" />

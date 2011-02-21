@@ -19,7 +19,8 @@ namespace Portoa.Web {
 	/// <summary>
 	/// Base for an MVC application using Unity/NHibernate
 	/// </summary>
-	public abstract class MvcApplicationBase : HttpApplication {
+	/// <typeparam name="T">The user type</typeparam>
+	public abstract class MvcApplicationBase<T> : HttpApplication where T : class {
 		/// <summary>
 		/// The container associated with this application
 		/// </summary>
@@ -60,6 +61,12 @@ namespace Portoa.Web {
 			};
 		}
 
+		private static T GetCurrentUser() {
+			return Container.IsRegistered<ICurrentUserProvider<T>>() 
+				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser 
+				: null;
+		}
+
 		/// <summary>
 		/// Handles uncaught application exceptions; default implementation uses
 		/// <see cref="ApplicationErrorHandler"/> and <see cref="DefaultErrorController"/> to
@@ -72,7 +79,7 @@ namespace Portoa.Web {
 			}
 
 			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>())
-				.HandleError(exception, new DefaultErrorController());
+				.HandleError(exception, new DefaultErrorController(new ErrorWithUserResultFactory<T>(GetCurrentUser())));
 		}
 
 		protected void Application_Start() {

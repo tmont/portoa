@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
 using Portoa.Web.ErrorHandling;
 
@@ -8,24 +7,23 @@ namespace Portoa.Web.Controllers {
 	/// Controller for handling and displaying errors that aren't handled by application code
 	/// </summary>
 	public class DefaultErrorController : Controller, IErrorController {
-		private static object CreateModel(Exception exception) {
-			return new ErrorModel { Exception = exception };
-		}
+		private readonly IErrorResultFactory errorResultFactory;
 
-		private static ErrorViewResult CreateResult(HttpStatusCode statusCode) {
-			return new ErrorViewResult { StatusCode = statusCode, ModelCreator = CreateModel };
+		/// <param name="errorResultFactory">The factory to use to create the action results</param>
+		public DefaultErrorController(IErrorResultFactory errorResultFactory) {
+			this.errorResultFactory = errorResultFactory;
 		}
 
 		public ActionResult Unknown() {
-			return CreateResult(HttpStatusCode.InternalServerError);
+			return errorResultFactory.CreateResult(HttpStatusCode.InternalServerError);
 		}
 
 		public ActionResult NotFound() {
-			return CreateResult(HttpStatusCode.NotFound);
+			return errorResultFactory.CreateResult(HttpStatusCode.NotFound);
 		}
 
 		public ActionResult Forbidden() {
-			return CreateResult(HttpStatusCode.Forbidden);
+			return errorResultFactory.CreateResult(HttpStatusCode.Forbidden);
 		}
 	}
 }
