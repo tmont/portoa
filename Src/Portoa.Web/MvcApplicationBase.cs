@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.InterceptionExtension;
 using NHibernate;
 using NHibernate.Cfg;
 using Portoa.Logging;
@@ -62,8 +63,8 @@ namespace Portoa.Web {
 		}
 
 		private static T GetCurrentUser() {
-			return Container.IsRegistered<ICurrentUserProvider<T>>() 
-				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser 
+			return Container.IsRegistered<ICurrentUserProvider<T>>()
+				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser
 				: null;
 		}
 
@@ -84,16 +85,20 @@ namespace Portoa.Web {
 
 		protected void Application_Start() {
 			Container
-				.AddNewExtension<ConfigureInterception>()
-				.AddNewExtension<ConfigureUnitOfWorkAspect>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
+				.AddNewExtension<ConfigureUnitOfWorkAspect>()
+				.AddNewExtension<Interception>();
+
+			ConfigureUnityExtensions();
+
+			Container
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterType<IIdentity>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<HttpContextBase>().User.Identity))
 				.RegisterType<IServiceProvider, ContainerResolvingServiceProvider>(new ContainerControlledLifetimeManager())
-				.RegisterType(typeof(IRepository<>), typeof(NHibernateRepository<>))
-				.RegisterType(typeof(IRepository<,>), typeof(NHibernateRepository<,>))
-				.RegisterType<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
+				.RegisterAndIntercept(typeof(IRepository<>), typeof(NHibernateRepository<>))
+				.RegisterAndIntercept(typeof(IRepository<,>), typeof(NHibernateRepository<,>))
+				.RegisterAndIntercept<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
 				.RegisterType<ISessionFactory>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
 				.RegisterType<ISession>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<ISessionFactory>().OpenSession()))
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
@@ -170,6 +175,26 @@ namespace Portoa.Web {
 		/// does nothing
 		/// </summary>
 		protected virtual void ConfigureUnity() { }
+
+		/// <summary>
+		/// Adds extensions to the container; default implementation does nothing
+		/// </summary>
+		protected virtual void ConfigureUnityExtensions() { }
+
+		protected void Application_End() {
+			OnApplicationEnd();
+
+			if (Container != null) {
+				Container.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Performs any needed cleanup when the application ends; default implementation
+		/// does nothing. Be aware that the <c cref="Container">container</c> gets disposed of
+		/// later.
+		/// </summary>
+		protected virtual void OnApplicationEnd() { }
 
 		private class InjectableControllerFactory : ContainerControllerFactory, IInjectableControllerFactory {
 			public InjectableControllerFactory(IUnityContainer container) : base(container) { }

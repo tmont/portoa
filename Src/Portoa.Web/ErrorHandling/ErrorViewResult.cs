@@ -29,14 +29,11 @@ namespace Portoa.Web.ErrorHandling {
 
 		/// <summary>
 		/// Gets or sets the delegate to create the error model. By default it creates
-		/// an instance of <see cref="ErrorModel">ErrorModel</see>.
+		/// an instance of <see cref="ErrorModel">ErrorModel</see>. The first argument
+		/// (the exception) can be null.
 		/// </summary>
 		public Func<Exception, object> ModelCreator { get; set; }
 
-		/// <summary>
-		/// Sets the HTTP status code on the response object before
-		/// calling <c>base.ExecuteResult()</c>
-		/// </summary>
 		public override void ExecuteResult(ControllerContext context) {
 			context.HttpContext.Response.StatusCode = (int)StatusCode;
 			ViewData.Model = ModelCreator(Error ?? context.RouteData.Values["error"] as Exception);

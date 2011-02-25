@@ -33,21 +33,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Practices.Unity">
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration">
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.0.414.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Interception">
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.0.414.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -78,22 +88,18 @@
     <Compile Include="NeedsBuildUpAttribute.cs" />
     <Compile Include="Session\HttpSessionStore.cs" />
     <Compile Include="Session\ISessionStore.cs" />
-    <Compile Include="Unity\AlwaysApply.cs" />
+    <Compile Include="Unity\Matching\AlwaysMatches.cs" />
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />
     <Compile Include="Unity\CallHandlerExtensions.cs" />
-    <Compile Include="Unity\ConfigureInterception.cs" />
     <Compile Include="Unity\ConfigureLog4Net.cs" />
     <Compile Include="Unity\ConfigureUnitOfWorkAspect.cs" />
     <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
-    <Compile Include="Unity\DoesNotHaveGenericMethods.cs" />
     <Compile Include="Unity\HasAttribute.cs" />
-    <Compile Include="Unity\IInterceptRule.cs" />
-    <Compile Include="Unity\InterceptOnRegister.cs" />
     <Compile Include="Unity\LogAllMethodCalls.cs" />
     <Compile Include="Unity\LoggerCallHandler.cs" />
-    <Compile Include="Unity\NotAssemblyOf.cs" />
-    <Compile Include="Unity\NotInstanceOf.cs" />
-    <Compile Include="Unity\NotPropertyGetOrSet.cs" />
+    <Compile Include="Unity\Matching\Not.cs" />
+    <Compile Include="Unity\Matching\InstanceOf.cs" />
+    <Compile Include="Unity\Matching\PropertyGetOrSet.cs" />
     <Compile Include="Unity\PerRequestLifetimeManager.cs" />
     <Compile Include="Unity\UnitOfWorkCallHandler.cs" />
     <Compile Include="Unity\UnityContainerExtensions.cs" />
@@ -111,6 +117,8 @@
     <Compile Include="ServiceProviderControllerFactory.cs" />
     <Compile Include="Results\StatusOverrideResult.cs" />
     <Compile Include="Util\UrlHelperExtensions.cs" />
+    <Compile Include="Validation\FileLengthAttribute.cs" />
+    <Compile Include="Validation\FileTypeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Portoa.Logging\Portoa.Log4Net.csproj">

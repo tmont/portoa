@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using JetBrains.Annotations;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.Unity;
@@ -46,7 +47,7 @@ namespace Portoa.Web.Unity {
 			return this;
 		}
 
-		public ILog4NetConfigurator SetName(string loggerName) {
+		public ILog4NetConfigurator SetName([NotNull]string loggerName) {
 			name = loggerName;
 			return this;
 		}

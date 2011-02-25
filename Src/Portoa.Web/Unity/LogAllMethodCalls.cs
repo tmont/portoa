@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
+using Portoa.Web.Unity.Matching;
 
 namespace Portoa.Web.Unity {
 	/// <summary>
@@ -13,8 +14,7 @@ namespace Portoa.Web.Unity {
 				.Configure<Interception>()
 				.AddPolicy("LoggingPolicy")
 				.AddCallHandler<LoggerCallHandler>(new ContainerControlledLifetimeManager())
-				.AddMatchingRule<AlwaysApply>()
-				.AddMatchingRule<NotInstanceOf<ILogger>>();
+				.AddMatchingRule<Not<InstanceOf<ILogger>>>();
 		}
 	}
 }
