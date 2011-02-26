@@ -58,6 +58,7 @@
     <Compile Include="Persistence\UnitOfWorkAttribute.cs" />
     <Compile Include="ReSharper\JetBrains.Annotations.cs" />
     <Compile Include="Search\CompositeIndexBuilder.cs" />
+    <Compile Include="Search\ISearchable.cs" />
     <Compile Include="Search\ISearcher.cs" />
     <Compile Include="Search\ISearchIndexBuilder.cs" />
     <Compile Include="Search\ISearchService.cs" />
