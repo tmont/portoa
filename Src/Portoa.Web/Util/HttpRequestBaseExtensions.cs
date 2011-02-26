@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Util {
 	public static class HttpRequestBaseExtensions {
 		/// <summary>
 		/// Gets an object from the request variables, or its default value if

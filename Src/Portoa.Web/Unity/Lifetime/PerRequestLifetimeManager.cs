@@ -2,7 +2,7 @@
 using System.Web;
 using Microsoft.Practices.Unity;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Lifetime {
 	/// <summary>
 	/// <see cref="LifetimeManager"/> whose lifetime lasts as long as the HTTP request.
 	/// The object is stored in <c>HttpContext.Current.Items</c>, keyed by a <see cref="Guid"/>.

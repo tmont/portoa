@@ -10,7 +10,7 @@ namespace Portoa.Web.ErrorHandling {
 	public class ErrorModel<T> : ErrorModel {
 
 		/// <summary>
-		/// The currently logged in user, or <c>null</c> if no one is logged in
+		/// Gets or sets the currently logged in user, or <c>null</c> if no one is logged in
 		/// </summary>
 		[CanBeNull]
 		public T User { get; set; }

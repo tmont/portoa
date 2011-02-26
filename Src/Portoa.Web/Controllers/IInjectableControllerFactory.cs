@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Controllers {
 	/// <summary>
 	/// <c cref="IControllerFactory">IControllerFactory</c> that provides a mechanism to perform injection
 	/// on the controller after it is instantiated

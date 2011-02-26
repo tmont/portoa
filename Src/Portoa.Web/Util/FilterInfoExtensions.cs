@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Util {
 	public static class FilterInfoExtensions {
 		/// <summary>
 		/// Flattens a <c>FilterInfo</c> object into a single <c>IEnumerable</c> containing

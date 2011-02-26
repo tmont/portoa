@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Controllers {
 	/// <summary>
 	/// Uses an <c>IUnityContainer</c> to create controllers
 	/// </summary>

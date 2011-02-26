@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Lifetime {
 	/// <summary>
 	/// <see cref="LifetimeManager"/> decorator that allows you to explicitly control
 	/// how the object disposes (useful for 3rd-party objects that do not implement 

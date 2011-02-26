@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Controllers {
 	/// <summary>
 	/// Controller factory that uses a service provider to resolve controllers
 	/// </summary>

@@ -3,8 +3,10 @@ using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Portoa.Util;
+using Portoa.Web.Unity;
+using Portoa.Web.Util;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Controllers {
 	/// <summary>
 	/// Enables you to dynamically add filters to a ControllerActionInvoker. This class will also
 	/// perform injection on all filters that are annotated with NeedsBuildUpAttribute.

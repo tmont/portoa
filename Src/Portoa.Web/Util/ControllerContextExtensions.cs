@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Portoa.Web {
+namespace Portoa.Web.Util {
 	public static class ControllerContextExtensions {
 		/// <summary>
 		/// Gets a value from the request and casts it to the specified type

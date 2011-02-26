@@ -13,8 +13,10 @@ using Portoa.Persistence;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
 using Portoa.Web.Filters;
+using Portoa.Web.Security;
 using Portoa.Web.Session;
 using Portoa.Web.Unity;
+using Portoa.Web.Unity.Lifetime;
 
 namespace Portoa.Web {
 	/// <summary>
