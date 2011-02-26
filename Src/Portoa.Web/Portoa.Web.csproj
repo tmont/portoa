@@ -88,13 +88,13 @@
     <Compile Include="NeedsBuildUpAttribute.cs" />
     <Compile Include="Session\HttpSessionStore.cs" />
     <Compile Include="Session\ISessionStore.cs" />
-    <Compile Include="Unity\Matching\AlwaysMatches.cs" />
+    <Compile Include="Unity\ExplicitlyDisposableLifetimeManager.cs" />
     <Compile Include="Unity\ApplyUnityConfigurationSection.cs" />
     <Compile Include="Unity\CallHandlerExtensions.cs" />
     <Compile Include="Unity\ConfigureLog4Net.cs" />
     <Compile Include="Unity\ConfigureUnitOfWorkAspect.cs" />
     <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
-    <Compile Include="Unity\HasAttribute.cs" />
+    <Compile Include="Unity\Matching\HasAttribute.cs" />
     <Compile Include="Unity\LogAllMethodCalls.cs" />
     <Compile Include="Unity\LoggerCallHandler.cs" />
     <Compile Include="Unity\Matching\Not.cs" />

@@ -10,7 +10,7 @@ using Portoa.Util;
 
 namespace Portoa.Web.Unity {
 	/// <summary>
-	/// Performs automatic logging on method calls (but respects <see cref="DoNotLogAttribute"/>)
+	/// Performs automatic logging of method calls and returns while respecting <see cref="DoNotLogAttribute"/>
 	/// </summary>
 	[DebuggerNonUserCode]
 	public class LoggerCallHandler : ICallHandler {

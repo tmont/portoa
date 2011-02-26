@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using Lucene.Net.Analysis;
 using Lucene.Net.Index;
+using Lucene.Net.Store;
 using Portoa.Logging;
 using Portoa.Persistence;
 using Portoa.Search;

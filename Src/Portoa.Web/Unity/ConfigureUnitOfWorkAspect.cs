@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
+using Portoa.Web.Unity.Matching;
 
 namespace Portoa.Web.Unity {
 	public class ConfigureUnitOfWorkAspect : UnityContainerExtension {
