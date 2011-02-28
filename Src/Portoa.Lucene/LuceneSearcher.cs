@@ -40,7 +40,8 @@ namespace Portoa.Lucene {
 			var query = QueryParser.Parse(EscapeSearchString(searchString));
 			var searcher = new IndexSearcher(IndexDirectory, true);
 			try {
-				return TransformResults(searcher.Search(query, maxResults).scoreDocs, searcher);
+				var scoreDocs = searcher.Search(query, maxResults).scoreDocs.OrderByDescending(scoreDoc => scoreDoc.score);
+				return TransformResults(scoreDocs, searcher);
 			} finally {
 				searcher.Close();
 			}
@@ -51,7 +52,7 @@ namespace Portoa.Lucene {
 		/// </summary>
 		/// <param name="scoreDocs">The search results</param>
 		/// <param name="searcher">The searcher that performed the search</param>
-		protected abstract SearchResult<T>[] TransformResults(ScoreDoc[] scoreDocs, IndexSearcher searcher);
+		protected abstract SearchResult<T>[] TransformResults(IEnumerable<ScoreDoc> scoreDocs, IndexSearcher searcher);
 
 		/// <summary>
 		/// Escapes a search string; default implementation calls <c>QueryParser.Escape(<paramref name="searchString"/>)</c>
