@@ -18,6 +18,10 @@ namespace Portoa.Lucene {
 		}
 
 		protected override SearchResult<T>[] TransformResults(IEnumerable<ScoreDoc> scoreDocs, IndexSearcher searcher) {
+			if (scoreDocs.Count() == 0) {
+				return new SearchResult<T>[0];
+			}
+
 			var quotes = searchService.FindByIds(scoreDocs.Select(doc => int.Parse(searcher.Doc(doc.doc).GetField("id").StringValue())));
 			return quotes.Zip(scoreDocs, (entity, doc) => new SearchResult<T> { Record = entity, Score = doc.score }).ToArray();
 		}
