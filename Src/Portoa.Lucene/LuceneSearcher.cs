@@ -30,6 +30,7 @@ namespace Portoa.Lucene {
 			if (string.IsNullOrWhiteSpace(searchString)) {
 				return Enumerable.Empty<SearchResult<T>>();
 			}
+
 			if (maxResults < 0) {
 				throw new ArgumentOutOfRangeException("maxResults", maxResults, "Maximum number of results must be greater than or equal to zero");
 			}
@@ -40,7 +41,7 @@ namespace Portoa.Lucene {
 			var query = QueryParser.Parse(EscapeSearchString(searchString));
 			var searcher = new IndexSearcher(IndexDirectory, true);
 			try {
-				var scoreDocs = searcher.Search(query, maxResults).scoreDocs.OrderByDescending(scoreDoc => scoreDoc.score);
+				var scoreDocs = searcher.Search(query, maxResults).scoreDocs;
 				return TransformResults(scoreDocs, searcher);
 			} finally {
 				searcher.Close();
@@ -52,7 +53,7 @@ namespace Portoa.Lucene {
 		/// </summary>
 		/// <param name="scoreDocs">The search results</param>
 		/// <param name="searcher">The searcher that performed the search</param>
-		protected abstract SearchResult<T>[] TransformResults(IEnumerable<ScoreDoc> scoreDocs, IndexSearcher searcher);
+		protected abstract SearchResult<T>[] TransformResults(ScoreDoc[] scoreDocs, IndexSearcher searcher);
 
 		/// <summary>
 		/// Escapes a search string; default implementation calls <c>QueryParser.Escape(<paramref name="searchString"/>)</c>

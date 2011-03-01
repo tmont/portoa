@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
@@ -15,15 +14,22 @@ namespace Portoa.Lucene {
 
 		public LuceneEntitySearcher(QueryParser queryParser, Directory indexDirectory, ISearchService<T> searchService) : base(queryParser, indexDirectory) {
 			this.searchService = searchService;
+			IdFieldName = "id";
 		}
 
-		protected override SearchResult<T>[] TransformResults(IEnumerable<ScoreDoc> scoreDocs, IndexSearcher searcher) {
-			if (scoreDocs.Count() == 0) {
+		public string IdFieldName { get; set; }
+
+		protected override SearchResult<T>[] TransformResults(ScoreDoc[] scoreDocs, IndexSearcher searcher) {
+			var ids = scoreDocs.Select(doc => int.Parse(searcher.Doc(doc.doc).GetField(IdFieldName).StringValue()));
+
+			if (!ids.Any()) {
 				return new SearchResult<T>[0];
 			}
 
-			var quotes = searchService.FindByIds(scoreDocs.Select(doc => int.Parse(searcher.Doc(doc.doc).GetField("id").StringValue())));
-			return quotes.Zip(scoreDocs, (entity, doc) => new SearchResult<T> { Record = entity, Score = doc.score }).ToArray();
+			var quotes = searchService.FindByIds(ids);
+			return quotes
+				.Zip(scoreDocs, (entity, doc) => new SearchResult<T> { Record = entity, Score = doc.score })
+				.ToArray();
 		}
 	}
 }

@@ -87,11 +87,9 @@ namespace Portoa.Web {
 
 		protected void Application_Start() {
 			Container
+				.AddNewExtension<Interception>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
-				.AddNewExtension<ConfigureUnitOfWorkAspect>()
-				.AddNewExtension<Interception>();
-
-			ConfigureUnityExtensions();
+				.AddNewExtension<ConfigureUnitOfWorkAspect>();
 
 			Container
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
@@ -177,11 +175,6 @@ namespace Portoa.Web {
 		/// does nothing
 		/// </summary>
 		protected virtual void ConfigureUnity() { }
-
-		/// <summary>
-		/// Adds extensions to the container; default implementation does nothing
-		/// </summary>
-		protected virtual void ConfigureUnityExtensions() { }
 
 		protected void Application_End() {
 			OnApplicationEnd();
