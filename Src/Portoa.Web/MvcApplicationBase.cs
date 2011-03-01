@@ -87,6 +87,7 @@ namespace Portoa.Web {
 
 		protected void Application_Start() {
 			Container
+				.RegisterType<ILogger, NullLogger>() //if logging is disabled we won't get type construction errors
 				.AddNewExtension<Interception>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
 				.AddNewExtension<ConfigureUnitOfWorkAspect>();

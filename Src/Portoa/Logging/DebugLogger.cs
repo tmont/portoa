@@ -1,4 +1,6 @@
-﻿namespace Portoa.Logging {
+﻿using System;
+
+namespace Portoa.Logging {
 	/// <summary>
 	/// <see cref="ILogger"/> implementation that writes using system diagnostic tool
 	/// </summary>
