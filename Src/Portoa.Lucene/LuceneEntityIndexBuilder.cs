@@ -1,32 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using Lucene.Net.Analysis;
+﻿using JetBrains.Annotations;
 using Lucene.Net.Index;
-using Lucene.Net.Store;
 using Portoa.Logging;
 using Portoa.Persistence;
 using Portoa.Search;
 
 namespace Portoa.Lucene {
 	/// <summary>
-	/// <see cref="ISearchIndexBuilder{T}"/> implementation for entities based on <c>Lucene.NET</c>
+	/// <see cref="ISearchIndexBuilder{T, TId}"/> implementation for entities based on <c>Lucene.NET</c>
 	/// </summary>
 	/// <typeparam name="T">The entity to build the index for</typeparam>
-	public class LuceneEntityIndexBuilder<T> : LuceneIndexBuilder<T> where T : Entity<T, int> {
-		private readonly ISearchService<T> searchService;
+	/// <typeparam name="TId">The entity identifier type</typeparam>
+	public class LuceneEntityIndexBuilder<T, TId> : ISearchIndexBuilder<T, TId> where T : IIdentifiable<TId> {
+		private readonly IndexWriter indexWriter;
+		private readonly ILuceneDocumentHandler<T> documentHandler;
+		private readonly ILogger logger;
+		private readonly ISearchService<T, TId> searchService;
 
-		public LuceneEntityIndexBuilder([NotNull]IndexWriter indexWriter, [NotNull]ILuceneDocumentHandler<T> documentHandler, [NotNull]ILogger logger, [NotNull]ISearchService<T> searchService)
-			: base(indexWriter, documentHandler, logger) {
+		public LuceneEntityIndexBuilder([NotNull]IndexWriter indexWriter, [NotNull]ILuceneDocumentHandler<T> documentHandler, [NotNull]ILogger logger, [NotNull]ISearchService<T, TId> searchService) {
+			this.indexWriter = indexWriter;
+			this.documentHandler = documentHandler;
+			this.logger = logger;
 			this.searchService = searchService;
 		}
 
-		protected override IEnumerable<T> GetAllIndexableRecords() {
-			return searchService.GetAllIndexableRecords();
+		public void BuildIndex() {
+			logger.Info("Building lucene index");
+			foreach (var entity in searchService.GetAllIndexableRecords()) {
+				indexWriter.AddDocument(documentHandler.BuildDocument(entity));
+			}
+
+			indexWriter.Optimize();
+			indexWriter.Commit();
+			logger.Info("Finished building lucene index");
 		}
 
-		protected override bool CanUpdateIndex(T objectToVerify) {
-			return objectToVerify != null && !objectToVerify.IsTransient();
+		public void UpdateIndex(T indexableObject) {
+			if (!CanUpdateIndex(indexableObject)) {
+				throw new SearchIndexException(string.Format("Cannot update index for object {0}", indexableObject));
+			}
+
+			logger.Info(string.Format("Updating index for {0}", indexableObject));
+			//delete current document, if it exists
+			indexWriter.DeleteDocuments(documentHandler.GetIdTerm(indexableObject));
+			indexWriter.AddDocument(documentHandler.BuildDocument(indexableObject));
+
+			indexWriter.Commit();
+			logger.Info(string.Format("Finished updating index for {0}", indexableObject));
+		}
+
+		private static bool CanUpdateIndex(T objectToVerify) {
+			return !Equals(objectToVerify, default(T)) && !objectToVerify.IsTransient();
 		}
 	}
 }

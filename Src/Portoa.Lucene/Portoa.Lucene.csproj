@@ -42,8 +42,6 @@
     <Compile Include="ILuceneDocumentHandler.cs" />
     <Compile Include="LuceneEntityIndexBuilder.cs" />
     <Compile Include="LuceneEntitySearcher.cs" />
-    <Compile Include="LuceneIndexBuilder.cs" />
-    <Compile Include="LuceneSearcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

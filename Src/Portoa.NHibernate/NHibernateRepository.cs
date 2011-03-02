@@ -12,7 +12,7 @@ namespace Portoa.NHibernate {
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
 	/// <seealso cref="NHibernateRepository{T, TId}"/>
-	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : Entity<T, int> {
+	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : class, IIdentifiable<int> {
 		public NHibernateRepository(ISession session) : base(session) { }
 	}
 
@@ -23,7 +23,7 @@ namespace Portoa.NHibernate {
 	/// <typeparam name="TId">The identifier type</typeparam>
 	/// <seealso cref="NHibernateRepository{T}"/>
 	[DebuggerNonUserCode]
-	public class NHibernateRepository<T, TId> : MarshalByRefObject, IRepository<T, TId> where T : Entity<T, TId> {
+	public class NHibernateRepository<T, TId> : MarshalByRefObject, IRepository<T, TId> where T : IIdentifiable<TId> {
 		/// <summary>
 		/// The current session
 		/// </summary>
@@ -59,7 +59,7 @@ namespace Portoa.NHibernate {
 
 		public virtual T FindById(TId id) {
 			var entity = Session.Get<T>(id);
-			if (entity == null) {
+			if (Equals(entity, default(T))) {
 				throw new EntityNotFoundException<T, TId>(id);
 			}
 

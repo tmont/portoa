@@ -6,7 +6,7 @@ namespace Portoa.Lucene {
 	/// Handles interaction between objects and Lucene documents
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public interface ILuceneDocumentHandler<T> {
+	public interface ILuceneDocumentHandler<in T> {
 		/// <summary>
 		/// Builds a <see cref="Document"/> out of another object
 		/// </summary>

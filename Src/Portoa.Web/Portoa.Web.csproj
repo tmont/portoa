@@ -70,6 +70,7 @@
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
+    <Compile Include="Routing\SmartCaseRoute.cs" />
     <Compile Include="Security\ICurrentUserProvider.cs" />
     <Compile Include="Models\FlagEnumModelBinder.cs" />
     <Compile Include="Models\PagedModel.cs" />

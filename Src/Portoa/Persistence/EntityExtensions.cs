@@ -3,7 +3,7 @@
 		/// <summary>
 		/// Determines if the entity has already been persisted
 		/// </summary>
-		public static bool IsTransient<T, TId>(this Entity<T, TId> entity) where T : Entity<T, TId> {
+		public static bool IsTransient<TId>(this IIdentifiable<TId> entity) {
 			if (entity == null) {
 				return false;
 			}
@@ -17,7 +17,7 @@
 		/// is returned.
 		/// </summary>
 		/// <typeparam name="TDto">The type to map the entity to</typeparam>
-		public static TDto ToDto<T, TId, TDto>(this Entity<T, TId> entity) where T : Entity<T, TId> where TDto : new() {
+		public static TDto ToDto<TDto>(this object entity) where TDto : new() {
 			var mappable = entity as IDtoMappable<TDto>;
 			return mappable == null ? new TDto() : mappable.ToDto();
 		}
