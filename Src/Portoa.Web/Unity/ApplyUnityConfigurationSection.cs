@@ -13,7 +13,7 @@ namespace Portoa.Web.Unity {
 				return;
 			}
 
-			section.Configure(Container);
+			Container.LoadConfiguration(section);
 		}
 	}
 }

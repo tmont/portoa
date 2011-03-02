@@ -87,12 +87,9 @@ namespace Portoa.Web {
 
 		protected void Application_Start() {
 			Container
-				.RegisterType<ILogger, NullLogger>() //if logging is disabled we won't get type construction errors
 				.AddNewExtension<Interception>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
-				.AddNewExtension<ConfigureUnitOfWorkAspect>();
-
-			Container
+				.AddNewExtension<ConfigureUnitOfWorkAspect>()
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterType<IIdentity>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<HttpContextBase>().User.Identity))
@@ -105,6 +102,11 @@ namespace Portoa.Web {
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
 
 			ConfigureUnity();
+
+			if (!Container.IsRegistered<ILogger>()) {
+				Container.RegisterType<ILogger, NullLogger>();
+			}
+
 			ConfigureControllerFactory();
 			ConfigureModelBinders(ModelBinders.Binders);
 			RegisterAreas();
