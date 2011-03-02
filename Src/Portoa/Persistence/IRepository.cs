@@ -7,14 +7,14 @@ namespace Portoa.Persistence {
 	/// integral identifier
 	/// </summary>
 	/// <typeparam name="T">The entity's type</typeparam>
-	public interface IRepository<T> : IRepository<T, int> { }
+	public interface IRepository<T> : IRepository<T, int> where T : IIdentifiable<int> { }
 
 	/// <summary>
 	/// Provides a CRUD interface to a persistence medium
 	/// </summary>
 	/// <typeparam name="T">The entity's type</typeparam>
 	/// <typeparam name="TId">The entity identifier's type</typeparam>
-	public interface IRepository<T, in TId> {
+	public interface IRepository<T, in TId> where T : IIdentifiable<TId> {
 		/// <summary>
 		/// Persists an entity (inserts or updates)
 		/// </summary>

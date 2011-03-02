@@ -12,7 +12,7 @@ namespace Portoa.NHibernate {
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
 	/// <seealso cref="NHibernateRepository{T, TId}"/>
-	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : class, IIdentifiable<int> {
+	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : IIdentifiable<int> {
 		public NHibernateRepository(ISession session) : base(session) { }
 	}
 
