@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using JetBrains.Annotations;
 
-namespace Portoa.Web.Routing {
+namespace Portoa.Web.SmartCasing {
 	public static class RouteExtensions {
 		/// <summary>
 		/// Adds a URL pattern to the route collection utilizing intelligent casing when

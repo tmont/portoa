@@ -70,9 +70,11 @@
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
-    <Compile Include="Routing\RouteExtensions.cs" />
-    <Compile Include="Routing\SmartCaseRoute.cs" />
-    <Compile Include="Routing\SmartCaseViewEngine.cs" />
+    <Compile Include="SmartCasing\RouteExtensions.cs" />
+    <Compile Include="SmartCasing\SmartCaseControllerFactory.cs" />
+    <Compile Include="SmartCasing\SmartCaseRoute.cs" />
+    <Compile Include="SmartCasing\SmartCaseViewEngine.cs" />
+    <Compile Include="SmartCasing\SmartCasingConverter.cs" />
     <Compile Include="Security\ICurrentUserProvider.cs" />
     <Compile Include="Models\FlagEnumModelBinder.cs" />
     <Compile Include="Models\PagedModel.cs" />

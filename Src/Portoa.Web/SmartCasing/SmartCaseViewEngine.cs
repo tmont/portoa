@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Web.Mvc;
 using Portoa.Logging;
+using Portoa.Util;
 
-namespace Portoa.Web.Routing {
+namespace Portoa.Web.SmartCasing {
 	/// <summary>
 	/// View engine for creating views that have been routed by a <see cref="SmartCaseRoute"/>
 	/// </summary>
 	public class SmartCaseViewEngine : WebFormViewEngine {
 		private readonly ILogger logger;
+		private static readonly SmartCasingConverter casingConverter = new SmartCasingConverter();
 		private static readonly IDictionary<string, string> deconstructedViewNameCache = new Dictionary<string, string>();
 
 		public SmartCaseViewEngine(ILogger logger) {
@@ -34,19 +36,12 @@ namespace Portoa.Web.Routing {
 
 		protected override bool FileExists(ControllerContext controllerContext, string virtualPath) {
 			if (!deconstructedViewNameCache.ContainsKey(virtualPath)) {
-				var pathBuilder = new StringBuilder(virtualPath.Length * 2);
+				var newPath = virtualPath
+					.Split('/')
+					.Select(segment => casingConverter.ConvertFrom(segment))
+					.Implode(segment => segment, "/");
 
-				//reverse whatever was done to the path so that it looks for PascalCase files
-				foreach (var segment in virtualPath.Split('/')) {
-					foreach (var hyphenatedSegment in segment.Split('-')) {
-						pathBuilder.Append(hyphenatedSegment[0].ToString().ToUpperInvariant() + hyphenatedSegment.Substring(1));
-					}
-
-					pathBuilder.Append('/');
-				}
-
-
-				deconstructedViewNameCache[virtualPath] = pathBuilder.ToString().TrimEnd('/');
+				deconstructedViewNameCache[virtualPath] = newPath;
 				logger.Debug("added deconstructed view to the cache: {0} -> {1}", virtualPath, deconstructedViewNameCache[virtualPath]);
 			}
 

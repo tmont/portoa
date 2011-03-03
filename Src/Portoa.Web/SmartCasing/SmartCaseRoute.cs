@@ -1,7 +1,8 @@
-using System.Text;
+using System.Linq;
 using System.Web.Routing;
+using Portoa.Util;
 
-namespace Portoa.Web.Routing {
+namespace Portoa.Web.SmartCasing {
 	/// <summary>
 	/// Route that handles casing intelligently. It converts incoming paths to lowercase,
 	/// and adds a hyphen before each upper case letter (unless it starts the string). Use
@@ -9,6 +10,8 @@ namespace Portoa.Web.Routing {
 	/// </summary>
 	/// <seealso cref="SmartCaseViewEngine"/>
 	public class SmartCaseRoute : Route {
+		private static readonly SmartCasingConverter casingConverter = new SmartCasingConverter();
+		
 		protected internal SmartCaseRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) {}
 
 		public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
@@ -22,21 +25,11 @@ namespace Portoa.Web.Routing {
 				//foobar -> foobar
 				//FoOBAr -> fo-o-b-ar
 
-				var urlBuilder = new StringBuilder();
-				foreach (var pathSegment in data.VirtualPath.Split('/')) {
-					var segmentBuilder = new StringBuilder(pathSegment.Length * 2);
-					foreach (var c in pathSegment) {
-						if (c >= 'A' && c <= 'Z') {
-							segmentBuilder.Append("-" + c.ToString().ToLowerInvariant());
-						} else {
-							segmentBuilder.Append(c.ToString());
-						}
-					}
-
-					urlBuilder.Append(segmentBuilder.ToString().TrimStart('-') + "/");
-				}
-
-				data.VirtualPath = urlBuilder.ToString().TrimEnd('/');
+				data.VirtualPath = data
+					.VirtualPath
+					.Split('/')
+					.Select(segment => casingConverter.ConvertTo(segment))
+					.Implode(segment => segment, "/");
 			}
 
 			return data;
