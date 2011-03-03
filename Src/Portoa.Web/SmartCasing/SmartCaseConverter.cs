@@ -5,7 +5,7 @@ namespace Portoa.Web.SmartCasing {
 	/// <summary>
 	/// Applies smart casing rules to strings
 	/// </summary>
-	public sealed class SmartCasingConverter {
+	public sealed class SmartCaseConverter {
 		/// <summary>
 		/// Converts a smart-cased string back to a "dumb" one
 		/// </summary>

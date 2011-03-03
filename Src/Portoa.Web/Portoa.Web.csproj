@@ -74,7 +74,7 @@
     <Compile Include="SmartCasing\SmartCaseControllerFactory.cs" />
     <Compile Include="SmartCasing\SmartCaseRoute.cs" />
     <Compile Include="SmartCasing\SmartCaseViewEngine.cs" />
-    <Compile Include="SmartCasing\SmartCasingConverter.cs" />
+    <Compile Include="SmartCasing\SmartCaseConverter.cs" />
     <Compile Include="Security\ICurrentUserProvider.cs" />
     <Compile Include="Models\FlagEnumModelBinder.cs" />
     <Compile Include="Models\PagedModel.cs" />

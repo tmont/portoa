@@ -11,7 +11,7 @@ namespace Portoa.Web.SmartCasing {
 	/// </summary>
 	public class SmartCaseViewEngine : WebFormViewEngine {
 		private readonly ILogger logger;
-		private static readonly SmartCasingConverter casingConverter = new SmartCasingConverter();
+		private static readonly SmartCaseConverter caseConverter = new SmartCaseConverter();
 		private static readonly IDictionary<string, string> deconstructedViewNameCache = new Dictionary<string, string>();
 
 		public SmartCaseViewEngine(ILogger logger) {
@@ -38,7 +38,7 @@ namespace Portoa.Web.SmartCasing {
 			if (!deconstructedViewNameCache.ContainsKey(virtualPath)) {
 				var newPath = virtualPath
 					.Split('/')
-					.Select(segment => casingConverter.ConvertFrom(segment))
+					.Select(segment => caseConverter.ConvertFrom(segment))
 					.Implode(segment => segment, "/");
 
 				deconstructedViewNameCache[virtualPath] = newPath;
