@@ -176,7 +176,7 @@ namespace Portoa.Web {
 
 		/// <summary>
 		/// Enables <c cref="SmartCaseConverter">smart casing</c> for views and routes. This should
-		/// be called after Unity is configured and after the controller factory has been set.
+		/// be called after Unity is configured, e.g. in <see cref="AfterStartUp"/>.
 		/// </summary>
 		/// <exception cref="InvalidOperationException">Raised if <see cref="ILogger"/> is not registered in the container</exception>
 		/// <seealso cref="SmartCaseConverter"/>
@@ -184,11 +184,10 @@ namespace Portoa.Web {
 		/// <seealso cref="SmartCaseViewEngine"/>
 		protected void EnableSmartCasing() {
 			if (!Container.IsRegistered<ILogger>()) {
-				throw new InvalidOperationException("An instance of ILogger must be registered with the container before calling this method");
+				throw new InvalidOperationException("Portoa.Logging.ILogger must be registered with the container before calling this method");
 			}
 
 			ViewEngines.Engines.Add(new SmartCaseViewEngine(Container.Resolve<ILogger>()));
-			ControllerBuilder.Current.SetControllerFactory(new SmartCaseControllerFactory(ControllerBuilder.Current.GetControllerFactory()));
 		}
 
 		/// <summary>

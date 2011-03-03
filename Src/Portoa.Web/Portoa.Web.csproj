@@ -71,7 +71,6 @@
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
     <Compile Include="SmartCasing\RouteExtensions.cs" />
-    <Compile Include="SmartCasing\SmartCaseControllerFactory.cs" />
     <Compile Include="SmartCasing\SmartCaseRoute.cs" />
     <Compile Include="SmartCasing\SmartCaseViewEngine.cs" />
     <Compile Include="SmartCasing\SmartCaseConverter.cs" />

@@ -59,6 +59,10 @@
       <Project>{7C208EF0-7430-49E6-975F-35C54DF36231}</Project>
       <Name>Portoa.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Src\Portoa\Portoa.csproj">
+      <Project>{FE1019C1-D129-48B4-9026-A4B06039D258}</Project>
+      <Name>Portoa</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

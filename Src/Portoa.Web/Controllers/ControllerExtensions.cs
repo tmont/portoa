@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using JetBrains.Annotations;
+using Portoa.Json;
 using Portoa.Util;
 using Portoa.Web.Models;
 using Portoa.Web.Util;
@@ -59,6 +61,22 @@ namespace Portoa.Web.Controllers {
 		public static Controller DoNotUseTempData(this Controller controller) {
 			controller.TempDataProvider = new NoTempDataProvider();
 			return controller;
+		}
+
+		/// <summary>
+		/// Serializes <paramref name="data"/> to a <c>JSON</c> string and returns it as
+		/// <c>application/json</c>
+		/// </summary>
+		/// <param name="controller"></param>
+		/// <param name="data">The data to serialize to a JSON string</param>
+		public static ActionResult SerializeToJson(this Controller controller, object data = null) {
+			var result = new ContentResult {
+				ContentType = "application/json",
+				ContentEncoding = Encoding.UTF8,
+				Content = new JsonNetSerializer().Serialize(data)
+			};
+
+			return result;
 		}
 	}
 }
