@@ -37,5 +37,13 @@ namespace Portoa.Search {
 				}
 			}
 		}
+
+		public void DeleteIndex(object indexableObject) {
+			foreach (var kvp in typeToBuilderMap) {
+				foreach (var indexBuilder in kvp.Value) {
+					kvp.Key.GetMethod("DeleteIndex", new[] { kvp.Key }).Invoke(indexBuilder, new[] { indexableObject });
+				}
+			}
+		}
 	}
 }

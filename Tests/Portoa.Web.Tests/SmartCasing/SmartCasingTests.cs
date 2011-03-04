@@ -11,11 +11,11 @@ namespace Portoa.Web.Tests.SmartCasing {
 
 		[Test]
 		public void das() {
-			var bar = "foo?bar#lolz";
+			var bar = "foo";
 			var mark = bar.IndexOf('?');
 			var frag = bar.IndexOf('#');
 			var length = mark < 0 ? (frag < 0 ? bar.Length : frag) : mark;
-			Console.WriteLine(bar.Substring(0, length));
+			Console.WriteLine(bar.Substring(0, length) + (length < bar.Length ? bar.Substring(length) : string.Empty));
 		}
 
 		[Test]

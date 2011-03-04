@@ -15,6 +15,12 @@ namespace Portoa.Search {
 		/// </summary>
 		/// <param name="indexableObject">The object that needs its index updated</param>
 		void UpdateIndex(T indexableObject);
+
+		/// <summary>
+		/// Deletes the index for the specified <paramref name="indexableObject"/>
+		/// </summary>
+		/// <param name="indexableObject">The object that needs its index deleted</param>
+		void DeleteIndex(T indexableObject);
 	}
 
 	/// <summary>
@@ -31,5 +37,11 @@ namespace Portoa.Search {
 		/// </summary>
 		/// <param name="entity">The entity that needs its index updated</param>
 		void UpdateIndex(T entity);
+
+		/// <summary>
+		/// Deletes the index for the specified <paramref name="entity"/>
+		/// </summary>
+		/// <param name="entity">The entity that needs its index deleted</param>
+		void DeleteIndex(T entity);
 	}
 }

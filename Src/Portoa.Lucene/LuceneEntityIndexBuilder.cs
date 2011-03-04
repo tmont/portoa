@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using Lucene.Net.Index;
 using Portoa.Logging;
 using Portoa.Persistence;
@@ -41,11 +42,22 @@ namespace Portoa.Lucene {
 
 			logger.Info(string.Format("Updating index for {0}", indexableObject));
 			//delete current document, if it exists
-			indexWriter.DeleteDocuments(documentHandler.GetIdTerm(indexableObject));
+			RemoveDocument(indexableObject);
 			indexWriter.AddDocument(documentHandler.BuildDocument(indexableObject));
 
 			indexWriter.Commit();
 			logger.Info(string.Format("Finished updating index for {0}", indexableObject));
+		}
+
+		public void DeleteIndex(T entity) {
+			logger.Info("Removing index for {0}", entity);
+			RemoveDocument(entity);
+			indexWriter.Commit();
+			logger.Info("Finished removing index for {0}", entity);
+		}
+
+		private void RemoveDocument(T entity) {
+			indexWriter.DeleteDocuments(documentHandler.GetIdTerm(entity));
 		}
 
 		private static bool CanUpdateIndex(T objectToVerify) {
