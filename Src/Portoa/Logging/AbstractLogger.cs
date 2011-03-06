@@ -3,7 +3,6 @@
 	/// Empty implementation of <see cref="ILogger"/>
 	/// </summary>
 	public abstract class AbstractLogger : ILogger {
-
 		public virtual bool IsDebugEnabled {
 			get { return true; }
 		}
