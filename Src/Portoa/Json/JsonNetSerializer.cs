@@ -1,7 +1,10 @@
 using Newtonsoft.Json;
 
 namespace Portoa.Json {
-	public class JsonNetSerializer {
+	/// <summary>
+	/// Object-to-JSON serializer backed by <c>JSON.NET</c>
+	/// </summary>
+	public class JsonNetSerializer : IJsonSerializer {
 		public string Serialize(object o) {
 			return JsonConvert.SerializeObject(o);
 		}
