@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{34662050
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Lucene", "Src\Portoa.Lucene\Portoa.Lucene.csproj", "{533A400E-1C74-42D4-A813-E4326D788F4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Tests", "Tests\Portoa.Tests\Portoa.Tests.csproj", "{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{533A400E-1C74-42D4-A813-E4326D788F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533A400E-1C74-42D4-A813-E4326D788F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533A400E-1C74-42D4-A813-E4326D788F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +64,6 @@ Global
 		{FE1019C1-D129-48B4-9026-A4B06039D258} = {DDAE992F-95A1-4BA3-8513-81107A5A430A}
 		{533A400E-1C74-42D4-A813-E4326D788F4B} = {DDAE992F-95A1-4BA3-8513-81107A5A430A}
 		{DAEB3C41-EFF8-4E32-B84D-D3CD894667A9} = {34662050-EC53-45F2-8BE5-C7BACAC410AA}
+		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC} = {34662050-EC53-45F2-8BE5-C7BACAC410AA}
 	EndGlobalSection
 EndGlobal

@@ -58,7 +58,6 @@
     <Compile Include="Persistence\EntityNotFoundException.cs" />
     <Compile Include="Persistence\IdentifiableDto.cs" />
     <Compile Include="Persistence\IDtoMappable.cs" />
-    <Compile Include="Persistence\ITransactableService.cs" />
     <Compile Include="Persistence\PersistenceException.cs" />
     <Compile Include="Persistence\UnitOfWorkAttribute.cs" />
     <Compile Include="ReSharper\JetBrains.Annotations.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="Security\IPasswordProtected.cs" />
     <Compile Include="Persistence\IIdentifiable.cs" />
     <Compile Include="Persistence\IRepository.cs" />
-    <Compile Include="Persistence\ISoftDeletable.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />
     <Compile Include="Util\DateTimeExtensions.cs" />
     <Compile Include="Util\LinqExtensions.cs" />

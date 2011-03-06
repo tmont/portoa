@@ -18,7 +18,7 @@ namespace Portoa.Web.Unity {
 		ILog4NetConfigurator SetName(string loggerName);
 
 		/// <summary>
-		/// Uses the <c>XmlConfigurator</c> to configure log4net
+		/// Uses the <see cref="XmlConfigurator"/>> to configure log4net
 		/// </summary>
 		/// <param name="filename">Optional filename to watch, otherwise it uses the default</param>
 		ILog4NetConfigurator UseXml(string filename = null);

@@ -33,6 +33,7 @@ namespace Portoa.Web.Unity {
 			return types.All(type => container.IsRegistered(type));
 		}
 
+		#region type registration with interception
 		private static void VerifyTypeIsInterface(Type type) {
 			if (!type.IsInterface) {
 				throw new ArgumentException("The type parameter must be an interface");
@@ -132,6 +133,7 @@ namespace Portoa.Web.Unity {
 
 			return container;
 		}
+		#endregion
 
 	}
 }

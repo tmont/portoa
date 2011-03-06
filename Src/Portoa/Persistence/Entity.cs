@@ -4,38 +4,27 @@ namespace Portoa.Persistence {
 	/// <summary>
 	/// Represents a domain object that can be persisted by a <c cref="IRepository{T, TId}">repository</c>
 	/// </summary>
-	/// <typeparam name="T">The entity type</typeparam>
 	/// <typeparam name="TId">The entity's identifier type</typeparam>
-	public abstract class Entity<T, TId> : IIdentifiable<TId> where T : Entity<T, TId> {
-		private int? originalHashCode;
-
+	public abstract class Entity<TId> : IIdentifiable<TId> {
 		public virtual TId Id { get; set; }
 
 		public override bool Equals(object obj) {
-			var comparisonObj = obj as T;
-
-			if (comparisonObj == null) {
+			if (obj == null || obj.GetType() != GetType()) {
 				return false;
 			}
 
-			var comparisonIsTransient = Equals(comparisonObj.Id, default(TId));
-			var thisIsTransient = Equals(Id, default(TId));
+			var comparisonObj = (IIdentifiable<TId>)obj;
 
-			if (comparisonIsTransient && thisIsTransient) {
-				return ReferenceEquals(comparisonObj, this);
+			if (comparisonObj.IsTransient() && this.IsTransient()) {
+				return ReferenceEquals(obj, this);
 			}
 
 			return comparisonObj.Id.Equals(Id);
 		}
 
 		public override int GetHashCode() {
-			if (originalHashCode.HasValue) {
-				return originalHashCode.Value;
-			}
-
 			if (this.IsTransient()) {
-				originalHashCode = base.GetHashCode();
-				return originalHashCode.Value;
+				return base.GetHashCode();
 			}
 
 			return Id.GetHashCode();
@@ -45,11 +34,11 @@ namespace Portoa.Persistence {
 			return string.Format("{0}(Id={1})", GetType().GetFriendlyName(false), Id);
 		}
 
-		public static bool operator ==(Entity<T, TId> left, Entity<T, TId> right) {
+		public static bool operator ==(Entity<TId> left, Entity<TId> right) {
 			return Equals(left, right);
 		}
 
-		public static bool operator !=(Entity<T, TId> left, Entity<T, TId> right) {
+		public static bool operator !=(Entity<TId> left, Entity<TId> right) {
 			return !(left == right);
 		}
 	}

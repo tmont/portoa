@@ -1,7 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Microsoft.Practices.Unity;
-using Portoa.Util;
 
 namespace Portoa.Web.Unity.Lifetime {
 	/// <summary>
@@ -25,10 +24,6 @@ namespace Portoa.Web.Unity.Lifetime {
 		}
 
 		public override void SetValue(object newValue) {
-			if (!(newValue is T)) {
-				throw new ArgumentException(string.Format("This lifetime manager requires objects of type {0}", typeof(T).GetFriendlyName(false)));
-			}
-
 			lifetimeManager.SetValue(newValue);
 		}
 

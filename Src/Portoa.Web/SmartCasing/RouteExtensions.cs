@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using JetBrains.Annotations;
-using Portoa.Logging;
 
 namespace Portoa.Web.SmartCasing {
 	public static class RouteExtensions {
