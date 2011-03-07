@@ -54,6 +54,7 @@
     <Compile Include="PagedModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartCasing\SmartCasingTests.cs" />
+    <Compile Include="Unity\Lifetime\ExplicitlyDisposableTests.cs" />
     <Compile Include="Unity\LoggingTests.cs" />
   </ItemGroup>
   <ItemGroup>
