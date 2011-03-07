@@ -136,6 +136,14 @@ namespace Portoa.Web.Tests.Unity {
 			VerifyMessages("FancySignature(\"a string\", 9, oh hai!, secret:******)", "<NULL>");
 		}
 
+		[Test]
+		public void Should_not_log_at_all_if_debug_is_disabled() {
+			((AbstractLogger)container.Resolve<ILogger>()).IsDebugEnabled = false;
+
+			obj.Void();
+			Assert.That(GetMessages(), Has.Property("Length").EqualTo(0));
+		}
+
 		public class ToStringable {
 			public override string ToString() {
 				return "oh hai!";

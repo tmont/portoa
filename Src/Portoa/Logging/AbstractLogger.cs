@@ -3,21 +3,18 @@
 	/// Empty implementation of <see cref="ILogger"/>
 	/// </summary>
 	public abstract class AbstractLogger : ILogger {
-		public virtual bool IsDebugEnabled {
-			get { return true; }
+
+		public AbstractLogger() {
+			IsDebugEnabled = true;
+			IsInfoEnabled = true;
+			IsWarnEnabled = true;
+			IsErrorEnabled = true;
 		}
 
-		public virtual bool IsInfoEnabled {
-			get { return true; }
-		}
-
-		public virtual bool IsWarnEnabled {
-			get { return true; }
-		}
-
-		public virtual bool IsErrorEnabled {
-			get { return true; }
-		}
+		public virtual bool IsDebugEnabled { get; set; }
+		public virtual bool IsInfoEnabled { get; set; }
+		public virtual bool IsWarnEnabled { get; set; }
+		public virtual bool IsErrorEnabled { get; set; }
 
 		public void Debug(object message) {
 			Log(message);
