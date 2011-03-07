@@ -9,7 +9,7 @@ namespace Portoa.Validation.DataAnnotations {
 	public sealed class EmailAttribute : ValidationAttribute {
 
 		#region Hideous email regular expression
-		private static readonly Regex EmailRegex = new Regex("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+		private static readonly Regex emailRegex = new Regex("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 		#endregion
 
 		public EmailAttribute() : base("Email address is invalid.") { }
@@ -24,7 +24,7 @@ namespace Portoa.Validation.DataAnnotations {
 				return AllowEmpty;
 			}
 
-			return EmailRegex.IsMatch((string)value);
+			return emailRegex.IsMatch((string)value);
 		}
 	}
 }

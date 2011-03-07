@@ -81,12 +81,11 @@
     <Compile Include="MvcApplicationBase.cs" />
     <Compile Include="Controllers\ContainerControllerFactory.cs" />
     <Compile Include="Util\ControllerContextExtensions.cs" />
-    <Compile Include="Controllers\DefaultErrorController.cs" />
+    <Compile Include="ErrorHandling\DefaultErrorController.cs" />
     <Compile Include="Util\HttpRequestBaseExtensions.cs" />
     <Compile Include="ErrorHandling\ApplicationErrorHandler.cs" />
-    <Compile Include="Controllers\ControllerExtensions.cs" />
+    <Compile Include="Util\ControllerExtensions.cs" />
     <Compile Include="ErrorHandling\ErrorModel.cs" />
-    <Compile Include="ErrorHandling\ErrorViewEngine.cs" />
     <Compile Include="ErrorHandling\ErrorViewResult.cs" />
     <Compile Include="Util\FilterInfoExtensions.cs" />
     <Compile Include="Controllers\IInjectableControllerFactory.cs" />
@@ -110,7 +109,7 @@
     <Compile Include="Unity\UnitOfWorkCallHandler.cs" />
     <Compile Include="Unity\UnityContainerExtensions.cs" />
     <Compile Include="Util\HtmlHelperExtensions.cs" />
-    <Compile Include="Controllers\IErrorController.cs" />
+    <Compile Include="ErrorHandling\IErrorController.cs" />
     <Compile Include="Controllers\InjectableFilterActionInvoker.cs" />
     <Compile Include="Filters\IStatusOverridable.cs" />
     <Compile Include="Models\EnumBinder.cs" />

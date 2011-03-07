@@ -1,8 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using Portoa.Web.ErrorHandling;
 
-namespace Portoa.Web.Controllers {
+namespace Portoa.Web.ErrorHandling {
 	/// <summary>
 	/// Controller for handling and displaying errors that aren't handled by application code
 	/// </summary>

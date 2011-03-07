@@ -6,9 +6,8 @@ using JetBrains.Annotations;
 using Portoa.Json;
 using Portoa.Util;
 using Portoa.Web.Models;
-using Portoa.Web.Util;
 
-namespace Portoa.Web.Controllers {
+namespace Portoa.Web.Util {
 	public static class ControllerExtensions {
 		/// <summary>
 		/// Gets all model state errors as a line feed-delimited string

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Portoa.Web.Controllers {
+namespace Portoa.Web.ErrorHandling {
 	/// <summary>
 	/// Signifies that this controller can handle errors that aren't handled by
 	/// application code

@@ -4,7 +4,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Portoa.Logging;
+using Portoa.Util;
 using Portoa.Web.Controllers;
+using Portoa.Web.Util;
 
 namespace Portoa.Web.ErrorHandling {
 	/// <summary>
@@ -40,7 +42,7 @@ namespace Portoa.Web.ErrorHandling {
 		/// <param name="errorController">The controller to use handle errors</param>
 		public virtual void HandleError(Exception exception, IErrorController errorController) {
 			logger.Error(exception);
-			var routeData = GetRouteData(exception);
+			var routeData = GetRouteData(errorController, exception);
 
 			var requestContext = new RequestContext(context, routeData);
 
@@ -48,7 +50,12 @@ namespace Portoa.Web.ErrorHandling {
 				((Controller)errorController).DoNotUseTempData();
 			}
 
-			errorController.Execute(requestContext);
+			try {
+				errorController.Execute(requestContext);
+			} catch (Exception e) {
+				//do something if error controller blows up, which shouldn't ever happen unless, for example, your error view doesn't compile
+				context.Response.Write(string.Format("An error occurred: {0}: {1}", e.GetType().GetFriendlyName(), e.Message));
+			}
 		}
 
 		private static string GetErrorAction(int httpStatusCode) {
@@ -62,15 +69,19 @@ namespace Portoa.Web.ErrorHandling {
 			}
 		}
 
-		private static RouteData GetRouteData(Exception exception) {
+		private static RouteData GetRouteData(IErrorController controller, Exception exception) {
 			var routeData = new RouteData();
-			routeData.Values["controller"] = "Error";
+			routeData.Values["controller"] = GetControllerName(controller.GetType().Name);
 
 			var httpException = exception as HttpException;
 			routeData.Values["action"] = httpException != null ? GetErrorAction(httpException.GetHttpCode()) : unknownAction;
 			routeData.Values["error"] = exception;
 			routeData.Values["message"] = exception.Message;
 			return routeData;
+		}
+
+		private static string GetControllerName(string typeName) {
+			return typeName.EndsWith("Controller") ? typeName.Substring(0, typeName.Length - "Controller".Length) : typeName;
 		}
 	}
 }
