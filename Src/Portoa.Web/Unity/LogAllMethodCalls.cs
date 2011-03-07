@@ -5,7 +5,7 @@ using Portoa.Web.Unity.Matching;
 
 namespace Portoa.Web.Unity {
 	/// <summary>
-	/// Logs all interceptable method calls via the <see cref="LoggerCallHandler"/>
+	/// Logs all interceptable method calls via the <see cref="MethodLoggingCallHandler"/>
 	/// </summary>
 	public class LogAllMethodCalls : UnityContainerExtension {
 		protected override void Initialize() {
@@ -13,7 +13,7 @@ namespace Portoa.Web.Unity {
 				.AddExtensionOnce<Interception>()
 				.Configure<Interception>()
 				.AddPolicy("LoggingPolicy")
-				.AddCallHandler<LoggerCallHandler>(new ContainerControlledLifetimeManager())
+				.AddCallHandler<MethodLoggingCallHandler>(new ContainerControlledLifetimeManager())
 				.AddMatchingRule<Not<InstanceOf<ILogger>>>();
 		}
 	}

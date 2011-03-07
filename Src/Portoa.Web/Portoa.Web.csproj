@@ -102,7 +102,7 @@
     <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
     <Compile Include="Unity\Matching\HasAttribute.cs" />
     <Compile Include="Unity\LogAllMethodCalls.cs" />
-    <Compile Include="Unity\LoggerCallHandler.cs" />
+    <Compile Include="Unity\MethodLoggingCallHandler.cs" />
     <Compile Include="Unity\Matching\Not.cs" />
     <Compile Include="Unity\Matching\InstanceOf.cs" />
     <Compile Include="Unity\Matching\PropertyGetOrSet.cs" />

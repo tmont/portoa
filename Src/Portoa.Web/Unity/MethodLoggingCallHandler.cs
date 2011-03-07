@@ -13,11 +13,11 @@ namespace Portoa.Web.Unity {
 	/// Performs automatic logging of method calls and returns while respecting <see cref="DoNotLogAttribute"/>
 	/// </summary>
 	[DebuggerNonUserCode]
-	public class LoggerCallHandler : ICallHandler {
+	public class MethodLoggingCallHandler : ICallHandler {
 		private readonly ILogger logger;
 		private int depth;
 
-		public LoggerCallHandler(ILogger logger) {
+		public MethodLoggingCallHandler(ILogger logger) {
 			this.logger = logger;
 		}
 
@@ -87,7 +87,8 @@ namespace Portoa.Web.Unity {
 
 		private static string FormatMethodReturn(IMethodReturn methodReturn) {
 			if (methodReturn.Exception != null) {
-				return "threw exception " + FormatForLog(methodReturn.Exception) + ": " + methodReturn.Exception.Message + Environment.NewLine + methodReturn.Exception.StackTrace;
+				return "threw exception " + FormatForLog(methodReturn.Exception) + ": " + 
+					methodReturn.Exception.Message + Environment.NewLine + methodReturn.Exception.StackTrace;
 			}
 
 			return FormatForLog(methodReturn.ReturnValue);
