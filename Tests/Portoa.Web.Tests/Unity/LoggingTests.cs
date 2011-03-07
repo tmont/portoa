@@ -144,6 +144,7 @@ namespace Portoa.Web.Tests.Unity {
 			Assert.That(GetMessages(), Has.Property("Length").EqualTo(0));
 		}
 
+		#region nested types
 		public class ToStringable {
 			public override string ToString() {
 				return "oh hai!";
@@ -213,5 +214,6 @@ namespace Portoa.Web.Tests.Unity {
 				messages.Add(message.ToString());
 			}
 		}
+		#endregion
 	}
 }
