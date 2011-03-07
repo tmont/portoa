@@ -99,8 +99,13 @@ namespace Portoa.Web.Unity {
 		/// Registers the instance and configures interception for it
 		/// </summary>
 		public static IUnityContainer RegisterAndIntercept<T>(this IUnityContainer container, T instance, LifetimeManager lifetimeManager = null) {
+			if (lifetimeManager == null) {
+				container.RegisterInstance(instance);
+			} else {
+				container.RegisterInstance(instance, lifetimeManager);
+			}
+
 			container
-				.RegisterInstance(instance, lifetimeManager)
 				.Configure<Interception>()
 				.SetInterceptorFor<T>(new TransparentProxyInterceptor());
 

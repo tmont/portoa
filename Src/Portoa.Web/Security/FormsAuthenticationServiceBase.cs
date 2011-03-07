@@ -1,4 +1,5 @@
 ﻿using System.Web.Security;
+using Portoa.Logging;
 
 namespace Portoa.Web.Security {
 	/// <summary>
@@ -27,6 +28,6 @@ namespace Portoa.Web.Security {
 		/// <param name="username">The name of the user to login</param>
 		protected virtual void Login(string username) { }
 
-		public abstract bool IsValid(string username, string password);
+		public abstract bool IsValid(string username, [DoNotLog]string password);
 	}
 }

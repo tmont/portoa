@@ -12,5 +12,6 @@ namespace Portoa.Logging {
 		public static bool IsLoggable(this ICustomAttributeProvider attributeProvider) {
 			return !attributeProvider.GetAttributes<DoNotLogAttribute>().Any();
 		}
+
 	}
 }

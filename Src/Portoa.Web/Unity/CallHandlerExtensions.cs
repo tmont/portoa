@@ -28,7 +28,7 @@ namespace Portoa.Web.Unity {
 		/// <summary>
 		/// LINQifies an annoying IParameterCollection
 		/// </summary>
-		public static IEnumerable<ParameterInfo> GetParameters(this IParameterCollection parameterCollection) {
+		public static IEnumerable<ParameterInfo> ToParameterInfo(this IParameterCollection parameterCollection) {
 			for (var i = 0; i < parameterCollection.Count; i++) {
 				yield return parameterCollection.GetParameterInfo(i);
 			}

@@ -76,7 +76,7 @@ namespace Portoa.Web.Unity {
 				builder.Append(
 					invocation
 						.Arguments
-						.GetParameters()
+						.ToParameterInfo()
 						.Implode(param => param.IsLoggable() ? FormatForLog(invocation.Arguments[param.Name]) : param.Name + ":******", ", ")
 				);
 			}
@@ -136,13 +136,13 @@ namespace Portoa.Web.Unity {
 		/// Truncates a string to 150 characters in a pretty way, if necessary
 		/// </summary>
 		private static string FormatString(string s) {
-			const int maxLength = 150;
+			const int maxLength = 100;
 			if (s.Length < maxLength) {
 				return s;
 			}
 
 			const int length = (maxLength / 2) - 10;
-			return s.Substring(0, length) + "... <snip> ..." + s.Substring(s.Length - length - 1);
+			return s.Substring(0, length) + "... <snip> ..." + s.Substring(s.Length - length);
 		}
 	}
 }
