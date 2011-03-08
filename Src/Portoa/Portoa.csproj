@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\Release\Portoa.xml</DocumentationFile>
+    <NoWarn>1591,1712,1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -58,6 +59,9 @@
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="Logging\LoggingExtensions.cs" />
     <Compile Include="Logging\NullLogger.cs" />
+    <Compile Include="Mail\EmailException.cs" />
+    <Compile Include="Mail\IEmailService.cs" />
+    <Compile Include="Mail\SmtpService.cs" />
     <Compile Include="Persistence\EntityNotFoundException.cs" />
     <Compile Include="Persistence\IdentifiableDto.cs" />
     <Compile Include="Persistence\IDtoMappable.cs" />
