@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using Portoa.Web.Controllers;
 
 namespace Portoa.Web.ErrorHandling {
 	/// <summary>

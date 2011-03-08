@@ -72,6 +72,7 @@
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
+    <Compile Include="NHibernateDrivenMvcApplication.cs" />
     <Compile Include="Security\FormsAuthenticationServiceBase.cs" />
     <Compile Include="SmartCasing\RouteExtensions.cs" />
     <Compile Include="SmartCasing\SmartCaseRoute.cs" />

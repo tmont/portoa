@@ -5,26 +5,21 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using NHibernate;
-using NHibernate.Cfg;
 using Portoa.Logging;
-using Portoa.NHibernate;
-using Portoa.Persistence;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
 using Portoa.Web.Filters;
-using Portoa.Web.Security;
 using Portoa.Web.Session;
 using Portoa.Web.SmartCasing;
 using Portoa.Web.Unity;
 using Portoa.Web.Unity.Lifetime;
 
 namespace Portoa.Web {
+
 	/// <summary>
-	/// Base for an MVC application using Unity/NHibernate
+	/// Base for an MVC application using Unity
 	/// </summary>
-	/// <typeparam name="T">The user type</typeparam>
-	public abstract class MvcApplicationBase<T> : HttpApplication where T : class {
+	public abstract class MvcApplicationBase : HttpApplication {
 		/// <summary>
 		/// The container associated with this application
 		/// </summary>
@@ -43,18 +38,12 @@ namespace Portoa.Web {
 			};
 
 			EndRequest += (sender, args) => {
-				if (!Container.IsRegistered<ISessionFactory>()) {
-					return;
-				}
-
 				if (Container.IsRegistered<ILogger>()) {
 					var logger = Container.Resolve<ILogger>();
 					if (logger.IsDebugEnabled) {
 						logger.Debug(new string('-', 20));
 					}
 				}
-
-				Container.Resolve<ISessionFactory>().Dispose();
 			};
 
 			Error += (sender, args) => {
@@ -63,12 +52,6 @@ namespace Portoa.Web {
 				Server.ClearError();
 				HandleApplicationError(exception);
 			};
-		}
-
-		private static T GetCurrentUser() {
-			return Container.IsRegistered<ICurrentUserProvider<T>>()
-				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser
-				: null;
 		}
 
 		/// <summary>
@@ -83,23 +66,16 @@ namespace Portoa.Web {
 			}
 
 			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>())
-				.HandleError(exception, new DefaultErrorController(new ErrorWithUserResultFactory<T>(GetCurrentUser())));
+				.HandleError(exception, new DefaultErrorController(new ErrorViewResultFactory()));
 		}
 
 		protected void Application_Start() {
 			Container
 				.AddNewExtension<Interception>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
-				.AddNewExtension<ConfigureUnitOfWorkAspect>()
-				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
-				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterType<IIdentity>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<HttpContextBase>().User.Identity))
 				.RegisterType<IServiceProvider, ContainerResolvingServiceProvider>(new ContainerControlledLifetimeManager())
-				.RegisterAndIntercept(typeof(IRepository<>), typeof(NHibernateRepository<>))
-				.RegisterAndIntercept(typeof(IRepository<,>), typeof(NHibernateRepository<,>))
 				.RegisterAndIntercept<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
-				.RegisterType<ISessionFactory>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
-				.RegisterType<ISession>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<ISessionFactory>().OpenSession()))
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
 
 			ConfigureUnity();
@@ -125,18 +101,6 @@ namespace Portoa.Web {
 		/// does nothing
 		/// </summary>
 		protected virtual void ConfigureModelBinders(ModelBinderDictionary binders) { }
-
-		/// <summary>
-		/// Creates the configuration used for NHibernate; default implementation uses the default
-		/// NHibernate configuration, and sets a custom interceptor. The configuration can be retrieved
-		/// outside of this method (if needed) via the container. Do not call this method directly.
-		/// </summary>
-		/// <seealso cref="BuildWithProviderInterceptor"/>
-		protected virtual Configuration CreateNHibernateConfiguration(IUnityContainer container) {
-			var cfg = new Configuration().Configure();
-			cfg.SetInterceptor(new BuildWithProviderInterceptor(container.Resolve<IServiceProvider>(), cfg.ClassMappings));
-			return cfg;
-		}
 
 		/// <summary>
 		/// Registers any routes for the application; default implementation registers nothing
