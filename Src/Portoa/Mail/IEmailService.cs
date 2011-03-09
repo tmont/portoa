@@ -1,4 +1,5 @@
 using System.Net.Mail;
+using JetBrains.Annotations;
 
 namespace Portoa.Mail {
 	public interface IEmailService {
@@ -7,6 +8,6 @@ namespace Portoa.Mail {
 		/// </summary>
 		/// <param name="message">The message to send</param>
 		/// <exception cref="EmailException">Raised if an error occurred while sending the message</exception>
-		void Send(MailMessage message);
+		void Send([NotNull]MailMessage message);
 	}
 }

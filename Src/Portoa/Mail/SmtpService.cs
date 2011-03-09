@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
+using JetBrains.Annotations;
 
 namespace Portoa.Mail {
 	/// <summary>
@@ -9,7 +10,7 @@ namespace Portoa.Mail {
 	public class SmtpService : IEmailService {
 		private readonly SmtpClient client;
 
-		public SmtpService(SmtpClient client) {
+		public SmtpService([NotNull]SmtpClient client) {
 			this.client = client;
 		}
 
