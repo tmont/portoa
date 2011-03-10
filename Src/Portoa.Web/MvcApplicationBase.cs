@@ -140,18 +140,29 @@ namespace Portoa.Web {
 
 		/// <summary>
 		/// Enables <c cref="SmartCaseConverter">smart casing</c> for views and routes. This should
-		/// be called after Unity is configured, e.g. in <see cref="AfterStartUp"/>.
+		/// be called after the controller factory has been configured, e.g. in <see cref="AfterStartUp"/>.
 		/// </summary>
-		/// <exception cref="InvalidOperationException">Raised if <see cref="ILogger"/> is not registered in the container</exception>
 		/// <seealso cref="SmartCaseConverter"/>
 		/// <seealso cref="RouteExtensions.MapSmartRoute"/>
 		/// <seealso cref="SmartCaseViewEngine"/>
+		/// <seealso cref="SmartCaseActionInvoker"/>
 		protected void EnableSmartCasing() {
-			if (!Container.IsRegistered<ILogger>()) {
-				throw new InvalidOperationException("Portoa.Logging.ILogger must be registered with the container before calling this method");
+			var logger = Container.IsRegistered<ILogger>() ? Container.Resolve<ILogger>() : new NullLogger();
+			ViewEngines.Engines.Add(new SmartCaseViewEngine(logger));
+
+			var controllerFactory = ControllerBuilder.Current.GetControllerFactory() as IInjectableControllerFactory;
+			if (controllerFactory == null) {
+				throw new InvalidOperationException("Unable to configure SmartCaseActionInvoker because the controller factory does not implement IInjectableControllerFactory");
 			}
 
-			ViewEngines.Engines.Add(new SmartCaseViewEngine(Container.Resolve<ILogger>()));
+			controllerFactory.OnControllerInstantiated += controllerImpl => {
+				var controller = controllerImpl as Controller;
+				if (controller == null) {
+					return;
+				}
+
+				controller.ActionInvoker = new SmartCaseActionInvoker(controller.ActionInvoker ?? new ControllerActionInvoker());
+			};
 		}
 
 		/// <summary>

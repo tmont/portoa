@@ -1,5 +1,5 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
@@ -8,15 +8,6 @@ using Portoa.Web.SmartCasing;
 namespace Portoa.Web.Tests.SmartCasing {
 	[TestFixture]
 	public class SmartCasingTests {
-
-		[Test]
-		public void das() {
-			var bar = "foo";
-			var mark = bar.IndexOf('?');
-			var frag = bar.IndexOf('#');
-			var length = mark < 0 ? (frag < 0 ? bar.Length : frag) : mark;
-			Console.WriteLine(bar.Substring(0, length) + (length < bar.Length ? bar.Substring(length) : string.Empty));
-		}
 
 		[Test]
 		public void Should_apply_smart_casing_to_routes() {
@@ -33,30 +24,41 @@ namespace Portoa.Web.Tests.SmartCasing {
 
 		[Test]
 		public void Should_replace_capital_letters_hyphens_and_lowercase_letters() {
-			var converter = new SmartCaseConverter();
-
-			Assert.That(converter.ConvertTo("fooBar"), Is.EqualTo("foo-bar"));
+			Assert.That(SmartCaseConverter.ConvertTo("fooBar"), Is.EqualTo("foo-bar"));
 		}
 
 		[Test]
 		public void Should_lowercase_first_letter_of_word() {
-			var converter = new SmartCaseConverter();
-
-			Assert.That(converter.ConvertTo("Foo"), Is.EqualTo("foo"));
+			Assert.That(SmartCaseConverter.ConvertTo("Foo"), Is.EqualTo("foo"));
 		}
 
 		[Test]
 		public void Should_capitalize_first_letter() {
-			var converter = new SmartCaseConverter();
-
-			Assert.That(converter.ConvertFrom("foo"), Is.EqualTo("Foo"));
+			Assert.That(SmartCaseConverter.ConvertFrom("foo"), Is.EqualTo("Foo"));
 		}
 
 		[Test]
 		public void Should_replace_hyphens_with_capital_letters() {
-			var converter = new SmartCaseConverter();
+			Assert.That(SmartCaseConverter.ConvertFrom("foo-bar"), Is.EqualTo("FooBar"));
+		}
 
-			Assert.That(converter.ConvertFrom("foo-bar"), Is.EqualTo("FooBar"));
+		[Test]
+		public void Should_handle_consecutive_hyphens() {
+			Assert.That(SmartCaseConverter.ConvertFrom("foo--bar"), Is.EqualTo("FooBar"));
+		}
+
+		[Test]
+		public void Should_modify_route_data_before_invoking_action() {
+			var decoratedInvoker = new Mock<IActionInvoker>();
+			decoratedInvoker
+				.Setup(i => i.InvokeAction(It.IsAny<ControllerContext>(), "FooBar"))
+				.Callback<ControllerContext, string>((context, actionName) => Assert.That(context.RouteData.Values["action"], Is.EqualTo("FooBar")))
+				.Returns(true)
+				.Verifiable();
+
+			Assert.That(new SmartCaseActionInvoker(decoratedInvoker.Object).InvokeAction(new ControllerContext(), "foo-bar"), Is.True);
+
+			decoratedInvoker.VerifyAll();
 		}
 	}
 }

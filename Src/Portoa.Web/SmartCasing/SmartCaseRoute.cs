@@ -10,8 +10,6 @@ namespace Portoa.Web.SmartCasing {
 	/// </summary>
 	/// <seealso cref="SmartCaseViewEngine"/>
 	public class SmartCaseRoute : Route {
-		private static readonly SmartCaseConverter caseConverter = new SmartCaseConverter();
-		
 		protected internal SmartCaseRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) {}
 
 		public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
@@ -34,7 +32,7 @@ namespace Portoa.Web.SmartCasing {
 
 				data.VirtualPath = path
 					.Split('/')
-					.Select(segment => caseConverter.ConvertTo(segment))
+					.Select(SmartCaseConverter.ConvertTo)
 					.Implode(segment => segment, "/") +
 					queryAndFragment;
 			}

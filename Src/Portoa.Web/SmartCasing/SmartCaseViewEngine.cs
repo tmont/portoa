@@ -11,10 +11,9 @@ namespace Portoa.Web.SmartCasing {
 	/// </summary>
 	public class SmartCaseViewEngine : WebFormViewEngine {
 		private readonly ILogger logger;
-		private static readonly SmartCaseConverter caseConverter = new SmartCaseConverter();
 		private static readonly IDictionary<string, string> deconstructedViewNameCache = new Dictionary<string, string>();
 
-		public SmartCaseViewEngine(ILogger logger) {
+		public SmartCaseViewEngine(ILogger logger = null) {
 			this.logger = logger;
 		}
 
@@ -38,11 +37,13 @@ namespace Portoa.Web.SmartCasing {
 			if (!deconstructedViewNameCache.ContainsKey(virtualPath)) {
 				var newPath = virtualPath
 					.Split('/')
-					.Select(segment => caseConverter.ConvertFrom(segment))
+					.Select(SmartCaseConverter.ConvertFrom)
 					.Implode(segment => segment, "/");
 
 				deconstructedViewNameCache[virtualPath] = newPath;
-				logger.Debug("added deconstructed view to the cache: {0} -> {1}", virtualPath, deconstructedViewNameCache[virtualPath]);
+				if (logger != null) {
+					logger.Debug("added deconstructed view to the cache: {0} -> {1}", virtualPath, deconstructedViewNameCache[virtualPath]);
+				}
 			}
 
 			return base.FileExists(controllerContext, deconstructedViewNameCache[virtualPath]);
