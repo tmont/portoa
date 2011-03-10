@@ -85,6 +85,11 @@ namespace Portoa.Web {
 			}
 
 			ConfigureControllerFactory();
+
+			if (ShouldEnableSmartCasing) {
+				EnableSmartCasing();
+			}
+
 			ConfigureModelBinders(ModelBinders.Binders);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
@@ -139,14 +144,19 @@ namespace Portoa.Web {
 		}
 
 		/// <summary>
-		/// Enables <c cref="SmartCaseConverter">smart casing</c> for views and routes. This should
-		/// be called after the controller factory has been configured, e.g. in <see cref="AfterStartUp"/>.
+		/// Gets whether <c cref="SmartCaseConverter">smart casing</c> should be enabled. Note
+		/// that the <c cref="ConfigureControllerFactory">controller factory</c> should be set
+		/// to an implementation of <see cref="IInjectableControllerFactory"/> (the default) or else 
+		/// smart casing cannot be enabled.
 		/// </summary>
 		/// <seealso cref="SmartCaseConverter"/>
 		/// <seealso cref="RouteExtensions.MapSmartRoute"/>
 		/// <seealso cref="SmartCaseViewEngine"/>
 		/// <seealso cref="SmartCaseActionInvoker"/>
-		protected void EnableSmartCasing() {
+		/// <exception cref="InvalidOperationException">if the controller factory does not implement <see cref="IInjectableControllerFactory"/></exception>
+		protected virtual bool ShouldEnableSmartCasing { get { return false; } }
+
+		private static void EnableSmartCasing() {
 			var logger = Container.IsRegistered<ILogger>() ? Container.Resolve<ILogger>() : new NullLogger();
 			ViewEngines.Engines.Add(new SmartCaseViewEngine(logger));
 
