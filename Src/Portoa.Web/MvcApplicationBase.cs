@@ -171,7 +171,7 @@ namespace Portoa.Web {
 					return;
 				}
 
-				controller.ActionInvoker = new SmartCaseActionInvoker(controller.ActionInvoker ?? new ControllerActionInvoker());
+				controller.ActionInvoker = new SmartCaseActionInvoker(controller.ActionInvoker ?? new ControllerActionInvoker(), logger);
 			};
 		}
 

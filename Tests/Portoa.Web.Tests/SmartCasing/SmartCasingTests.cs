@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
+using Portoa.Logging;
 using Portoa.Web.SmartCasing;
 
 namespace Portoa.Web.Tests.SmartCasing {
@@ -56,7 +57,7 @@ namespace Portoa.Web.Tests.SmartCasing {
 				.Returns(true)
 				.Verifiable();
 
-			Assert.That(new SmartCaseActionInvoker(decoratedInvoker.Object).InvokeAction(new ControllerContext(), "foo-bar"), Is.True);
+			Assert.That(new SmartCaseActionInvoker(decoratedInvoker.Object, new NullLogger()).InvokeAction(new ControllerContext(), "foo-bar"), Is.True);
 
 			decoratedInvoker.VerifyAll();
 		}
