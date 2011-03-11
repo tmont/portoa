@@ -8,16 +8,36 @@ namespace Portoa.Util {
 	public static class ReflectionExtensions {
 		private const BindingFlags FetchFieldsFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
+		/// <summary>
+		/// Gets all attributes of the specified type for the given attribute provider
+		/// </summary>
+		/// <typeparam name="T">The type of attribute to get</typeparam>
 		public static T[] GetAttributes<T>(this ICustomAttributeProvider provider) where T : Attribute {
 			return (T[])provider.GetCustomAttributes(typeof(T), true);
 		}
 
+		/// <summary>
+		/// Determines if the given <paramref cref="provider"/> has the specified attribute
+		/// </summary>
+		/// <typeparam name="T">The type of attribute to check for</typeparam>
 		public static bool HasAttribute<T>(this ICustomAttributeProvider provider) where T : Attribute {
 			return provider.GetAttributes<T>().Any();
 		}
 
-		public static bool HasAttribute<T>(this Enum e) where T : Attribute {
-			return e.GetType().GetMember(e.ToString())[0].HasAttribute<T>();
+		/// <summary>
+		/// Determines if the specified <paramref name="enum"/> has the given attribute
+		/// </summary>
+		/// <typeparam name="T">The type of attribute to check for</typeparam>
+		public static bool HasAttribute<T>(this Enum @enum) where T : Attribute {
+			return @enum.GetType().GetMember(@enum.ToString())[0].HasAttribute<T>();
+		}
+
+		/// <summary>
+		/// Gets all attributes of the specified type for the given <paramref name="enum"/>
+		/// </summary>
+		/// <typeparam name="T">The type of attribute to get</typeparam>
+		public static T[] GetAttributes<T>(this Enum @enum) where T : Attribute {
+			return @enum.GetType().GetMember(@enum.ToString())[0].GetAttributes<T>();
 		}
 
 		public static IEnumerable<FieldInfo> GetAllValidatableFields(this Type type) {

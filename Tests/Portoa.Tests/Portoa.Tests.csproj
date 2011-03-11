@@ -45,6 +45,7 @@
     <Compile Include="Persistence\EntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CaptchaTests.cs" />
+    <Compile Include="Util\ReflectionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Portoa\Portoa.csproj">
