@@ -23,6 +23,9 @@ namespace Portoa.Globalization {{
 	// ReSharper disable InconsistentNaming
 	///<summary>Auto-generated enumeration of every country supported by <see cref=""System.Globalization.CultureInfo""/></summary>
 	public enum Country {{
+		///<summary>Country is unknown or not applicable</summary>
+		[Description(""N/A"")]
+		Unknown = int.MinValue,
 {2}
 	}}
 	// ReSharper restore InconsistentNaming
