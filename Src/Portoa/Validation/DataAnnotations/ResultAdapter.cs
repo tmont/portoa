@@ -2,6 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Portoa.Validation.DataAnnotations {
+	/// <summary>
+	/// Provides a bridge between <see cref="ValidationResult"/> and <see cref="IValidationResult"/>
+	/// </summary>
 	public class ResultAdapter : IValidationResult {
 		private readonly ValidationResult validationResult;
 

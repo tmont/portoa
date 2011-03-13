@@ -6,8 +6,6 @@ using System.Reflection;
 
 namespace Portoa.Util {
 	public static class ReflectionExtensions {
-		private const BindingFlags FetchFieldsFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-
 		/// <summary>
 		/// Gets all attributes of the specified type for the given attribute provider
 		/// </summary>
@@ -40,20 +38,11 @@ namespace Portoa.Util {
 			return @enum.GetType().GetMember(@enum.ToString())[0].GetAttributes<T>();
 		}
 
-		public static IEnumerable<FieldInfo> GetAllValidatableFields(this Type type) {
-			return type
-				.GetFields(FetchFieldsFlags)
-				.WithoutBackingFields();
-		}
-
+		/// <summary>
+		/// Filters a collectino of <see cref="FieldInfo"/> to only those that are not backing fields for properties
+		/// </summary>
 		public static IEnumerable<FieldInfo> WithoutBackingFields(this IEnumerable<FieldInfo> fields) {
 			return fields.Where(fieldInfo => !fieldInfo.Name.StartsWith("<"));
-		}
-
-		public static IEnumerable<PropertyInfo> GetAllValidatableProperties(this Type type) {
-			return type
-				.GetProperties(FetchFieldsFlags)
-				.Where(property => property.GetIndexParameters().Length == 0 && !property.PropertyType.IsArray);
 		}
 
 		/// <summary>
