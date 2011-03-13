@@ -134,10 +134,6 @@
     <Compile Include="Validation\FileTypeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Portoa.Logging\Portoa.Log4Net.csproj">
-      <Project>{C3F58164-7A28-4FC8-B44B-333431B02978}</Project>
-      <Name>Portoa.Log4Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Portoa.NHibernate\Portoa.NHibernate.csproj">
       <Project>{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}</Project>
       <Name>Portoa.NHibernate</Name>

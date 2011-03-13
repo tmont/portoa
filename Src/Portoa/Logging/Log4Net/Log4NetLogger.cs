@@ -1,8 +1,8 @@
-﻿using log4net;
-using Portoa.Logging;
+﻿using JetBrains.Annotations;
+using log4net;
 using System.Diagnostics;
 
-namespace Portoa.Log4Net {
+namespace Portoa.Logging.Log4Net {
 	
 	/// <summary>
 	/// log4net implementation of <see cref="ILogger"/>
@@ -11,7 +11,7 @@ namespace Portoa.Log4Net {
 	public class Log4NetLogger : ILogger {
 		private readonly ILog log4NetLogger;
 
-		public Log4NetLogger(ILog log4NetLogger) {
+		public Log4NetLogger([NotNull]ILog log4NetLogger) {
 			this.log4NetLogger = log4NetLogger;
 		}
 

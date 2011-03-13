@@ -3,8 +3,8 @@ using JetBrains.Annotations;
 using log4net;
 using log4net.Config;
 using Microsoft.Practices.Unity;
-using Portoa.Log4Net;
 using Portoa.Logging;
+using Portoa.Logging.Log4Net;
 
 namespace Portoa.Web.Unity {
 	/// <summary>
