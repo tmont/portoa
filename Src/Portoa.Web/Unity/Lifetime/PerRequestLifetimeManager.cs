@@ -15,9 +15,11 @@ namespace Portoa.Web.Unity.Lifetime {
 		}
 
 		public override void RemoveValue() {
-			if (HttpContext.Current != null) {
-				HttpContext.Current.Items.Remove(key);
+			if (HttpContext.Current == null) {
+				return;
 			}
+
+			HttpContext.Current.Items.Remove(key);
 		}
 
 		public override void SetValue(object newValue) {

@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using JetBrains.Annotations;
 using Portoa.Logging;
 using Portoa.Util;
-using Portoa.Web.Controllers;
 using Portoa.Web.Util;
 
 namespace Portoa.Web.ErrorHandling {
@@ -23,9 +23,9 @@ namespace Portoa.Web.ErrorHandling {
 
 		/// <param name="logger">The system's logger</param>
 		/// <param name="context">The current <c>HttpContext</c></param>
-		public ApplicationErrorHandler(ILogger logger, HttpContextBase context) {
-			this.logger = logger;
-			this.context = context;
+		public ApplicationErrorHandler(ILogger logger = null, HttpContextBase context = null) {
+			this.logger = logger ?? new NullLogger();
+			this.context = context ?? new HttpContextWrapper(HttpContext.Current);
 		}
 
 		static ApplicationErrorHandler() {
@@ -40,7 +40,7 @@ namespace Portoa.Web.ErrorHandling {
 		/// </summary>
 		/// <param name="exception">The exception that caused the error</param>
 		/// <param name="errorController">The controller to use handle errors</param>
-		public virtual void HandleError(Exception exception, IErrorController errorController) {
+		public virtual void HandleError([NotNull]Exception exception, [NotNull]IErrorController errorController) {
 			logger.Error(exception);
 			var routeData = GetRouteData(errorController, exception);
 
@@ -54,7 +54,8 @@ namespace Portoa.Web.ErrorHandling {
 				errorController.Execute(requestContext);
 			} catch (Exception e) {
 				//do something if error controller blows up, which shouldn't ever happen unless, for example, your error view doesn't compile
-				context.Response.Write(string.Format("An error occurred: {0}: {1}", e.GetType().GetFriendlyName(), e.Message));
+				logger.Error(e);
+				context.Response.Write(string.Format("An error occurred: {0}", e.GetType().GetFriendlyName()));
 			}
 		}
 

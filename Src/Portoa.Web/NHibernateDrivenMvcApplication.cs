@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Web;
+using JetBrains.Annotations;
 using Microsoft.Practices.Unity;
 using NHibernate;
 using NHibernate.Cfg;
-using Portoa.Logging;
 using Portoa.NHibernate;
 using Portoa.Persistence;
 using Portoa.Web.ErrorHandling;
@@ -12,37 +11,31 @@ using Portoa.Web.Unity;
 using Portoa.Web.Unity.Lifetime;
 
 namespace Portoa.Web {
+
 	/// <summary>
-	/// Base for an MVC application using Unity/NHibernate
+	/// Base for an MVC application using Unity/NHibernate that supports a userbase
 	/// </summary>
 	/// <typeparam name="T">The user type</typeparam>
-	public abstract class NHibernateDrivenMvcApplication<T> : MvcApplicationBase where T : class {
-		protected NHibernateDrivenMvcApplication() {
-			EndRequest += (sender, args) => {
-				if (!Container.IsRegistered<ISessionFactory>()) {
-					return;
-				}
-
-				Container.Resolve<ISessionFactory>().Dispose();
-			};
-		}
-
+	public abstract class NHibernateDrivenMvcApplication<T> : NHibernateDrivenMvcApplication where T : class {
+		[CanBeNull]
 		private static T GetCurrentUser() {
 			return Container.IsRegistered<ICurrentUserProvider<T>>()
 				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser
-				: null;
+				: default(T);
 		}
 
-		protected override void HandleApplicationError(Exception exception) {
-			if (!Container.AllAreRegistered(typeof(ILogger), typeof(HttpContextBase))) {
-				throw exception;
-			}
-
-			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>())
-				.HandleError(exception, new DefaultErrorController(new ErrorWithUserResultFactory<T>(GetCurrentUser())));
+		protected override void ConfigureErrorHandlers() {
+			Container.RegisterType<IErrorResultFactory, ErrorWithUserResultFactory<T>>(
+				new InjectionFactory(container => new ErrorWithUserResultFactory<T>(GetCurrentUser()))
+			);
 		}
+	}
 
-		protected override sealed void ConfigureUnity() { 
+	/// <summary>
+	/// Base for an MVC application using Unity/NHibernate
+	/// </summary>
+	public abstract class NHibernateDrivenMvcApplication : MvcApplicationBase {
+		protected override sealed void ConfigureUnity() {
 			Container
 				.AddNewExtension<ConfigureUnitOfWorkAspect>()
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
@@ -71,6 +64,6 @@ namespace Portoa.Web {
 		/// Provides a place to perform any application-specific configuration; default implementation
 		/// does nothing
 		/// </summary>
-		protected virtual void ConfigureUnityForApplication() {}
+		protected virtual void ConfigureUnityForApplication() { }
 	}
 }

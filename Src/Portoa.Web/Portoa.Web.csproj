@@ -71,6 +71,7 @@
     <Compile Include="ErrorHandling\ErrorViewResultFactory.cs" />
     <Compile Include="ErrorHandling\ErrorWithUserResultFactory.cs" />
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
+    <Compile Include="Filters\AdjustableFilterProvider.cs" />
     <Compile Include="Filters\GlobalFilterExtensions.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\ICaptchaModel.cs" />

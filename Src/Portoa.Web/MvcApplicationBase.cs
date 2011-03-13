@@ -6,8 +6,10 @@ using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
+using Portoa.Util;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
+using Portoa.Web.Filters;
 using Portoa.Web.Session;
 using Portoa.Web.SmartCasing;
 using Portoa.Web.Unity;
@@ -54,21 +56,21 @@ namespace Portoa.Web {
 		}
 
 		/// <summary>
-		/// Handles uncaught application exceptions; default implementation uses
-		/// <see cref="ApplicationErrorHandler"/> and <see cref="DefaultErrorController"/> to
-		/// display errors
+		/// Handles uncaught application exceptions; default implementation uses <see cref="ApplicationErrorHandler"/>
 		/// </summary>
 		/// <param name="exception">The uncaught exception</param>
 		protected virtual void HandleApplicationError(Exception exception) {
-			if (!Container.AllAreRegistered(typeof(ILogger), typeof(HttpContextBase))) {
-				throw exception;
-			}
+			//safely resolving these so that no resolution exceptions are thrown
+			var errorResultFactory = Container.TryResolve<IErrorResultFactory>() ?? new ErrorViewResultFactory();
+			var errorController = Container.TryResolve<IErrorController>() ?? new DefaultErrorController(errorResultFactory);
 
-			new ApplicationErrorHandler(Container.Resolve<ILogger>(), Container.Resolve<HttpContextBase>())
-				.HandleError(exception, new DefaultErrorController(new ErrorViewResultFactory()));
+			new ApplicationErrorHandler(Container.TryResolve<ILogger>(), Container.TryResolve<HttpContextBase>())
+				.HandleError(exception, errorController);
 		}
 
 		protected void Application_Start() {
+			ConfigureErrorHandlers();
+
 			Container
 				.AddNewExtension<Interception>()
 				.AddNewExtension<ApplyUnityConfigurationSection>()
@@ -83,18 +85,27 @@ namespace Portoa.Web {
 				Container.RegisterType<ILogger, NullLogger>();
 			}
 
-			SetControllerFactory();
-
-			if (ShouldEnableSmartCasing) {
-				EnableSmartCasing();
-			}
-
-			ConfigureModelBinders(ModelBinders.Binders);
 			ViewEngines.Engines.Clear();
+			FilterProviders.Providers.Clear();
+
+			SetControllerFactory();
+			RegisterModelBinders(ModelBinders.Binders);
+			RegisterFilterProviders(FilterProviders.Providers);
 			RegisterViewEngines(ViewEngines.Engines);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
 			AfterStartUp();
+		}
+
+		/// <summary>
+		/// Configures the error handling objects. This happens before anything else. Default
+		/// implementation registers <see cref="ErrorViewResultFactory"/> and <see cref="DefaultErrorController"/>
+		/// with the <see cref="Container"/>
+		/// </summary>
+		protected virtual void ConfigureErrorHandlers() {
+			Container
+				.RegisterType<IErrorResultFactory, ErrorViewResultFactory>()
+				.RegisterType<IErrorController, DefaultErrorController>();
 		}
 
 		/// <summary>
@@ -104,9 +115,9 @@ namespace Portoa.Web {
 
 		/// <summary>
 		/// Override to configure the model binders for the application; default implementation
-		/// does nothing
+		/// does nothing (the binders in the collection are the default MVC binders)
 		/// </summary>
-		protected virtual void ConfigureModelBinders(ModelBinderDictionary binders) { }
+		protected virtual void RegisterModelBinders(ModelBinderDictionary binders) { }
 
 		/// <summary>
 		/// Registers any routes for the application; default implementation registers nothing
@@ -115,14 +126,18 @@ namespace Portoa.Web {
 
 		/// <summary>
 		/// Registers view engines; defualt implementation only registers <see cref="RazorViewEngine"/>
+		/// and <see cref="SmartCaseViewEngine"/> if <see cref="ShouldEnableSmartCasing"/> is <c>true</c>
 		/// </summary>
 		protected virtual void RegisterViewEngines(ViewEngineCollection engines) {
 			engines.Add(new RazorViewEngine());
+			if (ShouldEnableSmartCasing) {
+				ViewEngines.Engines.Add(new SmartCaseViewEngine(Container.Resolve<ILogger>()));
+			}
 		}
 
 		/// <summary>
 		/// Registers any applicable areas; default implementations calls
-		/// <c>AreaRegistration.RegisterAllAreas()</c>
+		/// <see cref="AreaRegistration.RegisterAllAreas()"/>
 		/// </summary>
 		protected virtual void RegisterAreas() {
 			AreaRegistration.RegisterAllAreas();
@@ -153,9 +168,19 @@ namespace Portoa.Web {
 		/// <seealso cref="SmartCaseRouteHandler"/>
 		protected virtual bool ShouldEnableSmartCasing { get { return false; } }
 
-		private static void EnableSmartCasing() {
-			var logger = Container.IsRegistered<ILogger>() ? Container.Resolve<ILogger>() : new NullLogger();
-			ViewEngines.Engines.Add(new SmartCaseViewEngine(logger));
+		/// <summary>
+		/// Sets up the filter providers; default implementation uses <see cref="AdjustableFilterProvider"/>
+		/// to build up each filter instance using the <see cref="Container"/>
+		/// </summary>
+		protected virtual void RegisterFilterProviders(FilterProviderCollection providers) {
+			FilterProviders.Providers.Add(new AdjustableFilterProvider(BuildUpFilter));
+		}
+
+		private static Filter BuildUpFilter(Filter filter) {
+			var instanceType = filter.Instance.GetType();
+			return instanceType.HasAttribute<NeedsBuildUpAttribute>()
+				? new Filter(Container.BuildUp(instanceType, filter.Instance), filter.Scope, filter.Order)
+				: filter;
 		}
 
 		/// <summary>
