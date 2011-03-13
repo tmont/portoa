@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Web.Mvc;
+using Portoa.Web.Results;
 
 namespace Portoa.Web.ErrorHandling {
 	/// <summary>
@@ -9,7 +10,10 @@ namespace Portoa.Web.ErrorHandling {
 	/// <see cref="ErrorViewResult"/>
 	public sealed class ErrorViewResultFactory : IErrorResultFactory {
 		public ActionResult CreateResult(HttpStatusCode statusCode) {
-			return new ErrorViewResult { StatusCode = statusCode, ModelCreator = exception => new ErrorModel { Exception = exception } };
+			return new CompositeResult {
+				new HttpStatusCodeResult((int)statusCode),
+				new ErrorViewResult { ModelCreator = exception => new ErrorModel { Exception = exception } }
+			};
 		}
 	}
 }

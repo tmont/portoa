@@ -76,6 +76,8 @@
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
     <Compile Include="NHibernateDrivenMvcApplication.cs" />
+    <Compile Include="Results\CompositeResult.cs" />
+    <Compile Include="Results\InjectableJsonResult.cs" />
     <Compile Include="Security\FormsAuthenticationServiceBase.cs" />
     <Compile Include="SmartCasing\RouteExtensions.cs" />
     <Compile Include="SmartCasing\SmartCaseRoute.cs" />
@@ -119,16 +121,13 @@
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="ErrorHandling\IErrorController.cs" />
     <Compile Include="Controllers\InjectableFilterActionInvoker.cs" />
-    <Compile Include="Filters\IStatusOverridable.cs" />
     <Compile Include="Models\EnumBinder.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\ModelBinderDictionaryExtensions.cs" />
     <Compile Include="Util\NoTempDataProvider.cs" />
-    <Compile Include="Filters\OverrideStatusCodeFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="Controllers\ServiceProviderControllerFactory.cs" />
-    <Compile Include="Results\StatusOverrideResult.cs" />
     <Compile Include="Util\UrlHelperExtensions.cs" />
     <Compile Include="Validation\FileLengthAttribute.cs" />
     <Compile Include="Validation\FileTypeAttribute.cs" />
@@ -147,6 +146,7 @@
       <Name>Portoa</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

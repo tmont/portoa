@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Portoa.Json;
 using Portoa.Util;
 using Portoa.Web.Models;
+using Portoa.Web.Results;
 
 namespace Portoa.Web.Util {
 	public static class ControllerExtensions {
@@ -66,16 +67,10 @@ namespace Portoa.Web.Util {
 		/// Serializes <paramref name="data"/> to a <c>JSON</c> string and returns it as
 		/// <c>application/json</c>
 		/// </summary>
-		/// <param name="controller"></param>
+		/// <param name="errorMessage">The error message to display to the user or <c>null</c> if no error occurred</param>
 		/// <param name="data">The data to serialize to a JSON string</param>
-		public static ActionResult SerializeToJson(this Controller controller, object data = null) {
-			var result = new ContentResult {
-				ContentType = "application/json",
-				ContentEncoding = Encoding.UTF8,
-				Content = new JsonNetSerializer().Serialize(data)
-			};
-
-			return result;
+		public static ActionResult GetJsonResult(this Controller controller, string errorMessage = null, object data = null) {
+			return new InjectableJsonResult { Data = controller.CreateJsonResponse(errorMessage, data) };
 		}
 	}
 }

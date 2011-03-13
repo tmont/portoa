@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
 using JetBrains.Annotations;
+using Portoa.Web.Results;
 
 namespace Portoa.Web.ErrorHandling {
 	/// <summary>
@@ -18,9 +19,9 @@ namespace Portoa.Web.ErrorHandling {
 		}
 
 		public ActionResult CreateResult(HttpStatusCode statusCode) {
-			return new ErrorViewResult { 
-				StatusCode = statusCode,
-				ModelCreator = exception => new ErrorModel<T> { Exception = exception, User = user } 
+			return new CompositeResult {
+				new HttpStatusCodeResult((int)statusCode),
+				new ErrorViewResult { ModelCreator = exception => new ErrorModel<T> { Exception = exception, User = user } }
 			};
 		}
 	}
