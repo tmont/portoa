@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Web.Mvc;
 using Portoa.Web.Filters;
 
@@ -7,6 +8,7 @@ namespace Portoa.Web.Results {
 	/// <c>ActionResult</c> decorator that enables you to override the HTTP status code
 	/// </summary>
 	/// <see cref="OverrideStatusCodeFilter"/>
+	[Obsolete("Upgrade to ASP.NET MVC 3 and use HttpStatusCodeResult")]
 	public class StatusOverrideResult : ActionResult, IStatusOverridable {
 		private readonly ActionResult result;
 

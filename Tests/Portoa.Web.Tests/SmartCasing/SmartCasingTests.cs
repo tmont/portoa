@@ -1,9 +1,7 @@
 ﻿using System.Web;
-using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
-using Portoa.Logging;
 using Portoa.Web.SmartCasing;
 
 namespace Portoa.Web.Tests.SmartCasing {
@@ -46,20 +44,6 @@ namespace Portoa.Web.Tests.SmartCasing {
 		[Test]
 		public void Should_handle_consecutive_hyphens() {
 			Assert.That(SmartCaseConverter.ConvertFrom("foo--bar"), Is.EqualTo("FooBar"));
-		}
-
-		[Test]
-		public void Should_modify_route_data_before_invoking_action() {
-			var decoratedInvoker = new Mock<IActionInvoker>();
-			decoratedInvoker
-				.Setup(i => i.InvokeAction(It.IsAny<ControllerContext>(), "FooBar"))
-				.Callback<ControllerContext, string>((context, actionName) => Assert.That(context.RouteData.Values["action"], Is.EqualTo("FooBar")))
-				.Returns(true)
-				.Verifiable();
-
-			Assert.That(new SmartCaseActionInvoker(decoratedInvoker.Object, new NullLogger()).InvokeAction(new ControllerContext(), "foo-bar"), Is.True);
-
-			decoratedInvoker.VerifyAll();
 		}
 	}
 }

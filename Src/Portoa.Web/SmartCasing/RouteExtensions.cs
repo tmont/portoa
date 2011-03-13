@@ -15,7 +15,7 @@ namespace Portoa.Web.SmartCasing {
 		/// <param name="constraints">Constraints (if applicable) for the route values</param>
 		/// <param name="namespaces">Namespaces to search (unused)</param>
 		public static void MapSmartRoute(this RouteCollection routes,string name, [NotNull]string url, object defaults = null, object constraints = null, string[] namespaces = null) {
-			var route = new SmartCaseRoute(url, new MvcRouteHandler()) {
+			var route = new SmartCaseRoute(url, new SmartCaseRouteHandler(new MvcRouteHandler())) {
 				Defaults = new RouteValueDictionary(defaults),
 				Constraints = new RouteValueDictionary(constraints),
 				DataTokens = new RouteValueDictionary()

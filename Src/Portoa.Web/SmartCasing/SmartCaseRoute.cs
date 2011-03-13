@@ -5,24 +5,18 @@ using Portoa.Util;
 namespace Portoa.Web.SmartCasing {
 	/// <summary>
 	/// Route that handles casing intelligently. It converts incoming paths to lowercase,
-	/// and adds a hyphen before each upper case letter (unless it starts the string). Use
-	/// <see cref="RouteExtensions.MapSmartRoute"/> to make use of this class.
+	/// and adds a hyphen before each upper case letter (unless it starts the string)
 	/// </summary>
 	/// <seealso cref="SmartCaseViewEngine"/>
+	/// <seealso cref="SmartCaseConverter"/>
+	/// <seealso cref="RouteExtensions.MapSmartRoute"/>
 	public class SmartCaseRoute : Route {
-		protected internal SmartCaseRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) {}
+		public SmartCaseRoute(string url, IRouteHandler routeHandler) : base(url, routeHandler) { }
 
 		public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values) {
 			var data = base.GetVirtualPath(requestContext, values);
 
 			if (data != null) {
-				//convert to lower case, and add a hyphen before each uppercase letter
-				//FooBar -> foo-bar
-				//fooBar -> foo-bar
-				//foo -> foo
-				//foobar -> foobar
-				//FoOBAr -> fo-o-b-ar
-
 				//don't mess with the query string and/or fragment
 				var mark = data.VirtualPath.IndexOf('?');
 				var frag = data.VirtualPath.IndexOf('#');

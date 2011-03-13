@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
@@ -12,6 +13,7 @@ namespace Portoa.Web.Controllers {
 	/// perform injection on all filters that are annotated with NeedsBuildUpAttribute.
 	/// </summary>
 	/// <remarks> Adapted from http://blog.ploeh.dk/2009/12/01/GlobalErrorHandlingInASPNETMVC.aspx </remarks>
+	[Obsolete("Upgrade to ASP.NET MVC 3 and use GlobalFilters")]
 	public class InjectableFilterActionInvoker : ControllerActionInvoker {
 		private readonly IUnityContainer container;
 		private readonly IList<IExceptionFilter> exceptionFilters = new List<IExceptionFilter>();

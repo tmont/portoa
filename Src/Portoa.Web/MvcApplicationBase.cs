@@ -8,7 +8,6 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
-using Portoa.Web.Filters;
 using Portoa.Web.Session;
 using Portoa.Web.SmartCasing;
 using Portoa.Web.Unity;
@@ -84,13 +83,15 @@ namespace Portoa.Web {
 				Container.RegisterType<ILogger, NullLogger>();
 			}
 
-			ConfigureControllerFactory();
+			SetControllerFactory();
 
 			if (ShouldEnableSmartCasing) {
 				EnableSmartCasing();
 			}
 
 			ConfigureModelBinders(ModelBinders.Binders);
+			ViewEngines.Engines.Clear();
+			RegisterViewEngines(ViewEngines.Engines);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
 			AfterStartUp();
@@ -113,6 +114,13 @@ namespace Portoa.Web {
 		protected virtual void RegisterRoutes(RouteCollection routes) { }
 
 		/// <summary>
+		/// Registers view engines; defualt implementation only registers <see cref="RazorViewEngine"/>
+		/// </summary>
+		protected virtual void RegisterViewEngines(ViewEngineCollection engines) {
+			engines.Add(new RazorViewEngine());
+		}
+
+		/// <summary>
 		/// Registers any applicable areas; default implementations calls
 		/// <c>AreaRegistration.RegisterAllAreas()</c>
 		/// </summary>
@@ -121,58 +129,33 @@ namespace Portoa.Web {
 		}
 
 		/// <summary>
-		/// Configures the controller factory; default implementation uses Unity to
-		/// resolve each controller with a custom action invoker
+		/// Registers global filters; default adds a filter to disable validation input
 		/// </summary>
-		/// <see cref="InjectableFilterActionInvoker"/>
-		protected virtual void ConfigureControllerFactory() {
-			var actionInvoker = new InjectableFilterActionInvoker(Container)
-				.AddAuthorizationFilter(new ValidateInputAttribute(false))
-				.AddResultFilter<OverrideStatusCodeFilter>();
-
-			var controllerFactory = new InjectableControllerFactory(Container);
-			controllerFactory.OnControllerInstantiated += controllerImpl => {
-				var controller = controllerImpl as Controller;
-				if (controller == null) {
-					return;
-				}
-
-				controller.ActionInvoker = actionInvoker;
-			};
-
-			ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+		protected virtual void RegisterGlobalFilters(GlobalFilterCollection filters) {
+			GlobalFilters.Filters.Add(new ValidateInputAttribute(false));
 		}
 
 		/// <summary>
-		/// Gets whether <c cref="SmartCaseConverter">smart casing</c> should be enabled. Note
-		/// that the <c cref="ConfigureControllerFactory">controller factory</c> should be set
-		/// to an implementation of <see cref="IInjectableControllerFactory"/> (the default) or else 
-		/// smart casing cannot be enabled.
+		/// Configures the controller factory; default implementation uses Unity to
+		/// resolve each controller
+		/// </summary>
+		protected virtual void SetControllerFactory() {
+			ControllerBuilder.Current.SetControllerFactory(new ContainerControllerFactory(Container));
+		}
+
+		/// <summary>
+		/// Gets whether <c cref="SmartCaseConverter">smart casing</c> should be enabled.
+		/// Smart casing uses the <c cref="RazorViewEngine">Razor</c> view engine.
 		/// </summary>
 		/// <seealso cref="SmartCaseConverter"/>
 		/// <seealso cref="RouteExtensions.MapSmartRoute"/>
 		/// <seealso cref="SmartCaseViewEngine"/>
-		/// <seealso cref="SmartCaseActionInvoker"/>
-		/// <exception cref="InvalidOperationException">if the controller factory does not implement <see cref="IInjectableControllerFactory"/></exception>
+		/// <seealso cref="SmartCaseRouteHandler"/>
 		protected virtual bool ShouldEnableSmartCasing { get { return false; } }
 
 		private static void EnableSmartCasing() {
 			var logger = Container.IsRegistered<ILogger>() ? Container.Resolve<ILogger>() : new NullLogger();
 			ViewEngines.Engines.Add(new SmartCaseViewEngine(logger));
-
-			var controllerFactory = ControllerBuilder.Current.GetControllerFactory() as IInjectableControllerFactory;
-			if (controllerFactory == null) {
-				throw new InvalidOperationException("Unable to configure SmartCaseActionInvoker because the controller factory does not implement IInjectableControllerFactory");
-			}
-
-			controllerFactory.OnControllerInstantiated += controllerImpl => {
-				var controller = controllerImpl as Controller;
-				if (controller == null) {
-					return;
-				}
-
-				controller.ActionInvoker = new SmartCaseActionInvoker(controller.ActionInvoker ?? new ControllerActionInvoker(), logger);
-			};
 		}
 
 		/// <summary>
@@ -195,20 +178,5 @@ namespace Portoa.Web {
 		/// later.
 		/// </summary>
 		protected virtual void OnApplicationEnd() { }
-
-		private class InjectableControllerFactory : ContainerControllerFactory, IInjectableControllerFactory {
-			public InjectableControllerFactory(IUnityContainer container) : base(container) { }
-			public event Action<IController> OnControllerInstantiated;
-
-			protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType) {
-				var controller = base.GetControllerInstance(requestContext, controllerType);
-
-				if (OnControllerInstantiated != null) {
-					OnControllerInstantiated.Invoke(controller);
-				}
-
-				return controller;
-			}
-		}
 	}
 }

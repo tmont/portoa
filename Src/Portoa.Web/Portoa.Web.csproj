@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\Release\Portoa.Web.xml</DocumentationFile>
-    <NoWarn>1591</NoWarn>
+    <NoWarn>1591,1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
@@ -63,21 +63,23 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorHandling\ErrorViewResultFactory.cs" />
     <Compile Include="ErrorHandling\ErrorWithUserResultFactory.cs" />
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
+    <Compile Include="Filters\GlobalFilterExtensions.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
     <Compile Include="NHibernateDrivenMvcApplication.cs" />
     <Compile Include="Security\FormsAuthenticationServiceBase.cs" />
     <Compile Include="SmartCasing\RouteExtensions.cs" />
-    <Compile Include="SmartCasing\SmartCaseActionInvoker.cs" />
     <Compile Include="SmartCasing\SmartCaseRoute.cs" />
+    <Compile Include="SmartCasing\SmartCaseRouteHandler.cs" />
     <Compile Include="SmartCasing\SmartCaseViewEngine.cs" />
     <Compile Include="SmartCasing\SmartCaseConverter.cs" />
     <Compile Include="Security\ICurrentUserProvider.cs" />

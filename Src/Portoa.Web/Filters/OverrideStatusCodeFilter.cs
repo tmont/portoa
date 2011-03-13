@@ -7,6 +7,7 @@ namespace Portoa.Web.Filters {
 	/// code on the <c>Response</c> will be set according to the value of
 	/// <see cref="IStatusOverridable.StatusCode"/>
 	/// </summary>
+	[Obsolete("Upgrade to ASP.NET MVC 3 and use HttpStatusCodeResult")]
 	public class OverrideStatusCodeFilter : IResultFilter {
 		public void OnResultExecuting(ResultExecutingContext filterContext) { }
 
