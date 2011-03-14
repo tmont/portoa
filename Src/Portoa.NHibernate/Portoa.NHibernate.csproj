@@ -47,7 +47,6 @@
     <Compile Include="NHibernateRepository.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Portoa\Portoa.csproj">
