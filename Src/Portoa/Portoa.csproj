@@ -82,16 +82,6 @@
     <Compile Include="Security\DefaultPasswordProtector.cs" />
     <Compile Include="Persistence\Entity.cs" />
     <Compile Include="Persistence\EntityExtensions.cs" />
-    <Compile Include="EventLog\ActivatorEventLogPropertyHandlerFactory.cs" />
-    <Compile Include="EventLog\DefaultEventLogPropertyHandler.cs" />
-    <Compile Include="EventLog\EventData.cs" />
-    <Compile Include="EventLog\EventLogExtensions.cs" />
-    <Compile Include="EventLog\EventLogPropertyAttribute.cs" />
-    <Compile Include="EventLog\GenericEventLogPropertyHandler.cs" />
-    <Compile Include="EventLog\IEventLoggable.cs" />
-    <Compile Include="EventLog\IEventLogPropertyHandler.cs" />
-    <Compile Include="EventLog\IEventLogPropertyHandlerFactory.cs" />
-    <Compile Include="EventLog\ServiceProviderEventLogPropertyHandlerFactory.cs" />
     <Compile Include="Security\IPasswordProtected.cs" />
     <Compile Include="Persistence\IIdentifiable.cs" />
     <Compile Include="Persistence\IRepository.cs" />
