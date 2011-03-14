@@ -84,7 +84,7 @@ namespace Portoa.Web.Models {
 		/// <param name="pageNumber">The number of the page to retrieve</param>
 		public Page GetPage(int pageNumber) {
 			if (pageNumber < 1) {
-				throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "Page number must be greater than 0");
+				throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "Page number must be greater than zero");
 			}
 
 			var start = PageSize * (pageNumber - 1) + 1;

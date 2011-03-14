@@ -30,6 +30,13 @@ namespace Portoa.Web.Models {
 		}
 
 		/// <summary>
+		/// Gets a menu model for the current page
+		/// </summary>
+		public PagingMenuModel GetMenuModel() {
+			return new PagingMenuModel(this);
+		}
+
+		/// <summary>
 		/// Gets or sets the current page number (starting from 1)
 		/// </summary>
 		public int CurrentPage { get; set; }
@@ -80,6 +87,4 @@ namespace Portoa.Web.Models {
 		[NotNull]
 		public IEnumerable<object> Records { get; set; }
 	}
-
-	
 }
