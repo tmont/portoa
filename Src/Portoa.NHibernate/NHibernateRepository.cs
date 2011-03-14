@@ -8,20 +8,10 @@ using Portoa.Persistence;
 namespace Portoa.NHibernate {
 
 	/// <summary>
-	/// Default repository implementation for entities with integral identifiers
-	/// </summary>
-	/// <typeparam name="T">The entity type</typeparam>
-	/// <seealso cref="NHibernateRepository{T, TId}"/>
-	public class NHibernateRepository<T> : NHibernateRepository<T, int>, IRepository<T> where T : IIdentifiable<int> {
-		public NHibernateRepository(ISession session) : base(session) { }
-	}
-
-	/// <summary>
 	/// Default repository implementation for NHibernate
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
 	/// <typeparam name="TId">The identifier type</typeparam>
-	/// <seealso cref="NHibernateRepository{T}"/>
 	[DebuggerNonUserCode]
 	public class NHibernateRepository<T, TId> : MarshalByRefObject, IRepository<T, TId> where T : IIdentifiable<TId> {
 		/// <summary>

@@ -113,19 +113,17 @@
     <Compile Include="Testing\IDbFactory.cs" />
     <Compile Include="Testing\ISqlScript.cs" />
     <Compile Include="Testing\QueryExecutor.cs" />
-    <Compile Include="Validation\DataAnnotations\AggregateValidationException.cs" />
     <Compile Include="Validation\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="Validation\DataAnnotations\EntityValidator.cs" />
-    <Compile Include="Validation\DataAnnotations\ExceptionFactory.cs" />
     <Compile Include="Validation\DataAnnotations\GreaterThanZeroAttribute.cs" />
     <Compile Include="Validation\DataAnnotations\ResultAdapter.cs" />
     <Compile Include="Validation\DataAnnotations\ValidationResultExtensions.cs" />
     <Compile Include="Validation\DataAnnotations\Validator.cs" />
     <Compile Include="Validation\IEntityValidator.cs" />
-    <Compile Include="Validation\IValidationExceptionFactory.cs" />
     <Compile Include="Validation\IValidationResult.cs" />
     <Compile Include="Validation\IValidationResultsProvider.cs" />
     <Compile Include="Validation\ValidationExtensions.cs" />
+    <Compile Include="Validation\ValidationFailedException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

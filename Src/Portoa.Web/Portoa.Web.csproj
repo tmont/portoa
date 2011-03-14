@@ -91,6 +91,9 @@
     <Compile Include="Models\ResolveWithContainerModelBinder.cs" />
     <Compile Include="MvcApplicationBase.cs" />
     <Compile Include="Controllers\ContainerControllerFactory.cs" />
+    <Compile Include="Unity\Matching\OnEntitySaved.cs" />
+    <Compile Include="Unity\ValidateEntityOnSave.cs" />
+    <Compile Include="Unity\ValidationCallHandler.cs" />
     <Compile Include="Util\ControllerContextExtensions.cs" />
     <Compile Include="ErrorHandling\DefaultErrorController.cs" />
     <Compile Include="Util\HttpRequestBaseExtensions.cs" />

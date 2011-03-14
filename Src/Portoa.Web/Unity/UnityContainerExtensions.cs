@@ -60,7 +60,7 @@ namespace Portoa.Web.Unity {
 		public static IUnityContainer RegisterInterfaceAndIntercept<TFrom, TTo>(this IUnityContainer container, LifetimeManager lifetimeManager = null, params InjectionMember[] members) where TTo : TFrom {
 			VerifyTypeIsInterface(typeof(TFrom));
 
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType<TFrom, TTo>(members);
 			} else {
 				container.RegisterType<TFrom, TTo>(lifetimeManager, members);
@@ -79,7 +79,7 @@ namespace Portoa.Web.Unity {
 		public static IUnityContainer RegisterInterfaceAndIntercept<TInterface>(this IUnityContainer container, LifetimeManager lifetimeManager = null, params InjectionMember[] members) {
 			VerifyTypeIsInterface(typeof(TInterface));
 
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType<TInterface>(members);
 			} else {
 				container.RegisterType<TInterface>(lifetimeManager, members);
@@ -96,7 +96,7 @@ namespace Portoa.Web.Unity {
 		/// Registers the type and configures interception for it
 		/// </summary>
 		public static IUnityContainer RegisterAndIntercept<TFrom, TTo>(this IUnityContainer container, LifetimeManager lifetimeManager = null, params InjectionMember[] members) where TTo : TFrom {
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType<TFrom, TTo>(members);
 			} else {
 				container.RegisterType<TFrom, TTo>(lifetimeManager, members);
@@ -113,7 +113,7 @@ namespace Portoa.Web.Unity {
 		/// Registers the type and configures interception for it
 		/// </summary>
 		public static IUnityContainer RegisterAndIntercept<T>(this IUnityContainer container, LifetimeManager lifetimeManager = null, params InjectionMember[] members) {
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType<T>(members);
 			} else {
 				container.RegisterType<T>(lifetimeManager, members);
@@ -151,7 +151,7 @@ namespace Portoa.Web.Unity {
 		public static IUnityContainer RegisterInterfaceAndIntercept(this IUnityContainer container, Type typeFrom, Type typeTo, LifetimeManager lifetimeManager = null, params InjectionMember[] members) {
 			VerifyTypeIsInterface(typeFrom);
 
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType(typeFrom, typeTo, members);
 			} else {
 				container.RegisterType(typeFrom, typeTo, lifetimeManager, members);
@@ -169,7 +169,7 @@ namespace Portoa.Web.Unity {
 		/// Registers the type and configures interception for it
 		/// </summary>
 		public static IUnityContainer RegisterAndIntercept(this IUnityContainer container, Type typeFrom, Type typeTo, LifetimeManager lifetimeManager = null, params InjectionMember[] members) {
-			if (lifetimeManager != null) {
+			if (lifetimeManager == null) {
 				container.RegisterType(typeFrom, typeTo, members);
 			} else {
 				container.RegisterType(typeFrom, typeTo, lifetimeManager, members);

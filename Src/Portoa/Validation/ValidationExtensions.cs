@@ -13,7 +13,15 @@ namespace Portoa.Validation {
 		/// </summary>
 		/// <param name="separator">Separator to use to divide each error message</param>
 		public static string CombineErrorMessages(this IValidationResultsProvider resultsProvider, string separator = "\n") {
-			return resultsProvider.Results.Aggregate("Validation errors:", (current, next) => current + separator + next.ErrorMessage);
+			return resultsProvider.Results.CombineErrorMessages(separator);
+		}
+
+		/// <summary>
+		/// Combines error messages into a single, readable error message
+		/// </summary>
+		/// <param name="separator">Separator to use to divide each error message</param>
+		public static string CombineErrorMessages(this IEnumerable<IValidationResult> results, string separator = "\n") {
+			return results.Aggregate("Validation errors:", (current, next) => current + separator + next.ErrorMessage);
 		}
 
 		/// <summary>

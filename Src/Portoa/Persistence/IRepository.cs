@@ -3,13 +3,6 @@
 namespace Portoa.Persistence {
 
 	/// <summary>
-	/// Provides a CRUD interface to a persistence medium for entities that have an
-	/// integral identifier
-	/// </summary>
-	/// <typeparam name="T">The entity's type</typeparam>
-	public interface IRepository<T> : IRepository<T, int> where T : IIdentifiable<int> { }
-
-	/// <summary>
 	/// Provides a CRUD interface to a persistence medium
 	/// </summary>
 	/// <typeparam name="T">The entity's type</typeparam>

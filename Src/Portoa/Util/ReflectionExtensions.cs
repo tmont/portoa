@@ -77,5 +77,29 @@ namespace Portoa.Util {
 
 			return name;
 		}
+
+		/// <summary>
+		/// Determines whether the <paramref name="genericType"/> is assignable from <paramref name="givenType"/>
+		/// taking into account generic definitions (i.e. typeof(IEnumerable&lt;int&gt;).IsAssignableToGenericType(typeof(IEnumerable&lt;&gt;) == true))
+		/// </summary>
+		/// <remarks>adapted from http://stackoverflow.com/questions/74616/how-to-detect-if-type-is-another-generic-type/75502#75502</remarks>
+		public static bool IsAssignableToGenericType(this Type givenType, Type genericType) {
+			if (givenType == null || genericType == null) {
+				return false;
+			}
+
+			return givenType == genericType 
+				|| givenType.MapsToGenericTypeDefinition(genericType) 
+				|| givenType.HasInterfaceThatMapsToGenericTypeDefinition(genericType) 
+				|| givenType.BaseType.IsAssignableToGenericType(genericType);
+		}
+
+		private static bool HasInterfaceThatMapsToGenericTypeDefinition(this Type givenType, Type genericType) {
+			return givenType.GetInterfaces().Where(it => it.IsGenericType).Any(it => it.GetGenericTypeDefinition() == genericType);
+		}
+
+		private static bool MapsToGenericTypeDefinition(this Type givenType, Type genericType) {
+			return genericType.IsGenericTypeDefinition && givenType.IsGenericType && givenType.GetGenericTypeDefinition() == genericType;
+		}
 	}
 }

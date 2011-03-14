@@ -6,7 +6,6 @@ namespace Portoa.Web.Validation {
 	/// Verifies that an uploaded file's length lies within a range
 	/// </summary>
 	public class FileLengthAttribute : ValidationAttribute {
-
 		/// <param name="maxLength">The (inclusive) maximum length of the uploaded file</param>
 		public FileLengthAttribute(int maxLength) {
 			MaxLength = maxLength;
