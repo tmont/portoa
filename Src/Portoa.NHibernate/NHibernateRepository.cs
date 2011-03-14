@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Linq;
@@ -13,7 +12,7 @@ namespace Portoa.NHibernate {
 	/// <typeparam name="T">The entity type</typeparam>
 	/// <typeparam name="TId">The identifier type</typeparam>
 	[DebuggerNonUserCode]
-	public class NHibernateRepository<T, TId> : MarshalByRefObject, IRepository<T, TId> where T : IIdentifiable<TId> {
+	public class NHibernateRepository<T, TId> : IRepository<T, TId> where T : IIdentifiable<TId> {
 		/// <summary>
 		/// The current session
 		/// </summary>
@@ -24,7 +23,7 @@ namespace Portoa.NHibernate {
 		}
 
 		public virtual T Save(T entity) {
-			if (Session.Contains(entity) || Equals(entity.Id, default(TId))) {
+			if (Session.Contains(entity) || entity.IsTransient()) {
 				Session.SaveOrUpdate(entity);
 				return entity;
 			}
@@ -35,8 +34,8 @@ namespace Portoa.NHibernate {
 		}
 
 		public T Reload(T entity) {
-			Session.Evict(entity);
-			return FindById(entity.Id);
+			Session.Refresh(entity);
+			return entity;
 		}
 
 		public virtual void Delete(T entity) {
