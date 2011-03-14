@@ -54,6 +54,7 @@
     <Compile Include="Unity\Lifetime\ExplicitlyDisposableTests.cs" />
     <Compile Include="Unity\LoggingTests.cs" />
     <Compile Include="Unity\Matching\OnEntitySavedTests.cs" />
+    <Compile Include="Unity\UnitOfWorkTests.cs" />
     <Compile Include="Unity\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>

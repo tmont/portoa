@@ -9,6 +9,7 @@ using Portoa.Web.ErrorHandling;
 using Portoa.Web.Security;
 using Portoa.Web.Unity;
 using Portoa.Web.Unity.Lifetime;
+using Portoa.Web.Unity.UnitOfWork;
 
 namespace Portoa.Web {
 
@@ -37,7 +38,7 @@ namespace Portoa.Web {
 	public abstract class NHibernateDrivenMvcApplication : MvcApplicationBase {
 		protected override sealed void ConfigureUnity() {
 			Container
-				.AddNewExtension<ConfigureUnitOfWorkAspect>()
+				.AddNewExtension<EnableUnitOfWork>()
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterAndIntercept(typeof(IRepository<,>), typeof(NHibernateRepository<,>))

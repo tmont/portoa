@@ -2,7 +2,7 @@
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Validation;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Validation {
 	/// <summary>
 	/// Call handler that validates entities
 	/// </summary>

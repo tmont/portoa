@@ -9,6 +9,7 @@ using Portoa.Persistence;
 using Portoa.Validation;
 using Portoa.Validation.DataAnnotations;
 using Portoa.Web.Unity;
+using Portoa.Web.Unity.Validation;
 
 namespace Portoa.Web.Tests.Unity {
 	[TestFixture]

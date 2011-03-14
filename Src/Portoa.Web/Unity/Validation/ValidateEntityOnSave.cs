@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
 using Portoa.Web.Unity.Matching;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Validation {
 
 	/// <summary>
 	/// Exposes an interface to configure an entity validation policy

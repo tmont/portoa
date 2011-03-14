@@ -9,6 +9,7 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using NUnit.Framework;
 using Portoa.Logging;
 using Portoa.Web.Unity;
+using Portoa.Web.Unity.Logging;
 
 namespace Portoa.Web.Tests.Unity {
 	[TestFixture]

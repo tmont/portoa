@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.UnitOfWork {
 	/// <summary>
 	/// Call handler that wraps a method call in a unit of work
 	/// </summary>
@@ -19,7 +19,6 @@ namespace Portoa.Web.Unity {
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext) {
 			using (unitOfWork.Start()) {
 				var result = getNext()(input, getNext);
-				
 
 				if (result.Exception == null) {
 					unitOfWork.Commit();

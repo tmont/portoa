@@ -3,12 +3,13 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
 using Portoa.Web.Unity.Matching;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Logging {
 	/// <summary>
 	/// Logs all interceptable method calls via the <see cref="MethodLoggingCallHandler"/>
 	/// </summary>
-	public class LogAllMethodCalls : UnityContainerExtension {
-		protected override void Initialize() {
+	[DependsOnExtensions(typeof(Interception))]
+	public class LogAllMethodCalls : VerifiableContainerExtension {
+		protected override void DoInitialize() {
 			Container
 				.Configure<Interception>()
 				.AddPolicy("LoggingPolicy")

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
@@ -8,7 +8,7 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
 using Portoa.Util;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Logging {
 	/// <summary>
 	/// Performs automatic logging of method calls and returns while respecting <see cref="DoNotLogAttribute"/>
 	/// </summary>
@@ -87,8 +87,12 @@ namespace Portoa.Web.Unity {
 
 		private static string FormatMethodReturn(IMethodReturn methodReturn) {
 			if (methodReturn.Exception != null) {
-				return "threw exception " + FormatForLog(methodReturn.Exception) + ": " + 
-					methodReturn.Exception.Message + Environment.NewLine + methodReturn.Exception.StackTrace;
+				return "threw exception " 
+					+ FormatForLog(methodReturn.Exception) 
+					+ ": " 
+					+ methodReturn.Exception.Message 
+					+ Environment.NewLine 
+					+ methodReturn.Exception.StackTrace;
 			}
 
 			return FormatForLog(methodReturn.ReturnValue);
@@ -133,7 +137,7 @@ namespace Portoa.Web.Unity {
 		}
 
 		/// <summary>
-		/// Truncates a string to 150 characters in a pretty way, if necessary
+		/// Truncates a string to 100 characters in a pretty way, if necessary
 		/// </summary>
 		private static string FormatString(string s) {
 			const int maxLength = 100;

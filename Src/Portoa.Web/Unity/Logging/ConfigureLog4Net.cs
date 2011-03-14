@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 using Portoa.Logging;
 using Portoa.Logging.Log4Net;
 
-namespace Portoa.Web.Unity {
+namespace Portoa.Web.Unity.Logging {
 	/// <summary>
 	/// Exposes an interface to configure log4net
 	/// </summary>

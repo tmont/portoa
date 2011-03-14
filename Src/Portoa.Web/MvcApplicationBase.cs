@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Configuration;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
 using Portoa.Util;
@@ -73,7 +75,8 @@ namespace Portoa.Web {
 
 			Container
 				.AddNewExtension<Interception>()
-				.AddNewExtension<ApplyUnityConfigurationSection>()
+				.RegisterType<UnityConfigurationSection>(new ContainerControlledLifetimeManager(), new InjectionFactory(GetUnityConfigurationSection))
+				.AddNewExtension<ConfigureUsingAppConfig>()
 				.RegisterType<IIdentity>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<HttpContextBase>().User.Identity))
 				.RegisterType<IServiceProvider, ContainerResolvingServiceProvider>(new ContainerControlledLifetimeManager())
 				.RegisterAndIntercept<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
@@ -95,6 +98,14 @@ namespace Portoa.Web {
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
 			AfterStartUp();
+		}
+
+		/// <summary>
+		/// Gets Unity's configuration section from the app config
+		/// </summary>
+		/// <returns>Unity's configuration section, or <c>null</c> if no section exists</returns>
+		protected virtual UnityConfigurationSection GetUnityConfigurationSection(IUnityContainer container) {
+			return ConfigurationManager.GetSection("unity") as UnityConfigurationSection;
 		}
 
 		/// <summary>
