@@ -128,7 +128,7 @@
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="ErrorHandling\IErrorController.cs" />
     <Compile Include="Controllers\InjectableFilterActionInvoker.cs" />
-    <Compile Include="Models\EnumBinder.cs" />
+    <Compile Include="Models\EnumModelBinder.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\ModelBinderDictionaryExtensions.cs" />
     <Compile Include="Util\NoTempDataProvider.cs" />
