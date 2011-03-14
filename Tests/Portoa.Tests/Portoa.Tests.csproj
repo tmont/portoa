@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGenerator.cs" />
+    <Compile Include="Globalization\CountryTests.cs" />
     <Compile Include="Json\JsonSerializationTests.cs" />
     <Compile Include="Mail\ContactEmailServiceTests.cs" />
     <Compile Include="Persistence\EntityNotFoundTests.cs" />

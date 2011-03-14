@@ -10,17 +10,17 @@ namespace Portoa.Testing {
 		private readonly List<Exception> errors;
 		private bool handledErrors;
 
-		private readonly IList<ISqlScript> schemaScripts;
-		private readonly IList<ISqlScript> setupScripts;
-		private readonly IList<ISqlScript> tearDownScripts;
+		private readonly IList<IScriptable> schemaScripts;
+		private readonly IList<IScriptable> setupScripts;
+		private readonly IList<IScriptable> tearDownScripts;
 
 		public DbTestingUtility(QueryExecutor queryExecutor, ILogger logger = null) {
 			this.queryExecutor = queryExecutor;
 			this.logger = logger ?? new DebugLogger();
 			errors = new List<Exception>();
-			schemaScripts = new List<ISqlScript>();
-			setupScripts = new List<ISqlScript>();
-			tearDownScripts = new List<ISqlScript>();
+			schemaScripts = new List<IScriptable>();
+			setupScripts = new List<IScriptable>();
+			tearDownScripts = new List<IScriptable>();
 		}
 
 		public string GeneratedDatabase { get; private set; }
@@ -35,7 +35,7 @@ namespace Portoa.Testing {
 		/// </summary>
 		public string DefaultConnectionString { get; set; }
 
-		public DbTestingUtility SetUp() {
+		public void SetUp() {
 			handledErrors = false;
 			errors.Clear();
 			logger.Info("Setting up the test");
@@ -45,12 +45,11 @@ namespace Portoa.Testing {
 			RunSetUpScripts();
 
 			CheckForErrors();
-			return this;
 		}
 		
 		private void CheckForErrors() {
 			if (!handledErrors && errors.Count > 0) {
-				var message = errors.Aggregate(errors.Count + " errors occurred\n", (current, next) => current + (next + "\n"));
+				var message = errors.Aggregate(errors.Count + " errors occurred\n", (current, next) => current + next + "\n");
 				handledErrors = true;
 				logger.Error("Encountered errors during test; barfing out an exception.");
 				throw new Exception(message);
@@ -79,12 +78,10 @@ namespace Portoa.Testing {
 			}
 		}
 
-		public DbTestingUtility CreateSchema() {
+		public void CreateSchema() {
 			foreach (var script in schemaScripts) {
 				RunSqlScript(script);
 			}
-
-			return this;
 		}
 
 		/// <summary>
@@ -119,30 +116,29 @@ namespace Portoa.Testing {
 		/// <summary>
 		/// Executes a SQL script on the test database
 		/// </summary>
-		protected void RunSqlScript(ISqlScript script) {
+		protected void RunSqlScript(IScriptable script) {
 			logger.Info("Running {0}", script.Name);
 
 			try {
-				queryExecutor.ExecuteNonQuery(script.Content, ConnectionString);
+				script.Execute(queryExecutor, ConnectionString);
 			} catch (Exception e) {
 				errors.Add(e);
 			}
 		}
 
-		public DbTestingUtility AddSchemaScript(ISqlScript script) {
+		public DbTestingUtility AddSchemaScript(IScriptable script) {
 			schemaScripts.Add(script);
 			return this;
 		}
 
-		public DbTestingUtility AddSetUpScript(ISqlScript script) {
+		public DbTestingUtility AddSetUpScript(IScriptable script) {
 			setupScripts.Add(script);
 			return this;
 		}
 
-		public DbTestingUtility AddTearDownScript(ISqlScript script) {
+		public DbTestingUtility AddTearDownScript(IScriptable script) {
 			tearDownScripts.Add(script);
 			return this;
 		}
-
 	}
 }
