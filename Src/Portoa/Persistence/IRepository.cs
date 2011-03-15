@@ -6,8 +6,7 @@ namespace Portoa.Persistence {
 	/// Provides a CRUD interface to a persistence medium
 	/// </summary>
 	/// <typeparam name="T">The entity's type</typeparam>
-	/// <typeparam name="TId">The entity identifier's type</typeparam>
-	public interface IRepository<T, in TId> where T : IIdentifiable<TId> {
+	public interface IRepository<T> {
 		/// <summary>
 		/// Persists an entity (inserts or updates)
 		/// </summary>
@@ -24,14 +23,14 @@ namespace Portoa.Persistence {
 		/// Deletes an entity
 		/// </summary>
 		/// <param name="id">The unique identifier of the entity to delete</param>
-		void Delete(TId id);
+		void Delete(object id);
 
 		/// <summary>
 		/// Finds an entity by its unique identifier
 		/// </summary>
 		/// <param name="id">The unique identifier of the entity to locate</param>
-		/// <exception cref="EntityNotFoundException{T,TId}"/>
-		T FindById(TId id);
+		/// <exception cref="EntityNotFoundException{T}"/>
+		T FindById(object id);
 
 		/// <summary>
 		/// Equivalent of "select *"

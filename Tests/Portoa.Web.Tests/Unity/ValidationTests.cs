@@ -23,7 +23,7 @@ namespace Portoa.Web.Tests.Unity {
 				.AddNewExtension<ValidateEntityOnSave>()
 				.RegisterType<IServiceProvider, ContainerResolvingServiceProvider>()
 				.RegisterType<IEntityValidator, EntityValidator>()
-				.RegisterAndIntercept(typeof(IRepository<,>), typeof(MyRepository<,>));
+				.RegisterAndIntercept(typeof(IRepository<>), typeof(MyRepository<>));
 		}
 
 		[TearDown]
@@ -33,7 +33,7 @@ namespace Portoa.Web.Tests.Unity {
 
 		[Test]
 		public void Should_validate_when_save_is_called_and_throw_exception() {
-			var repo = container.Resolve<IRepository<ValidatableEntity, int>>();
+			var repo = container.Resolve<IRepository<ValidatableEntity>>();
 			try {
 				repo.Save(new ValidatableEntity());
 				Assert.Fail("Exception was not thrown");
@@ -54,18 +54,18 @@ namespace Portoa.Web.Tests.Unity {
 
 		[Test]
 		public void Should_validate_when_save_is_called_and_continue_when_valid() {
-			var mockRepo = new Mock<IRepository<ValidatableEntity, int>>();
+			var mockRepo = new Mock<IRepository<ValidatableEntity>>();
 			mockRepo.Setup(r => r.Save(It.IsAny<ValidatableEntity>())).Verifiable();
 
 			container.RegisterAndIntercept(mockRepo.Object);
 
-			var repo = container.Resolve<IRepository<ValidatableEntity, int>>();
+			var repo = container.Resolve<IRepository<ValidatableEntity>>();
 
 			repo.Save(new ValidatableEntity("not null") { Bar = "not null" });
 			mockRepo.VerifyAll();
 		}
 
-		public class MyRepository<T, TId> : IRepository<T, TId> where T : IIdentifiable<TId> {
+		public class MyRepository<T> : IRepository<T> {
 			public T Save(T entity) {
 				return entity;
 			}
@@ -74,9 +74,9 @@ namespace Portoa.Web.Tests.Unity {
 				return entity;
 			}
 
-			public void Delete(TId id) { }
+			public void Delete(object id) { }
 
-			public T FindById(TId id) {
+			public T FindById(object id) {
 				return default(T);
 			}
 

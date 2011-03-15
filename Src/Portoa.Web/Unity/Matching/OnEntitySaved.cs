@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
@@ -7,10 +6,10 @@ using Portoa.Util;
 
 namespace Portoa.Web.Unity.Matching {
 	/// <summary>
-	/// Matching rule that matches the <see cref="IRepository{T,TId}.Save"/> method
+	/// Matching rule that matches the <see cref="IRepository{T}.Save"/> method
 	/// </summary>
 	public class OnEntitySaved : IMatchingRule {
-		private static readonly Type repoType = typeof(IRepository<,>);
+		private static readonly Type repoType = typeof(IRepository<>);
 
 		public bool Matches(MethodBase member) {
 			var declaringType = member.DeclaringType;

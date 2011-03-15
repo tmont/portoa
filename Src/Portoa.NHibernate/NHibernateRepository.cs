@@ -3,6 +3,7 @@ using System.Linq;
 using NHibernate;
 using NHibernate.Linq;
 using Portoa.Persistence;
+using Portoa.Util;
 
 namespace Portoa.NHibernate {
 
@@ -10,9 +11,8 @@ namespace Portoa.NHibernate {
 	/// Default repository implementation for NHibernate
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
-	/// <typeparam name="TId">The identifier type</typeparam>
 	[DebuggerNonUserCode]
-	public class NHibernateRepository<T, TId> : IRepository<T, TId> where T : IIdentifiable<TId> {
+	public class NHibernateRepository<T> : IRepository<T> {
 		/// <summary>
 		/// The current session
 		/// </summary>
@@ -23,14 +23,12 @@ namespace Portoa.NHibernate {
 		}
 
 		public virtual T Save(T entity) {
-			if (Session.Contains(entity) || entity.IsTransient()) {
+			if (Session.Contains(entity) || Session.GetIdentifier(entity).IsDefaultValue()) {
 				Session.SaveOrUpdate(entity);
 				return entity;
 			}
 
-			var entityWithId = (T)Session.SaveOrUpdateCopy(entity);
-			entity.Id = entityWithId.Id;
-			return entityWithId;
+			return (T)Session.SaveOrUpdateCopy(entity);
 		}
 
 		public T Reload(T entity) {
@@ -42,14 +40,14 @@ namespace Portoa.NHibernate {
 			Session.Delete(entity);
 		}
 
-		public void Delete(TId id) {
+		public void Delete(object id) {
 			Delete(Session.Get<T>(id));
 		}
 
-		public virtual T FindById(TId id) {
+		public virtual T FindById(object id) {
 			var entity = Session.Get<T>(id);
 			if (Equals(entity, default(T))) {
-				throw new EntityNotFoundException<T, TId>(id);
+				throw new EntityNotFoundException<T>(id);
 			}
 
 			return entity;

@@ -6,6 +6,22 @@ using System.Reflection;
 
 namespace Portoa.Util {
 	public static class ReflectionExtensions {
+
+		/// <summary>
+		/// Gets whether or not the given <paramref name="value"/> is the default value
+		/// for its type
+		/// </summary>
+		/// <remarks>Adapted from http://stackoverflow.com/questions/325426/c-programmatic-equivalent-of-defaulttype/353073#353073</remarks>
+		/// <param name="value">The value to check</param>
+		public static bool IsDefaultValue(this object value) {
+			if (value == null) {
+				return true;
+			}
+
+			var type = value.GetType();
+			return type.IsValueType && Activator.CreateInstance(type) == value;
+		}
+
 		/// <summary>
 		/// Gets all attributes of the specified type for the given attribute provider
 		/// </summary>

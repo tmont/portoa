@@ -4,11 +4,7 @@
 		/// Determines if the entity has already been persisted
 		/// </summary>
 		public static bool IsTransient<TId>(this IIdentifiable<TId> entity) {
-			if (entity == null) {
-				return false;
-			}
-
-			return Equals(entity.Id, default(TId));
+			return entity != null && Equals(entity.Id, default(TId));
 		}
 
 		/// <summary>

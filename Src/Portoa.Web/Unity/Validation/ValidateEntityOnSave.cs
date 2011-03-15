@@ -36,7 +36,7 @@ namespace Portoa.Web.Unity.Validation {
 	}
 
 	/// <summary>
-	/// Supplies configuration for validating entities when they are saved via a <see cref="IRepository{T,TId}"/>.
+	/// Supplies configuration for validating entities when they are saved via a <see cref="IRepository{T}"/>.
 	/// By default, the allowable types are anything deriving from <see cref="Entity{TId}"/>.
 	/// </summary>
 	public class ValidateEntityOnSave : UnityContainerExtension, IEntityValidationConfigurator {
