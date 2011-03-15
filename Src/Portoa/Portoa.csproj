@@ -98,7 +98,7 @@
     <Compile Include="Testing\DbTestingUtility.cs" />
     <Compile Include="Testing\DeferredScript.cs" />
     <Compile Include="Testing\IDbFactory.cs" />
-    <Compile Include="Testing\IScriptable.cs" />
+    <Compile Include="Testing\IExecutableScript.cs" />
     <Compile Include="Testing\QueryExecutor.cs" />
     <Compile Include="Validation\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="Validation\DataAnnotations\EntityValidator.cs" />

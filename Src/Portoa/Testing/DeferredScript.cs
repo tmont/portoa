@@ -1,16 +1,21 @@
 ﻿using System;
 
 namespace Portoa.Testing {
-	public class DeferredScript : IScriptable {
-		private readonly Func<string> function;
+	/// <summary>
+	/// Executable script that retrieves the queries to be executed at runtime
+	/// </summary>
+	public class DeferredScript : IExecutableScript {
+		private readonly Func<string> queryRetriever;
 
-		public DeferredScript(Func<string> function) {
-			this.function = function;
+		/// <param name="queryRetriever">Function to retrieve the queries to be run</param>
+		public DeferredScript(Func<string> queryRetriever) {
+			this.queryRetriever = queryRetriever;
 		}
 
 		public string Name { get; set; }
+
 		public void Execute(QueryExecutor queryExecutor, string connectionString) {
-			queryExecutor.ExecuteNonQuery(function(), connectionString);
+			queryExecutor.ExecuteNonQuery(queryRetriever(), connectionString);
 		}
 	}
 }

@@ -4,25 +4,32 @@ using System.Linq;
 using Portoa.Logging;
 
 namespace Portoa.Testing {
+	/// <summary>
+	/// Utility object used for testing databases
+	/// </summary>
 	public class DbTestingUtility {
 		private readonly QueryExecutor queryExecutor;
 		private readonly ILogger logger;
 		private readonly List<Exception> errors;
 		private bool handledErrors;
 
-		private readonly IList<IScriptable> schemaScripts;
-		private readonly IList<IScriptable> setupScripts;
-		private readonly IList<IScriptable> tearDownScripts;
+		private readonly IList<IExecutableScript> schemaScripts;
+		private readonly IList<IExecutableScript> setupScripts;
+		private readonly IList<IExecutableScript> tearDownScripts;
 
 		public DbTestingUtility(QueryExecutor queryExecutor, ILogger logger = null) {
 			this.queryExecutor = queryExecutor;
 			this.logger = logger ?? new DebugLogger();
 			errors = new List<Exception>();
-			schemaScripts = new List<IScriptable>();
-			setupScripts = new List<IScriptable>();
-			tearDownScripts = new List<IScriptable>();
+			schemaScripts = new List<IExecutableScript>();
+			setupScripts = new List<IExecutableScript>();
+			tearDownScripts = new List<IExecutableScript>();
 		}
 
+		/// <summary>
+		/// The name of the unique, automatically generated database to be used
+		/// for testing
+		/// </summary>
 		public string GeneratedDatabase { get; private set; }
 
 		/// <summary>
@@ -35,6 +42,9 @@ namespace Portoa.Testing {
 		/// </summary>
 		public string DefaultConnectionString { get; set; }
 
+		/// <summary>
+		/// Sets up the test, creating the database and running the setup scripts
+		/// </summary>
 		public void SetUp() {
 			handledErrors = false;
 			errors.Clear();
@@ -56,6 +66,10 @@ namespace Portoa.Testing {
 			}
 		}
 
+		/// <summary>
+		/// Tears down the test, dropping the generated database and running
+		/// the tear down scripts
+		/// </summary>
 		public void TearDown() {
 			logger.Info("Tearing down the test");
 
@@ -97,7 +111,7 @@ namespace Portoa.Testing {
 		/// <summary>
 		/// Creates a temporary database with a unique name
 		/// </summary>
-		public DbTestingUtility CreateDatabase() {
+		public void CreateDatabase() {
 			if (string.IsNullOrEmpty(GeneratedDatabase)) {
 				//don't need to create more than one database
 				GeneratedDatabase = "__fake_" + Guid.NewGuid().ToString().Replace("-", "_");
@@ -109,14 +123,12 @@ namespace Portoa.Testing {
 
 			queryExecutor.ExecuteNonQuery("CREATE DATABASE " + GeneratedDatabase, DefaultConnectionString);
 			logger.Debug("Created database " + GeneratedDatabase);
-
-			return this;
 		}
 
 		/// <summary>
 		/// Executes a SQL script on the test database
 		/// </summary>
-		protected void RunSqlScript(IScriptable script) {
+		protected void RunSqlScript(IExecutableScript script) {
 			logger.Info("Running {0}", script.Name);
 
 			try {
@@ -126,17 +138,17 @@ namespace Portoa.Testing {
 			}
 		}
 
-		public DbTestingUtility AddSchemaScript(IScriptable script) {
+		public DbTestingUtility AddSchemaScript(IExecutableScript script) {
 			schemaScripts.Add(script);
 			return this;
 		}
 
-		public DbTestingUtility AddSetUpScript(IScriptable script) {
+		public DbTestingUtility AddSetUpScript(IExecutableScript script) {
 			setupScripts.Add(script);
 			return this;
 		}
 
-		public DbTestingUtility AddTearDownScript(IScriptable script) {
+		public DbTestingUtility AddTearDownScript(IExecutableScript script) {
 			tearDownScripts.Add(script);
 			return this;
 		}
