@@ -1,12 +1,17 @@
 ﻿namespace Portoa.Web.Rest {
+	/// <summary>
+	/// <see cref="IRestIdParser"/> implementation that expects the id to be
+	/// an integer greater than zero
+	/// </summary>
 	public sealed class IdentityIdParser : RestIdParserBase {
-		public override string ParseId(string idValue) {
-			int id;
-			if (!int.TryParse(idValue, out id) || id < 1) {
-				throw new RestException(string.Format("Invalid ID value: {0}", idValue));
+		protected override bool TryParse(string idValue, ref string id) {
+			int integralId;
+			if (!int.TryParse(idValue, out integralId) || integralId < 1) {
+				return false;
 			}
 
-			return id.ToString();
+			id = integralId.ToString();
+			return true;
 		}
 	}
 }

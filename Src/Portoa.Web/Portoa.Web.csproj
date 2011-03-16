@@ -77,6 +77,7 @@
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
     <Compile Include="NHibernateDrivenMvcApplication.cs" />
+    <Compile Include="Rest\InvalidIdException.cs" />
     <Compile Include="Rest\RestException.cs" />
     <Compile Include="Rest\IdentityIdParser.cs" />
     <Compile Include="Rest\IRestIdParser.cs" />
