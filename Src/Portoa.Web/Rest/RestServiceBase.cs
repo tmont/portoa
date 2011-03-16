@@ -94,7 +94,8 @@ namespace Portoa.Web.Rest {
 		}
 
 		/// <summary>
-		/// Fetches records, filtering by the given <c cref="RestRequest.Criteria">criteria</c>
+		/// Fetches records, filtering by the given <c cref="RestRequest.Criteria">criteria</c>. This method does not allow
+		/// selecting a single record by ID; if that is desired use the <see cref="GetRecords{T,TDto,TId}"/> overload.
 		/// </summary>
 		/// <typeparam name="T">The type of entity to fetch</typeparam>
 		/// <typeparam name="TDto">The DTO representation of the entity, suitable for serialization</typeparam>

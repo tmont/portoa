@@ -100,6 +100,7 @@ namespace Portoa.Web.Tests.Rest {
 			new RestService().GetResource1sWithBadIdSelector(request);
 		}
 
+		#region nested types
 		public class Resource1 : IDtoMappable<Resource1Dto> {
 			public int Id { get; set; }
 			public string Whatever { get; set; }
@@ -150,5 +151,6 @@ namespace Portoa.Web.Tests.Rest {
 				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, resource1Handlers);
 			}
 		}
+		#endregion
 	}
 }
