@@ -6,8 +6,9 @@ using Portoa.Web.Util;
 
 namespace Portoa.Web.Rest {
 	public class RestRequestModelBinder : IModelBinder {
-		private const string SortValueKey = "sort";
-		private const string IdValueKey = "id";
+		public const string SortValueKey = "sort";
+		public const string IdValueKey = "id";
+		public const string CriteriaValueKey = "criteria";
 		private readonly IRestIdParser idParser;
 
 		public RestRequestModelBinder(IRestIdParser idParser) {
@@ -18,16 +19,19 @@ namespace Portoa.Web.Rest {
 			var model = new RestRequest();
 
 			ParseId(controllerContext, bindingContext, model);
-			if (model.FetchAll) {
+			
+			if (controllerContext.IsValid() && model.FetchAll) {
 				ParseSort(controllerContext, bindingContext, model);
-				ParseCriteria(controllerContext, bindingContext, model);
+				if (controllerContext.IsValid()) {
+					ParseCriteria(controllerContext, bindingContext, model);
+				}
 			}
 
 			return model;
 		}
 
 		private static void ParseCriteria(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
-			var valueResult = bindingContext.ValueProvider.GetValue("criteria");
+			var valueResult = bindingContext.ValueProvider.GetValue(CriteriaValueKey);
 			if (valueResult == null) {
 				return;
 			}
@@ -57,7 +61,8 @@ namespace Portoa.Web.Rest {
 					model.Criteria[criteria[i]] = ParseCommaSeparatedCriterion(criteria[i + 1]);
 					i++;
 				} else {
-					controllerContext.AddModelError("criteria", string.Format("Unable to parse criteria for key \"{0}\"", criteria[i]));
+					controllerContext.AddModelError(CriteriaValueKey, string.Format("Unable to parse criteria for key \"{0}\"", criteria[i]));
+					break;
 				}
 			}
 		}
@@ -85,12 +90,7 @@ namespace Portoa.Web.Rest {
 				return;
 			}
 
-			var sortGroupings = new List<SortGrouping>();
 			foreach (var splitSortValue in sortValues.Select(sortValue => sortValue.Split('|'))) {
-				//field|order e.g. created|descending
-				//asc and desc are shorthands for ascending/descending
-
-				var grouping = new SortGrouping { Field = splitSortValue[0] };
 				var sortOrder = SortOrder.Ascending;
 				if (splitSortValue.Length > 1) {
 					switch (splitSortValue[1]) {
@@ -103,15 +103,13 @@ namespace Portoa.Web.Rest {
 							sortOrder = SortOrder.Ascending;
 							break;
 						default:
-							controllerContext.AddModelError(SortValueKey, string.Format("The sort order \"{0}\" is invalid", sortValues[1]));
-							break;
+							controllerContext.AddModelError(SortValueKey, string.Format("The sort order \"{0}\" is invalid", splitSortValue[1]));
+							return;
 					}
 				}
 
-				grouping.Order = sortOrder;
+				model.SortInfo.Add(new SortGrouping { Field = splitSortValue[0], Order = sortOrder });
 			}
-
-			model.SortInfo = sortGroupings;
 		}
 
 		private void ParseId(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
@@ -125,7 +123,7 @@ namespace Portoa.Web.Rest {
 
 			try {
 				model.Id = idParser.ParseId(idValue);
-			} catch (RestException e) {
+			} catch (InvalidIdException e) {
 				controllerContext.AddModelError(IdValueKey, e.Message);
 			}
 		}

@@ -22,5 +22,12 @@ namespace Portoa.Web.Util {
 		public static void AddModelError(this ControllerContext controllerContext, string key, string errorMessage) {
 			controllerContext.Controller.ViewData.ModelState.AddModelError(key, errorMessage);
 		}
+
+		/// <summary>
+		/// Gets whether or not the controller's <see cref="ModelState"/> is valid
+		/// </summary>
+		public static bool IsValid(this ControllerContext controllerContext) {
+			return controllerContext.Controller.ViewData.ModelState.IsValid;
+		}
 	}
 }

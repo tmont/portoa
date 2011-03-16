@@ -24,11 +24,11 @@ namespace Portoa.Web.Rest {
 		/// Gets or sets the sorting information for the record set
 		/// </summary>
 		[NotNull]
-		public IList<SortGrouping> SortInfo { get; set; }
+		public IList<SortGrouping> SortInfo { get; private set; }
 		/// <summary>
 		/// Gets or sets the criteria passed in from the URL
 		/// </summary>
 		[NotNull]
-		public IDictionary<string, IEnumerable<object>> Criteria { get; set; }
+		public IDictionary<string, IEnumerable<object>> Criteria { get; private set; }
 	}
 }
