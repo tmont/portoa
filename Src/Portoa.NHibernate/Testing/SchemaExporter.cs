@@ -3,7 +3,7 @@ using NHibernate.Tool.hbm2ddl;
 using Portoa.Testing;
 
 namespace Portoa.NHibernate.Testing {
-	public class SchemaExporter : IScriptable {
+	public class SchemaExporter : IExecutableScript {
 		private readonly Configuration cfg;
 		private readonly string delimiter;
 		private readonly string outputFile;

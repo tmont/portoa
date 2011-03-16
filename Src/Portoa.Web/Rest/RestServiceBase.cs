@@ -101,7 +101,6 @@ namespace Portoa.Web.Rest {
 		/// <param name="request">The object representing the RESTful request</param>
 		/// <param name="records">Initial record set to filter</param>
 		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process</param>
-		/// <exception cref="UnknownCriterionException">If a criterion key is not present in the <c cref="criterionHandlers">dictionary</c></exception>
 		/// <returns>The filtered record set</returns>
 		/// <seealso cref="GetRecords{T,TDto,TId}"/>
 		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, CriterionHandler<T>> criterionHandlers) where TDto : new() {

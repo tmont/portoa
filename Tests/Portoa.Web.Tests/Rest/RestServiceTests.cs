@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using NUnit.Framework;
 using Portoa.Persistence;
 using Portoa.Web.Rest;
@@ -10,19 +8,20 @@ using Portoa.Web.Rest;
 namespace Portoa.Web.Tests.Rest {
 	[TestFixture]
 	public class RestServiceTests {
-
-		[Test, Ignore]
-		public void Should_do_stuff() {
-			Expression<Func<Resource1, object>> expression = resource => resource.Id;
-
-			var propertyType = ((PropertyInfo)((MemberExpression)expression.Body).Member).PropertyType;
-		}
-
 		[Test]
 		public void Should_fetch_all_records() {
 			var service = new RestService();
 			var request = new RestRequest { FetchAll = true };
 			var records = service.GetResource1s(request);
+
+			Assert.That(records.Count(), Is.EqualTo(4));
+		}
+
+		[Test]
+		public void Should_fetch_all_records_without_supplying_id_selector() {
+			var service = new RestService();
+			var request = new RestRequest { FetchAll = true };
+			var records = service.GetResource1sNotById(request);
 
 			Assert.That(records.Count(), Is.EqualTo(4));
 		}
@@ -73,6 +72,34 @@ namespace Portoa.Web.Tests.Rest {
 			Assert.That(record.Whatever, Is.EqualTo("whatever"));
 		}
 
+		[Test, ExpectedException(typeof(RestException), ExpectedMessage = "Unable to fetch single values based on ID")]
+		public void Should_not_allow_requests_for_single_resource_by_id() {
+			new RestService().GetResource1sNotById(new RestRequest { Id = "1" });
+		}
+
+		[Test, ExpectedException(typeof(UnknownCriterionException))]
+		public void Should_not_allow_requests_for_unknown_criterion() {
+			var request = new RestRequest { FetchAll = true };
+			request.Criteria.Add("foo", new[] { "foo" });
+
+			new RestService().GetResource1s(request);
+		}
+
+		[Test, ExpectedException(typeof(UnknownFieldNameException))]
+		public void Should_not_allow_sorting_by_unknown_field() {
+			var request = new RestRequest { FetchAll = true };
+			request.SortInfo.Add(new SortGrouping { Field = "foo" });
+
+			new RestService().GetResource1s(request);
+		}
+
+		[Test, ExpectedException(typeof(InvalidOperationException))]
+		public void Should_require_valid_id_selector_expression() {
+			var request = new RestRequest { Id = "1" };
+
+			new RestService().GetResource1sWithBadIdSelector(request);
+		}
+
 		public class Resource1 : IDtoMappable<Resource1Dto> {
 			public int Id { get; set; }
 			public string Whatever { get; set; }
@@ -111,8 +138,16 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			}
 
+			public IEnumerable<Resource1Dto> GetResource1sWithBadIdSelector(RestRequest request) {
+				return GetRecords<Resource1, Resource1Dto, object>(request, Resource1s, resource1Handlers, resource1 => resource1.Id);
+			}
+
 			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request) {
 				return GetRecords<Resource1, Resource1Dto, int>(request, Resource1s, resource1Handlers, resource1 => resource1.Id);
+			}
+
+			public IEnumerable<Resource1Dto> GetResource1sNotById(RestRequest request) {
+				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, resource1Handlers);
 			}
 		}
 	}
