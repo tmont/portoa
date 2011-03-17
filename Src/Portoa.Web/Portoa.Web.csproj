@@ -84,6 +84,10 @@
     <Compile Include="Rest\Criterion.cs" />
     <Compile Include="Rest\CriterionFieldValue.cs" />
     <Compile Include="Rest\CriterionSet.cs" />
+    <Compile Include="Rest\DateTimeParseStrategy.cs" />
+    <Compile Include="Rest\DoubleParseStrategy.cs" />
+    <Compile Include="Rest\IFieldValueParseStrategy.cs" />
+    <Compile Include="Rest\IntegerParseStrategy.cs" />
     <Compile Include="Rest\ParserHelper.cs" />
     <Compile Include="Rest\FieldValueModifier.cs" />
     <Compile Include="Rest\FieldValueOperator.cs" />
@@ -182,6 +186,7 @@
     <None Include="Rest\Parser\Criterion.g" />
     <None Include="Rest\Parser\Criterion.tokens" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

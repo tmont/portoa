@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace Portoa.Web.Rest {
@@ -6,9 +8,16 @@ namespace Portoa.Web.Rest {
 	/// Represents a single value associated with a field in a criterion
 	/// </summary>
 	public class CriterionFieldValue {
+		private readonly IEnumerable<IFieldValueParseStrategy> parseStrategies;
 		private string rawValue;
 
-		public CriterionFieldValue() {
+		public CriterionFieldValue(IEnumerable<IFieldValueParseStrategy> parseStrategies = null) {
+			this.parseStrategies = (parseStrategies ?? new IFieldValueParseStrategy[] {
+				new IntegerParseStrategy(),
+				new DoubleParseStrategy(),
+				new DateTimeParseStrategy()
+			}).Concat(new[] { new DefaultParseStrategy() });
+
 			Operator = FieldValueOperator.Equal;
 			Modifier = FieldValueModifier.BooleanAnd;
 			Value = string.Empty;
@@ -34,51 +43,46 @@ namespace Portoa.Web.Rest {
 			get { return rawValue; } 
 			set {
 				rawValue = value;
-
-				int i;
-				double d;
-				DateTime date;
-				if (double.TryParse(rawValue, out d)) {
-					Value = d;
-				} else if (int.TryParse(rawValue, out i)) {
-					Value = i;
-				} else if (DateTime.TryParse(rawValue, out date)) {
-					Value = date;
-				} else {
-					Value = (rawValue ?? string.Empty);
+				object actualValue = null;
+				if (parseStrategies.Any(parseStrategy => parseStrategy.Parse(RawValue, ref actualValue))) {
+					Value = actualValue;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Gets the parsed value of the value; default value is <see cref="String.Empty"/>
+		/// Gets the parsed value of the <see cref="string"/> that came in on the request; default 
+		/// value is <see cref="string.Empty"/>
 		/// </summary>
 		[NotNull]
 		public object Value { get; private set; }
 
 		/// <summary>
-		/// Gets the parsed type of the value
+		/// Gets the type of the <c cref="Value">parsed value</c>
 		/// </summary>
 		public Type ParsedType { get { return Value.GetType(); } }
 
-		public static explicit operator string(CriterionFieldValue value) {
-			return value.ToString();
-		}
-
-		public static explicit operator DateTime(CriterionFieldValue value) {
-			return DateTime.Parse(value.Value.ToString());
-		}
-
-		public static explicit operator int(CriterionFieldValue value) {
-			return int.Parse(value.ToString());
-		}
-
-		public static explicit operator double(CriterionFieldValue value) {
-			return double.Parse(value.ToString());
-		}
-
 		public override string ToString() {
-			return Value + string.Format("({0}, {1})", Operator, Modifier);
+			return RawValue + string.Format("({0}, {1}, {2})", Operator, Modifier, ParsedType);
+		}
+
+		private class DefaultParseStrategy : IFieldValueParseStrategy {
+			public bool Parse(string rawValue, ref object value) {
+				value = rawValue;
+				return true;
+			}
 		}
 	}
+
+	public static class CriterionFieldValueExtensions {
+		/// <summary>
+		/// Casts the value to type <typeparamref name="T"/>. <typeparamref name="T"/> should
+		/// probably match <see cref="CriterionFieldValue.ParsedType"/>
+		/// </summary>
+		/// <typeparam name="T">The type to cast the value to</typeparam>
+		public static T As<T>(this CriterionFieldValue fieldValue) {
+			return (T)fieldValue.Value;
+		}
+	}
+
 }
