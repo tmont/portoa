@@ -17,8 +17,9 @@ namespace Portoa.Web.Rest {
 		}
 
 		/// <summary>
-		/// If overridden handles converts integral criterion values to a dataset filter
+		/// If overridden converts criterion values to a dataset filter
 		/// </summary>
+		/// <param name="fieldName">The name of the field the <paramref name="value"/> is associated with</param>
 		/// <param name="value">The criterion value</param>
 		/// <exception cref="RestException">If the value is invalid</exception>
 		protected virtual Func<T, bool> HandleValue(string fieldName, CriterionFieldValue value) {

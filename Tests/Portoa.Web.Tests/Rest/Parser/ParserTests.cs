@@ -26,7 +26,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 		[Test]
 		public void Should_create_criteria_set_during_parse() {
 			var criteria = ParserHelper.Parse("foo/bar");
-			CompareCriterion(criteria["foo"], new Criterion { FieldName = "foo", Values = new[] { new CriterionFieldValue { Value = "bar" } } });
+			CompareCriterion(criteria["foo"], new Criterion { FieldName = "foo", Values = new[] { new CriterionFieldValue { RawValue = "bar" } } });
 		}
 
 		[Test]
@@ -34,8 +34,8 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			var criteria = ParserHelper.Parse("foo/bar,baz");
 
 			CompareCriterion(criteria["foo"], new Criterion { 
-				FieldName = "foo", 
-				Values = new[] { new CriterionFieldValue { Value = "bar" }, new CriterionFieldValue { Value = "baz" } } 
+				FieldName = "foo",
+				Values = new[] { new CriterionFieldValue { RawValue = "bar" }, new CriterionFieldValue { RawValue = "baz" } } 
 			});
 		}
 
@@ -43,8 +43,8 @@ namespace Portoa.Web.Tests.Rest.Parser {
 		public void Should_parse_multiple_criterion() {
 			var criteria = ParserHelper.Parse("foo/bar/baz/bat");
 
-			CompareCriterion(criteria["foo"], new Criterion { FieldName = "foo", Values = new[] { new CriterionFieldValue { Value = "bar" } } });
-			CompareCriterion(criteria["baz"], new Criterion { FieldName = "baz", Values = new[] { new CriterionFieldValue { Value = "bat" } } });
+			CompareCriterion(criteria["foo"], new Criterion { FieldName = "foo", Values = new[] { new CriterionFieldValue { RawValue = "bar" } } });
+			CompareCriterion(criteria["baz"], new Criterion { FieldName = "baz", Values = new[] { new CriterionFieldValue { RawValue = "bat" } } });
 		}
 
 		[Test]
@@ -54,8 +54,8 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion { 
 				FieldName = "foo", 
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar" },
-					new CriterionFieldValue { Value = "baz", Modifier = FieldValueModifier.BooleanOr } 
+					new CriterionFieldValue { RawValue = "bar" },
+					new CriterionFieldValue { RawValue = "baz", Modifier = FieldValueModifier.BooleanOr } 
 				} 
 			});
 		}
@@ -67,7 +67,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.Like }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.Like }
 				}
 			});
 		}
@@ -79,7 +79,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.GreaterThan }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.GreaterThan }
 				}
 			});
 		}
@@ -91,7 +91,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.LessThan }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.LessThan }
 				}
 			});
 		}
@@ -103,7 +103,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.LessThanOrEqualTo }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.LessThanOrEqualTo }
 				}
 			});
 		}
@@ -115,7 +115,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.GreaterThanOrEqualTo }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.GreaterThanOrEqualTo }
 				}
 			});
 		}
@@ -127,7 +127,7 @@ namespace Portoa.Web.Tests.Rest.Parser {
 			CompareCriterion(criteria["foo"], new Criterion {
 				FieldName = "foo",
 				Values = new[] { 
-					new CriterionFieldValue { Value = "bar", Operator = FieldValueOperator.NotEqual }
+					new CriterionFieldValue { RawValue = "bar", Operator = FieldValueOperator.NotEqual }
 				}
 			});
 		}

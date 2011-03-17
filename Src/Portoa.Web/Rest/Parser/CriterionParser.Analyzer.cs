@@ -21,7 +21,7 @@ namespace Portoa.Web.Rest.Parser {
 		}
 
 		partial void Leave_fieldValue() {
-			Builder.Value.Value = Builder.Ident;
+			Builder.Value.RawValue = Builder.Ident;
 			Builder.CommitValue();
 		}
 

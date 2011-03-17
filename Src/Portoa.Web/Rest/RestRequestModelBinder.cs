@@ -5,14 +5,18 @@ using System.Web.Mvc;
 using Portoa.Web.Util;
 
 namespace Portoa.Web.Rest {
+	/// <summary>
+	/// <see cref="IModelBinder"/> implementation for a <see cref="RestRequest"/>
+	/// </summary>
 	public class RestRequestModelBinder : IModelBinder {
 		public const string SortValueKey = "sort";
 		public const string IdValueKey = "id";
 		public const string CriteriaValueKey = "criteria";
 		private readonly IRestIdParser idParser;
 
-		public RestRequestModelBinder(IRestIdParser idParser) {
-			this.idParser = idParser;
+		/// <param name="idParser">Optional object to use to parse ids; default is <see cref="IdentityIdParser"/></param>
+		public RestRequestModelBinder(IRestIdParser idParser = null) {
+			this.idParser = idParser ?? new IdentityIdParser();
 		}
 
 		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
@@ -68,7 +72,7 @@ namespace Portoa.Web.Rest {
 		}
 
 		private static IEnumerable<CriterionFieldValue> ParseCommaSeparatedCriterion(string csv) {
-			return csv.Split(',').Select(value => new CriterionFieldValue { Value = value });
+			return csv.Split(',').Select(value => new CriterionFieldValue { RawValue = value });
 		}
 
 		private static void ParseSort(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
