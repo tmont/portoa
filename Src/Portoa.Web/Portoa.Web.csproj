@@ -85,12 +85,14 @@
     <Compile Include="Rest\CriterionFieldValue.cs" />
     <Compile Include="Rest\CriterionSet.cs" />
     <Compile Include="Rest\DateTimeParseStrategy.cs" />
+    <Compile Include="Rest\DefaultCriterionHandler.cs" />
+    <Compile Include="Rest\FieldValueOperator.cs" />
+    <Compile Include="Rest\Parser\DefaultCriterionParserFactory.cs" />
     <Compile Include="Rest\DoubleParseStrategy.cs" />
     <Compile Include="Rest\IFieldValueParseStrategy.cs" />
     <Compile Include="Rest\IntegerParseStrategy.cs" />
     <Compile Include="Rest\ParserHelper.cs" />
     <Compile Include="Rest\FieldValueModifier.cs" />
-    <Compile Include="Rest\FieldValueOperator.cs" />
     <Compile Include="Rest\InvalidIdException.cs" />
     <Compile Include="Rest\Parser\CriterionBuilder.cs" />
     <Compile Include="Rest\Parser\CriterionParser.Analyzer.cs">
@@ -98,13 +100,13 @@
     </Compile>
     <Compile Include="Rest\Parser\CriterionLexer.cs" />
     <Compile Include="Rest\Parser\CriterionParser.cs" />
+    <Compile Include="Rest\Parser\ICriterionParserFactory.cs" />
     <Compile Include="Rest\RestException.cs" />
     <Compile Include="Rest\IdentityIdParser.cs" />
     <Compile Include="Rest\IRestIdParser.cs" />
     <Compile Include="Rest\RestIdParserBase.cs" />
     <Compile Include="Rest\RestRequest.cs" />
     <Compile Include="Rest\RestRequestModelBinder.cs" />
-    <Compile Include="Rest\CriterionHandler.cs" />
     <Compile Include="Rest\RestServiceBase.cs" />
     <Compile Include="Rest\SortGrouping.cs" />
     <Compile Include="Rest\SortOrder.cs" />

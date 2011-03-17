@@ -16,10 +16,6 @@ tokens {
 	CRITERION_DELIMITER	= '/';
 }
 
-@header {
-	using Portoa.Web.Rest;
-}
-
 @members {
 	partial void SetCriteria(ref CriterionSet set);
 	partial void SetIdent(string identValue);

@@ -5,11 +5,8 @@
 // Unreachable code detected.
 #pragma warning disable 162
 
-
-	using Portoa.Web.Rest;
-
-
 using System.Collections.Generic;
+
 using Antlr.Runtime;
 using Stack = System.Collections.Generic.Stack<object>;
 using List = System.Collections.IList;
@@ -21,6 +18,8 @@ namespace  Portoa.Web.Rest.Parser
 [System.CLSCompliant(false)]
 public partial class CriterionParser : Antlr.Runtime.Parser
 {
+
+
 	internal static readonly string[] tokenNames = new string[] {
 		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "AND", "OR", "NOT", "LIKE", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "CRITERION_DELIMITER", "ID"
 	};
@@ -61,7 +60,9 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 	}
 		
 
+
 	public override string[] TokenNames { get { return CriterionParser.tokenNames; } }
+
 	public override string GrammarFileName { get { return "C:\\Users\\tmont\\code\\Portoa\\Src\\Portoa.Web\\Rest\\Criterion.g"; } }
 
 
@@ -424,6 +425,7 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 		Enter_ident();
 		EnterRule("ident", 5);
 		TraceIn("ident", 5);
+
 		IToken ID1=null;
 
 		try { DebugEnterRule(GrammarFileName, "ident");
@@ -488,6 +490,7 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 			}
 			else
 			{
+
 				MismatchedSetException mse = new MismatchedSetException(null,input);
 				DebugRecognitionException(mse);
 				throw mse;
@@ -514,6 +517,7 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 
 	}
 	// $ANTLR end "booleanModifier"
+
 
 
 	partial void Enter_fieldValueModifier();
@@ -543,6 +547,7 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 			}
 			else
 			{
+
 				MismatchedSetException mse = new MismatchedSetException(null,input);
 				DebugRecognitionException(mse);
 				throw mse;
@@ -586,6 +591,7 @@ public partial class CriterionParser : Antlr.Runtime.Parser
 		public static readonly BitSet _fieldValueModifier_in_fieldValue155 = new BitSet(new ulong[]{0x2000UL});
 		public static readonly BitSet _ident_in_fieldValue158 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _ID_in_ident164 = new BitSet(new ulong[]{0x2UL});
+
 		public static readonly BitSet _set_in_booleanModifier0 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _set_in_fieldValueModifier0 = new BitSet(new ulong[]{0x2UL});
 

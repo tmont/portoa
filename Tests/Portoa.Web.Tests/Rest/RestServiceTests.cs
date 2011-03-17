@@ -110,12 +110,6 @@ namespace Portoa.Web.Tests.Rest {
 					Whatever = Whatever
 				};
 			}
-
-			public class WhateverCriterionHandler : CriterionHandler<Resource1> {
-				protected override Func<Resource1, bool> HandleValue(string fieldName, CriterionFieldValue value) {
-					return resource1 => resource1.Whatever == (string)value.Value;
-				}
-			}
 		}
 
 		public class Resource1Dto {
@@ -124,10 +118,6 @@ namespace Portoa.Web.Tests.Rest {
 		}
 
 		public class RestService : RestServiceBase {
-			private readonly IDictionary<string, CriterionHandler<Resource1>> resource1Handlers = new Dictionary<string, CriterionHandler<Resource1>> {
-				{ "whatever", new Resource1.WhateverCriterionHandler() }
-			};
-
 			private static IQueryable<Resource1> Resource1s {
 				get {
 					return new[] {
@@ -140,15 +130,15 @@ namespace Portoa.Web.Tests.Rest {
 			}
 
 			public IEnumerable<Resource1Dto> GetResource1sWithBadIdSelector(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto, object>(request, Resource1s, resource1Handlers, resource1 => resource1.Id);
+				return GetRecords<Resource1, Resource1Dto, object>(request, Resource1s, null, resource1 => resource1.Id);
 			}
 
 			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto, int>(request, Resource1s, resource1Handlers, resource1 => resource1.Id);
+				return GetRecords<Resource1, Resource1Dto, int>(request, Resource1s, null, resource1 => resource1.Id);
 			}
 
 			public IEnumerable<Resource1Dto> GetResource1sNotById(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, resource1Handlers);
+				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, null);
 			}
 		}
 		#endregion

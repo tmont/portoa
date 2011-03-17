@@ -10,7 +10,7 @@ using Portoa.Web.Rest;
 using Portoa.Web.Util;
 
 namespace Portoa.Web.Tests.Rest {
-	[TestFixture, Ignore]
+	[TestFixture]
 	public class RestRequestTests {
 
 		public class AlwaysTrueIdParser : RestIdParserBase {
@@ -21,62 +21,6 @@ namespace Portoa.Web.Tests.Rest {
 
 		private static ControllerContext CreateControllerContext() {
 			return new ControllerContext(new RequestContext(), new Mock<ControllerBase> { CallBase = true }.Object);
-		}
-
-		[Test]
-		public void Should_bind_RestRequest_with_single_valued_criteria() {
-			var idParser = new AlwaysTrueIdParser();
-			var binder = new RestRequestModelBinder(idParser);
-
-			var values = new NameValueCollection {
-				{ RestRequestModelBinder.IdValueKey, idParser.FetchAllIdValue },
-				{ RestRequestModelBinder.CriteriaValueKey,  "foo/bar/baz/3" }
-			};
-
-			var bindingContext = new ModelBindingContext {
-				ValueProvider = new NameValueCollectionValueProvider(values, CultureInfo.InvariantCulture)
-			};
-
-			var model = binder.BindModel(CreateControllerContext(), bindingContext);
-			Assert.That(model, Is.TypeOf<RestRequest>());
-			var request = (RestRequest)model;
-
-			Assert.That(request.Criteria, Has.Count.EqualTo(2));
-
-			Assert.That(request.Criteria["foo"], Is.Not.Null);
-			Assert.That(request.Criteria["foo"].Values.Count(), Is.EqualTo(1));
-			Assert.That(request.Criteria["foo"].Values.Single(), Is.EqualTo("bar"));
-
-			Assert.That(request.Criteria["baz"], Is.Not.Null);
-			Assert.That(request.Criteria["baz"].Values.Count(), Is.EqualTo(1));
-			Assert.That(request.Criteria["baz"].Values.Single(), Is.EqualTo(3));
-		}
-
-		[Test]
-		public void Should_bind_RestRequest_with_multi_valued_criteria() {
-			var idParser = new AlwaysTrueIdParser();
-			var binder = new RestRequestModelBinder(idParser);
-
-			var values = new NameValueCollection {
-				{ RestRequestModelBinder.IdValueKey, idParser.FetchAllIdValue },
-				{ RestRequestModelBinder.CriteriaValueKey,  "foo/1,bar,bat" }
-			};
-
-			var bindingContext = new ModelBindingContext {
-				ValueProvider = new NameValueCollectionValueProvider(values, CultureInfo.InvariantCulture)
-			};
-
-			var model = binder.BindModel(CreateControllerContext(), bindingContext);
-			Assert.That(model, Is.TypeOf<RestRequest>());
-			var request = (RestRequest)model;
-
-			Assert.That(request.Criteria, Has.Count.EqualTo(1));
-
-			Assert.That(request.Criteria["foo"], Is.Not.Null);
-			Assert.That(request.Criteria["foo"].Values.Count(), Is.EqualTo(3));
-			Assert.That(request.Criteria["foo"].Values.ElementAt(0), Is.EqualTo(1));
-			Assert.That(request.Criteria["foo"].Values.ElementAt(1), Is.EqualTo("bar"));
-			Assert.That(request.Criteria["foo"].Values.ElementAt(2), Is.EqualTo("bat"));
 		}
 
 		[Test]

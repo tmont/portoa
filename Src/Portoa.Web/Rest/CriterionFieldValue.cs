@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -47,6 +48,8 @@ namespace Portoa.Web.Rest {
 				if (parseStrategies.Any(parseStrategy => parseStrategy.Parse(RawValue, ref actualValue))) {
 					Value = actualValue;
 				}
+
+				Debug.Assert(Value != null); //should be enforced by DefaultParseStrategy
 			}
 		}
 

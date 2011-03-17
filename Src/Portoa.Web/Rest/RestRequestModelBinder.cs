@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Portoa.Web.Rest.Parser;
 using Portoa.Web.Util;
 
 namespace Portoa.Web.Rest {
@@ -9,13 +9,16 @@ namespace Portoa.Web.Rest {
 	/// <see cref="IModelBinder"/> implementation for a <see cref="RestRequest"/>
 	/// </summary>
 	public class RestRequestModelBinder : IModelBinder {
+		private readonly ICriterionParserFactory parserFactory;
 		public const string SortValueKey = "sort";
 		public const string IdValueKey = "id";
 		public const string CriteriaValueKey = "criteria";
 		private readonly IRestIdParser idParser;
 
 		/// <param name="idParser">Optional object to use to parse ids; default is <see cref="IdentityIdParser"/></param>
-		public RestRequestModelBinder(IRestIdParser idParser = null) {
+		/// <param name="parserFactory">Optional object to use to create criterion parsers; default is <see cref="DefaultCriterionParserFactory"/></param>
+		public RestRequestModelBinder(IRestIdParser idParser = null, ICriterionParserFactory parserFactory = null) {
+			this.parserFactory = parserFactory ?? new DefaultCriterionParserFactory();
 			this.idParser = idParser ?? new IdentityIdParser();
 		}
 
@@ -34,45 +37,17 @@ namespace Portoa.Web.Rest {
 			return model;
 		}
 
-		private static void ParseCriteria(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
+		private void ParseCriteria(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
 			var valueResult = bindingContext.ValueProvider.GetValue(CriteriaValueKey);
 			if (valueResult == null) {
 				return;
 			}
 
-			// /api/{resource}/{id}/{*criteria}[?sort[]=...]
-			//e.g. /api/user/all/name/foo|bar/created/>2008-01-02,<2008-02-01?sort[]=name&sort[]=created|desc
-			//        -> all users with name=foo or bar and created between 2008-01-01 and 2008-02-01, sorted by name ascending and then by created descending
-
-			//field modifiers
-			//| = boolean OR
-			//, = boolean AND
-			//> = greater than
-			//< = less than
-			//>= = greater than or equal to
-			//<= = less than or equal to
-			//~ = wildcard match
-
-			//acceptable query string variables
-			//sort[]=field|order -> field is the name of the field, order is asc/ascending, desc/descending
-			//limit -> maximum number of records to return
-			//offset -> offset from beginning of recordset to begin taking records
-
-			var criteria = valueResult.AttemptedValue.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-			for (var i = 0; i < criteria.Length; i++) {
-				if (i < criteria.Length - 1) {
-					model.Criteria.Add(new Criterion { FieldName = criteria[i], Values = ParseCommaSeparatedCriterion(criteria[i + 1]) });
-					i++;
-				} else {
-					controllerContext.AddModelError(CriteriaValueKey, string.Format("Unable to parse criteria for key \"{0}\"", criteria[i]));
-					break;
-				}
+			try {
+				model.Criteria = parserFactory.Create(valueResult.AttemptedValue).getCriteria();
+			} catch (Exception e) {
+				controllerContext.AddModelError(CriteriaValueKey, string.Format("An error occurred while parsing criteria: {0}", e.Message));
 			}
-		}
-
-		private static IEnumerable<CriterionFieldValue> ParseCommaSeparatedCriterion(string csv) {
-			return csv.Split(',').Select(value => new CriterionFieldValue { RawValue = value });
 		}
 
 		private static void ParseSort(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {

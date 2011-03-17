@@ -54,6 +54,18 @@ namespace Portoa.Web.Rest {
 			return orderedRecords ?? records;
 		}
 
+		private static ICriterionHandler GetCriterionHandler(string fieldName, IDictionary<string, ICriterionHandler> criterionHandlers) {
+			if (criterionHandlers == null) {
+				return new DefaultCriterionHandler();
+			}
+
+			if (!criterionHandlers.ContainsKey(fieldName)) {
+				throw new UnknownCriterionException(string.Format("Unknown criterion: \"{0}\"", fieldName));
+			}
+
+			return criterionHandlers[fieldName];
+		}
+
 		/// <summary>
 		/// Fetches records, filtering by the given <c cref="RestRequest.Criteria">criteria</c>
 		/// </summary>
@@ -68,19 +80,20 @@ namespace Portoa.Web.Rest {
 		/// <exception cref="UnknownCriterionException">If a criterion key is not present in the given criterion handlers</exception>
 		/// <exception cref="InvalidOperationException">If the <paramref name="idSelector"/> cannot be evaluated to a valid property</exception>
 		/// <returns>The filtered record set</returns>
-		protected IEnumerable<TDto> GetRecords<T, TDto, TId>(RestRequest request, IQueryable<T> records, IDictionary<string, CriterionHandler<T>> criterionHandlers, Expression<Func<T, TId>> idSelector) where TDto : new() {
+		protected IEnumerable<TDto> GetRecords<T, TDto, TId>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers, Expression<Func<T, TId>> idSelector) where TDto : new() {
 			if (request.FetchAll) {
-				var expressionBuilder = new List<Func<T, bool>>();
-				foreach (var criterion in request.Criteria) {
-					if (!criterionHandlers.ContainsKey(criterion.FieldName)) {
-						throw new UnknownCriterionException(string.Format("Unknown criterion: \"{0}\"", criterion.FieldName));
-					}
+				var filter = request.
+					Criteria
+					.Aggregate<Criterion, Expression<Func<T, bool>>>(null, (expression, criterion) => 
+						ExpressionHelper.Compose(
+							expression, 
+							GetCriterionHandler(criterion.FieldName, criterionHandlers).HandleCriterion<T>(criterion), 
+							FieldValueModifier.BooleanAnd
+						)
+					);
 
-					expressionBuilder.AddRange(criterionHandlers[criterion.FieldName].HandleCriterion(criterion));
-				}
-
-				if (expressionBuilder.Count > 0) {
-					records = records.Where(entity => expressionBuilder.Aggregate(false, (current, next) => current || next(entity)));
+				if (filter != null) {
+					records = records.Where(filter);
 				}
 
 				records = GetSortedRecords(records, request.SortInfo);
@@ -104,7 +117,7 @@ namespace Portoa.Web.Rest {
 		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process</param>
 		/// <returns>The filtered record set</returns>
 		/// <seealso cref="GetRecords{T,TDto,TId}"/>
-		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, CriterionHandler<T>> criterionHandlers) where TDto : new() {
+		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers) where TDto : new() {
 			return GetRecords<T, TDto, object>(request, records, criterionHandlers, idSelector: null);
 		}
 
