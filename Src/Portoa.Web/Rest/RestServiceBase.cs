@@ -65,18 +65,18 @@ namespace Portoa.Web.Rest {
 		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process</param>
 		/// <param name="idSelector">Optional expression identifying the entity's identifier property</param>
 		/// <exception cref="RestException">If <paramref name="idSelector"/> is not given but a single resource by ID is requested</exception>
-		/// <exception cref="UnknownCriterionException">If a criterion key is not present in the <c cref="criterionHandlers">dictionary</c></exception>
+		/// <exception cref="UnknownCriterionException">If a criterion key is not present in the given criterion handlers</exception>
 		/// <exception cref="InvalidOperationException">If the <paramref name="idSelector"/> cannot be evaluated to a valid property</exception>
 		/// <returns>The filtered record set</returns>
 		protected IEnumerable<TDto> GetRecords<T, TDto, TId>(RestRequest request, IQueryable<T> records, IDictionary<string, CriterionHandler<T>> criterionHandlers, Expression<Func<T, TId>> idSelector) where TDto : new() {
 			if (request.FetchAll) {
 				var expressionBuilder = new List<Func<T, bool>>();
-				foreach (var kvp in request.Criteria) {
-					if (!criterionHandlers.ContainsKey(kvp.Key)) {
-						throw new UnknownCriterionException(string.Format("Unknown criterion: \"{0}\"", kvp.Key));
+				foreach (var criterion in request.Criteria) {
+					if (!criterionHandlers.ContainsKey(criterion.FieldName)) {
+						throw new UnknownCriterionException(string.Format("Unknown criterion: \"{0}\"", criterion.FieldName));
 					}
 
-					expressionBuilder.AddRange(criterionHandlers[kvp.Key].HandleCriterion(kvp.Value));
+					expressionBuilder.AddRange(criterionHandlers[criterion.FieldName].HandleCriterion(criterion));
 				}
 
 				if (expressionBuilder.Count > 0) {

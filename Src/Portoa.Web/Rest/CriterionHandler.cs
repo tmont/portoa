@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Portoa.Web.Rest {
 	/// <summary>
@@ -11,15 +12,8 @@ namespace Portoa.Web.Rest {
 		/// Creates a collection of <c>WHERE</c> clauses suitable for translating
 		/// to SQL or otherwise filtering a data set
 		/// </summary>
-		/// <param name="values">The collection of criterion values</param>
-		public IEnumerable<Func<T, bool>> HandleCriterion(IEnumerable<object> values) {
-			foreach (var value in values) {
-				if (value is int) {
-					yield return HandleInteger((int)value);
-				} else {
-					yield return HandleString((string)value ?? string.Empty);
-				}
-			}
+		public IEnumerable<Func<T, bool>> HandleCriterion(Criterion criterion) {
+			return criterion.Values.Select(fieldValue => HandleValue(criterion.FieldName, fieldValue));
 		}
 
 		/// <summary>
@@ -27,17 +21,8 @@ namespace Portoa.Web.Rest {
 		/// </summary>
 		/// <param name="value">The criterion value</param>
 		/// <exception cref="RestException">If the value is invalid</exception>
-		protected virtual Func<T, bool> HandleInteger(int value) {
-			throw new RestException(string.Format("The value \"{0}\" is invalid", value));
-		}
-
-		/// <summary>
-		/// If overridden handles converts string criterion values to a dataset filter
-		/// </summary>
-		/// <param name="value">The criterion value (this value is never <c>null</c>)</param>
-		/// <exception cref="RestException">If the value is invalid</exception>
-		protected virtual Func<T, bool> HandleString(string value) {
-			throw new RestException(string.Format("The value \"{0}\" is invalid", value));
+		protected virtual Func<T, bool> HandleValue(string fieldName, CriterionFieldValue value) {
+			throw new RestException(string.Format("The value \"{0}\" is invalid for field \"{1}\"", value, fieldName));
 		}
 	}
 }

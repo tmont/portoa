@@ -58,7 +58,7 @@ namespace Portoa.Web.Rest {
 
 			for (var i = 0; i < criteria.Length; i++) {
 				if (i < criteria.Length - 1) {
-					model.Criteria[criteria[i]] = ParseCommaSeparatedCriterion(criteria[i + 1]);
+					model.Criteria.Add(new Criterion { FieldName = criteria[i], Values = ParseCommaSeparatedCriterion(criteria[i + 1]) });
 					i++;
 				} else {
 					controllerContext.AddModelError(CriteriaValueKey, string.Format("Unable to parse criteria for key \"{0}\"", criteria[i]));
@@ -67,15 +67,8 @@ namespace Portoa.Web.Rest {
 			}
 		}
 
-		private static IEnumerable<object> ParseCommaSeparatedCriterion(string csv) {
-			foreach (var value in csv.Split(',')) {
-				int result;
-				if (int.TryParse(value, out result)) {
-					yield return result;
-				} else {
-					yield return value;
-				}
-			}
+		private static IEnumerable<CriterionFieldValue> ParseCommaSeparatedCriterion(string csv) {
+			return csv.Split(',').Select(value => new CriterionFieldValue { Value = value });
 		}
 
 		private static void ParseSort(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {

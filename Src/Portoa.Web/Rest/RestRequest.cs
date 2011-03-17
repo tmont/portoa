@@ -7,7 +7,7 @@ namespace Portoa.Web.Rest {
 	/// </summary>
 	public class RestRequest {
 		public RestRequest() {
-			Criteria = new Dictionary<string, IEnumerable<object>>();
+			Criteria = new CriterionSet();
 			SortInfo = new List<SortGrouping>();
 		}
 
@@ -29,6 +29,6 @@ namespace Portoa.Web.Rest {
 		/// Gets or sets the criteria passed in from the URL
 		/// </summary>
 		[NotNull]
-		public IDictionary<string, IEnumerable<object>> Criteria { get; private set; }
+		public CriterionSet Criteria { get; private set; }
 	}
 }

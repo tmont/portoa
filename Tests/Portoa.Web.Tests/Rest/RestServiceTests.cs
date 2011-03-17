@@ -112,8 +112,8 @@ namespace Portoa.Web.Tests.Rest {
 			}
 
 			public class WhateverCriterionHandler : CriterionHandler<Resource1> {
-				protected override Func<Resource1, bool> HandleString(string value) {
-					return resource1 => resource1.Whatever == value;
+				protected override Func<Resource1, bool> HandleValue(string fieldName, CriterionFieldValue value) {
+					return resource1 => resource1.Whatever == (string)value.Value;
 				}
 			}
 		}
