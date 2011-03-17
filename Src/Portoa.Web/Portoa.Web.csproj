@@ -88,7 +88,7 @@
     <Compile Include="Rest\FieldValueModifier.cs" />
     <Compile Include="Rest\FieldValueOperator.cs" />
     <Compile Include="Rest\InvalidIdException.cs" />
-    <Compile Include="Rest\Parser\CriteriaSetBuilder.cs" />
+    <Compile Include="Rest\Parser\CriterionBuilder.cs" />
     <Compile Include="Rest\Parser\CriterionParser.Analyzer.cs">
       <DependentUpon>CriterionParser.cs</DependentUpon>
     </Compile>

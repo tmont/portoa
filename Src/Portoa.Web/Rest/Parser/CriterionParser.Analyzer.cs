@@ -2,7 +2,7 @@ using Antlr.Runtime;
 
 namespace Portoa.Web.Rest.Parser {
 	public partial class CriterionParser {
-		public CriteriaSetBuilder Builder { get; set; }
+		internal CriterionBuilder Builder { get; set; }
 
 		partial void SetIdent(string identValue) {
 			Builder.Ident = identValue;
@@ -17,7 +17,7 @@ namespace Portoa.Web.Rest.Parser {
 		}
 
 		partial void Leave_fieldName() {
-			Builder.Current.FieldName = Builder.Ident;
+			Builder.Criterion.FieldName = Builder.Ident;
 		}
 
 		partial void Leave_fieldValue() {
