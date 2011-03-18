@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Portoa.Web.Rest;
 
@@ -185,6 +186,15 @@ namespace Portoa.Web.Tests.Rest {
 				Values = new[] {
 					new CriterionFieldValue { RawValue = "ba", Operator = FieldValueOperator.Like }
 				}
+			};
+
+			new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+		}
+
+		[Test, ExpectedException(typeof(InvalidOperationException))]
+		public void Should_handle_criterion_with_no_values() {
+			var criterion = new Criterion {
+				FieldName = "asdf"
 			};
 
 			new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);

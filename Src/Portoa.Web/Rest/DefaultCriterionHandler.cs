@@ -5,28 +5,24 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Portoa.Web.Rest {
-
-	public interface ICriterionHandler {
-		Expression<Func<T, bool>> HandleCriterion<T>(Criterion criterion);
-	}
-
+	/// <summary>
+	/// <see cref="ICriterionHandler"/> used by default by <see cref="RestServiceBase"/>. It uses
+	/// reflection to find the property matching <see cref="Criterion.FieldName"/> and composes an
+	/// expression representing the values.
+	/// </summary>
 	public class DefaultCriterionHandler : ICriterionHandler {
-		public const string LikeRegexFormat = "{0}.*";
 		private readonly IDictionary<Type, IDictionary<string, PropertyInfo>> propertyCache = new Dictionary<Type, IDictionary<string, PropertyInfo>>();
 
-		private PropertyInfo GetProperty(Type type, string fieldName) {
-			if (!propertyCache.ContainsKey(type)) {
-				propertyCache[type] = new Dictionary<string, PropertyInfo>();
-			}
-
-			if (!propertyCache[type].ContainsKey(fieldName)) {
-				propertyCache[type][fieldName] = type.GetProperty(fieldName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-			}
-
-			return propertyCache[type][fieldName];
-		}
+		/// <summary>
+		/// The regex format used for <see cref="FieldValueOperator.Like"/> values. Values is <c>{0}.*</c>.
+		/// </summary>
+		public const string LikeRegexFormat = "{0}.*";
 
 		public Expression<Func<T, bool>> HandleCriterion<T>(Criterion criterion) {
+			if (!criterion.Values.Any()) {
+				throw new InvalidOperationException("Cannot handle criterion without any values");
+			}
+
 			var parameter = Expression.Parameter(typeof(T), "resource");
 			return criterion
 				.Values
@@ -57,6 +53,18 @@ namespace Portoa.Web.Rest {
 			}
 
 			return Expression.Lambda<Func<T, bool>>(body, parameter);
+		}
+
+		private PropertyInfo GetProperty(Type type, string fieldName) {
+			if (!propertyCache.ContainsKey(type)) {
+				propertyCache[type] = new Dictionary<string, PropertyInfo>();
+			}
+
+			if (!propertyCache[type].ContainsKey(fieldName)) {
+				propertyCache[type][fieldName] = type.GetProperty(fieldName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+			}
+
+			return propertyCache[type][fieldName];
 		}
 
 		private static ExpressionType GetExpressionType(FieldValueOperator op) {
