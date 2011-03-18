@@ -4,7 +4,7 @@
 	/// </summary>
 	public enum FieldValueModifier {
 		/// <summary>
-		/// Equivalent of <c>&&</c>
+		/// Equivalent of <c>&amp;&amp;</c>
 		/// </summary>
 		BooleanAnd,
 		/// <summary>

@@ -44,7 +44,7 @@ namespace Portoa.Web.Rest.Parser {
 		}
 
 		/// <summary>
-		/// Get the collection of parsed criterion
+		/// Gets the collection of parsed criterion
 		/// </summary>
 		public IEnumerable<Criterion> Criteria { get { return criteria; } }
 	}

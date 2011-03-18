@@ -21,7 +21,7 @@ namespace Portoa.Web.Tests.Rest {
 		public void Should_fetch_filtered_records() {
 			var service = new RestService();
 			var request = new RestRequest();
-			request.Criteria.Add("whatever", new[] { "asdf" });
+			request.Criteria.Add("whatever", "asdf");
 			var records = service.GetResource1s(request);
 
 			Assert.That(records.Count(), Is.EqualTo(1));
@@ -53,7 +53,7 @@ namespace Portoa.Web.Tests.Rest {
 		[Test, ExpectedException(typeof(UnknownCriterionException))]
 		public void Should_not_allow_requests_for_unknown_criterion() {
 			var request = new RestRequest();
-			request.Criteria.Add("foo", new[] { "foo" });
+			request.Criteria.Add("foo", "foo");
 
 			new RestService().GetResource1s(request);
 		}
@@ -90,7 +90,7 @@ namespace Portoa.Web.Tests.Rest {
 		[Test, ExpectedException(typeof(UnknownCriterionException))]
 		public void Should_explode_if_field_does_not_have_a_registered_handler() {
 			var request = new RestRequest();
-			request.Criteria.Add("whatever", new[] { "asdf" });
+			request.Criteria.Add("whatever", "asdf");
 
 			var handlers = new Dictionary<string, ICriterionHandler> {
 				{ "asdf", new DefaultCriterionHandler() }

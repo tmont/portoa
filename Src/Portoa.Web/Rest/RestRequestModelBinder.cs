@@ -84,7 +84,7 @@ namespace Portoa.Web.Rest {
 				}
 
 				try {
-					model.Criteria = parserFactory.Create(valueResult.AttemptedValue).getCriteria();
+					model.Criteria.AddRange(parserFactory.Create(valueResult.AttemptedValue).getCriteria());
 				} catch (Exception e) {
 					controllerContext.AddModelError(CriteriaValueKey, string.Format("An error occurred while parsing criteria: {0}", e.Message));
 				}
@@ -149,7 +149,7 @@ namespace Portoa.Web.Rest {
 				}
 
 				try {
-					model.Criteria.Add(idParser.IdKey, new[] { idParser.ParseId(idValue) });
+					model.Criteria.Add(idParser.IdKey, idParser.ParseId(idValue));
 				} catch (InvalidIdException e) {
 					controllerContext.AddModelError(idParser.IdKey, e.Message);
 				}

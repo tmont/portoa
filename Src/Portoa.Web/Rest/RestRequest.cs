@@ -20,6 +20,6 @@ namespace Portoa.Web.Rest {
 		/// Gets or sets the criteria passed in from the URL, including the id, if given
 		/// </summary>
 		[NotNull]
-		public CriterionSet Criteria { get; set; }
+		public CriterionSet Criteria { get; private set; }
 	}
 }
