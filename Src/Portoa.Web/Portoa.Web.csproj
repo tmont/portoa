@@ -86,6 +86,7 @@
     <Compile Include="Rest\CriterionSet.cs" />
     <Compile Include="Rest\DateTimeParseStrategy.cs" />
     <Compile Include="Rest\DefaultCriterionHandler.cs" />
+    <Compile Include="Rest\ExpressionHelper.cs" />
     <Compile Include="Rest\FieldValueOperator.cs" />
     <Compile Include="Rest\Parser\DefaultCriterionParserFactory.cs" />
     <Compile Include="Rest\DoubleParseStrategy.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Rest\Parser\CriterionLexer.cs" />
     <Compile Include="Rest\Parser\CriterionParser.cs" />
     <Compile Include="Rest\Parser\ICriterionParserFactory.cs" />
+    <Compile Include="Rest\RegexExtensions.cs" />
     <Compile Include="Rest\RestException.cs" />
     <Compile Include="Rest\IdentityIdParser.cs" />
     <Compile Include="Rest\IRestIdParser.cs" />
@@ -111,7 +113,6 @@
     <Compile Include="Rest\SortGrouping.cs" />
     <Compile Include="Rest\SortOrder.cs" />
     <Compile Include="Rest\UnknownCriterionException.cs" />
-    <Compile Include="Rest\UnknownFieldNameException.cs" />
     <Compile Include="Results\CompositeResult.cs" />
     <Compile Include="Results\InjectableJsonResult.cs" />
     <Compile Include="Security\FormsAuthenticationServiceBase.cs" />

@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 using Portoa.Persistence;
 using Portoa.Web.Rest;
@@ -58,12 +58,45 @@ namespace Portoa.Web.Tests.Rest {
 			new RestService().GetResource1s(request);
 		}
 
-		[Test, ExpectedException(typeof(UnknownFieldNameException))]
+		[Test, ExpectedException(typeof(UnknownCriterionException))]
 		public void Should_not_allow_sorting_by_unknown_field() {
 			var request = new RestRequest();
 			request.SortInfo.Add(new SortGrouping { Field = "foo" });
 
 			new RestService().GetResource1s(request);
+		}
+
+		[Test]
+		public void Should_use_custom_criterion_handler() {
+			var request = new RestRequest();
+			var criterion = new Criterion { FieldName = "whatever", Values = new[] { new CriterionFieldValue { RawValue = "asdf" } } };
+			request.Criteria.Add(criterion);
+
+			var handler = new Mock<ICriterionHandler>();
+			handler
+				.Setup(h => h.HandleCriterion<Resource1>(criterion))
+				.Returns(r => true)
+				.Verifiable();
+
+			var handlers = new Dictionary<string, ICriterionHandler> {
+				{ "whatever", handler.Object }
+			};
+
+			new RestService().GetResource1s(request, handlers);
+
+			handler.VerifyAll();
+		}
+
+		[Test, ExpectedException(typeof(UnknownCriterionException))]
+		public void Should_explode_if_field_does_not_have_a_registered_handler() {
+			var request = new RestRequest();
+			request.Criteria.Add("whatever", new[] { "asdf" });
+
+			var handlers = new Dictionary<string, ICriterionHandler> {
+				{ "asdf", new DefaultCriterionHandler() }
+			};
+
+			new RestService().GetResource1s(request, handlers);
 		}
 
 		#region nested types
@@ -97,6 +130,10 @@ namespace Portoa.Web.Tests.Rest {
 
 			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request) {
 				return GetRecords<Resource1, Resource1Dto>(request, Resource1s);
+			}
+
+			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request, IDictionary<string, ICriterionHandler> handlers) {
+				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, handlers);
 			}
 
 		}

@@ -41,7 +41,7 @@ namespace Portoa.Web.Rest {
 			foreach (var grouping in sortGroupings) {
 				var fieldSelector = GetFieldMapping<T>(grouping.Field);
 				if (fieldSelector == null) {
-					throw new UnknownFieldNameException(grouping.Field);
+					throw new UnknownCriterionException(grouping.Field);
 				}
 
 				if (grouping.Order == SortOrder.Descending) {
@@ -78,7 +78,7 @@ namespace Portoa.Web.Rest {
 		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers = null) where TDto : new() {
 			var filter = request
 				.Criteria
-				.Aggregate<Criterion, Expression<Func<T, bool>>>(null, (expression, criterion) => 
+				.Aggregate<Criterion, Expression<Func<T, bool>>>(null, (expression, criterion) =>
 					ExpressionHelper.Compose(
 						expression, 
 						GetCriterionHandler(criterion.FieldName, criterionHandlers).HandleCriterion<T>(criterion), 

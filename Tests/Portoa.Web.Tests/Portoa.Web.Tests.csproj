@@ -55,6 +55,7 @@
     <Compile Include="Models\EnumBinderTests.cs" />
     <Compile Include="Models\PagingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest\DefaultCriterionHandlerTests.cs" />
     <Compile Include="Rest\IdParserTests.cs" />
     <Compile Include="Rest\Parser\ParserTests.cs" />
     <Compile Include="Rest\RestRequestTests.cs" />

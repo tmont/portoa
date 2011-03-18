@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 
 namespace Portoa.Web.Rest {
 
@@ -13,34 +10,8 @@ namespace Portoa.Web.Rest {
 		Expression<Func<T, bool>> HandleCriterion<T>(Criterion criterion);
 	}
 
-	public static class RegexExtensions {
-		public static bool Like(this string value, string pattern) {
-			return Regex.IsMatch(value, pattern);
-		}
-	}
-
-	public static class ExpressionHelper {
-		public static Expression<Func<T, bool>> Compose<T>([CanBeNull]Expression<Func<T, bool>> left, [NotNull]Expression<Func<T, bool>> right, FieldValueModifier booleanModifier) {
-			if (left == null) {
-				return right;
-			}
-
-			Debug.Assert(left.Parameters == right.Parameters);
-
-			switch (booleanModifier) {
-				case FieldValueModifier.BooleanAnd:
-					return Expression.Lambda<Func<T, bool>>(Expression.MakeBinary(ExpressionType.And, left, right), left.Parameters);
-				case FieldValueModifier.BooleanOr:
-					return Expression.Lambda<Func<T, bool>>(Expression.MakeBinary(ExpressionType.Or, left, right), left.Parameters);
-				default:
-					throw new ArgumentOutOfRangeException("booleanModifier");
-			}
-		}
-	}
-
-	
-
 	public class DefaultCriterionHandler : ICriterionHandler {
+		public const string LikeRegexFormat = "{0}.*";
 		private readonly IDictionary<Type, IDictionary<string, PropertyInfo>> propertyCache = new Dictionary<Type, IDictionary<string, PropertyInfo>>();
 
 		private PropertyInfo GetProperty(Type type, string fieldName) {
@@ -56,21 +27,19 @@ namespace Portoa.Web.Rest {
 		}
 
 		public Expression<Func<T, bool>> HandleCriterion<T>(Criterion criterion) {
+			var parameter = Expression.Parameter(typeof(T), "resource");
 			return criterion
 				.Values
 				.Aggregate<CriterionFieldValue, Expression<Func<T, bool>>>(null, (expression, value) => 
-					ExpressionHelper.Compose(expression, BuildExpression<T>(criterion.FieldName, value), value.Modifier)
+					ExpressionHelper.Compose(expression, BuildExpression<T>(criterion.FieldName, value, parameter), value.Modifier)
 				);
 		}
 
-		private Expression<Func<T, bool>> BuildExpression<T>(string fieldName, CriterionFieldValue value) {
-			var type = typeof(T);
-			var property = GetProperty(type, fieldName);
+		private Expression<Func<T, bool>> BuildExpression<T>(string fieldName, CriterionFieldValue value, ParameterExpression parameter) {
+			var property = GetProperty(typeof(T), fieldName);
 			if (property == null) {
 				throw new UnknownCriterionException(string.Format("Unknown criterion \"{0}\"", fieldName));
 			}
-
-			var parameter = Expression.Parameter(type, "resource");
 
 			Expression body;
 			if (value.Operator != FieldValueOperator.Like) {
@@ -83,7 +52,7 @@ namespace Portoa.Web.Rest {
 				body = Expression.Call(
 					typeof(RegexExtensions).GetMethod("Like", new[] { typeof(string), typeof(string) }),
 					Expression.Property(parameter, property),
-					Expression.Constant(string.Format("{0}*", value.RawValue ?? string.Empty))
+					Expression.Constant(string.Format(LikeRegexFormat, value.RawValue ?? string.Empty))
 				);
 			}
 
@@ -92,8 +61,6 @@ namespace Portoa.Web.Rest {
 
 		private static ExpressionType GetExpressionType(FieldValueOperator op) {
 			switch (op) {
-				case FieldValueOperator.Equal:
-					return ExpressionType.Equal;
 				case FieldValueOperator.NotEqual:
 					return ExpressionType.NotEqual;
 				case FieldValueOperator.LessThan:
@@ -105,7 +72,7 @@ namespace Portoa.Web.Rest {
 				case FieldValueOperator.GreaterThanOrEqualTo:
 					return ExpressionType.GreaterThanOrEqual;
 				default:
-					throw new ArgumentOutOfRangeException("op");
+					return ExpressionType.Equal;
 			}
 		}
 	}

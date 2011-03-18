@@ -5,6 +5,6 @@ namespace Portoa.Web.Rest {
 	/// Raised when an unknown criterion is encountered
 	/// </summary>
 	public class UnknownCriterionException : RestException {
-		public UnknownCriterionException(string message = null, Exception innerException = null) : base(message, innerException) { }
+		public UnknownCriterionException(string fieldName, Exception innerException = null) : base(string.Format("Unknown field name \"{0}\"", fieldName), innerException) { }
 	}
 }
