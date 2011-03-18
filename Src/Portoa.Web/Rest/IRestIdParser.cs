@@ -21,5 +21,9 @@
 		/// <param name="idValue">The value of the id given in the request</param>
 		/// <exception cref="InvalidIdException"/>
 		string ParseId(string idValue);
+		/// <summary>
+		/// Gets the key of the identifier value in the request
+		/// </summary>
+		string IdKey { get; }
 	}
 }

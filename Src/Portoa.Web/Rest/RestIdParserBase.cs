@@ -22,6 +22,8 @@
 			return id;
 		}
 
+		public virtual string IdKey { get { return "id"; } }
+
 		/// <summary>
 		/// Attempts to parse the given value
 		/// </summary>

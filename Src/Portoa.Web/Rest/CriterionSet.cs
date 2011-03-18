@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Portoa.Util;
 
 namespace Portoa.Web.Rest {
@@ -19,10 +20,12 @@ namespace Portoa.Web.Rest {
 		}
 
 		/// <summary>
-		/// Retrieves the criterion with the field name specified by <paramref name="field"/>
+		/// Retrieves the criterion with the field name specified by <paramref name="field"/> or <c>null</c>
+		/// if the key doesn't exist
 		/// </summary>
 		/// <param name="field">The name of the criterion's field</param>
 		/// <returns>The criterion that matches the given field name or <c>null</c></returns>
+		[CanBeNull]
 		public Criterion this[string field] { get { return criteria.FirstOrDefault(criterion => criterion.FieldName == field); } }
 
 		/// <summary>

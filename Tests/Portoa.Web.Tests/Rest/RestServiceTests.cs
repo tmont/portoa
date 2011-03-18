@@ -11,17 +11,8 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_fetch_all_records() {
 			var service = new RestService();
-			var request = new RestRequest { FetchAll = true };
+			var request = new RestRequest();
 			var records = service.GetResource1s(request);
-
-			Assert.That(records.Count(), Is.EqualTo(4));
-		}
-
-		[Test]
-		public void Should_fetch_all_records_without_supplying_id_selector() {
-			var service = new RestService();
-			var request = new RestRequest { FetchAll = true };
-			var records = service.GetResource1sNotById(request);
 
 			Assert.That(records.Count(), Is.EqualTo(4));
 		}
@@ -29,7 +20,7 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_fetch_filtered_records() {
 			var service = new RestService();
-			var request = new RestRequest { FetchAll = true };
+			var request = new RestRequest();
 			request.Criteria.Add("whatever", new[] { "asdf" });
 			var records = service.GetResource1s(request);
 
@@ -42,7 +33,7 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_fetch_sorted_records() {
 			var service = new RestService();
-			var request = new RestRequest { FetchAll = true };
+			var request = new RestRequest();
 			request.SortInfo.Add(new SortGrouping { Field = "whatever", Order = SortOrder.Ascending });
 			request.SortInfo.Add(new SortGrouping { Field = "id", Order = SortOrder.Descending });
 			var records = service.GetResource1s(request);
@@ -59,27 +50,9 @@ namespace Portoa.Web.Tests.Rest {
 			Assert.That(records.ElementAt(3).Whatever, Is.EqualTo("whatever"));
 		}
 
-		[Test]
-		public void Should_fetch_single_record_by_id() {
-			var service = new RestService();
-			var request = new RestRequest { Id = "1" };
-			var records = service.GetResource1s(request);
-
-			Assert.That(records.Count(), Is.EqualTo(1));
-
-			var record = records.Single();
-			Assert.That(record.Id, Is.EqualTo(1));
-			Assert.That(record.Whatever, Is.EqualTo("whatever"));
-		}
-
-		[Test, ExpectedException(typeof(RestException), ExpectedMessage = "Unable to fetch single values based on ID")]
-		public void Should_not_allow_requests_for_single_resource_by_id() {
-			new RestService().GetResource1sNotById(new RestRequest { Id = "1" });
-		}
-
 		[Test, ExpectedException(typeof(UnknownCriterionException))]
 		public void Should_not_allow_requests_for_unknown_criterion() {
-			var request = new RestRequest { FetchAll = true };
+			var request = new RestRequest();
 			request.Criteria.Add("foo", new[] { "foo" });
 
 			new RestService().GetResource1s(request);
@@ -87,17 +60,10 @@ namespace Portoa.Web.Tests.Rest {
 
 		[Test, ExpectedException(typeof(UnknownFieldNameException))]
 		public void Should_not_allow_sorting_by_unknown_field() {
-			var request = new RestRequest { FetchAll = true };
+			var request = new RestRequest();
 			request.SortInfo.Add(new SortGrouping { Field = "foo" });
 
 			new RestService().GetResource1s(request);
-		}
-
-		[Test, ExpectedException(typeof(InvalidOperationException))]
-		public void Should_require_valid_id_selector_expression() {
-			var request = new RestRequest { Id = "1" };
-
-			new RestService().GetResource1sWithBadIdSelector(request);
 		}
 
 		#region nested types
@@ -129,17 +95,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			}
 
-			public IEnumerable<Resource1Dto> GetResource1sWithBadIdSelector(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto, object>(request, Resource1s, null, resource1 => resource1.Id);
-			}
-
 			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto, int>(request, Resource1s, null, resource1 => resource1.Id);
+				return GetRecords<Resource1, Resource1Dto>(request, Resource1s);
 			}
 
-			public IEnumerable<Resource1Dto> GetResource1sNotById(RestRequest request) {
-				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, null);
-			}
 		}
 		#endregion
 	}

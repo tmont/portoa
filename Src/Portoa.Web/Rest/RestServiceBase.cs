@@ -14,7 +14,7 @@ namespace Portoa.Web.Rest {
 		/// <summary>
 		/// Gets an expression for a property on <typeparamref name="T"/> that maps to a
 		/// <paramref name="fieldName"/> given in the criteria, or <c>null</c> if there is
-		/// no mapping
+		/// no mapping. By default, it uses reflection to automatically build the expression.
 		/// </summary>
 		/// <typeparam name="T">The type on which to map the field name to a property</typeparam>
 		/// <param name="fieldName">The name of the field given in the criterion</param>
@@ -71,72 +71,27 @@ namespace Portoa.Web.Rest {
 		/// </summary>
 		/// <typeparam name="T">The type of entity to fetch</typeparam>
 		/// <typeparam name="TDto">The DTO representation of the entity, suitable for serialization</typeparam>
-		/// <typeparam name="TId">The entity's identifier type </typeparam>
 		/// <param name="request">The object representing the RESTful request</param>
 		/// <param name="records">Initial record set to filter</param>
-		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process</param>
-		/// <param name="idSelector">Optional expression identifying the entity's identifier property</param>
-		/// <exception cref="RestException">If <paramref name="idSelector"/> is not given but a single resource by ID is requested</exception>
-		/// <exception cref="UnknownCriterionException">If a criterion key is not present in the given criterion handlers</exception>
-		/// <exception cref="InvalidOperationException">If the <paramref name="idSelector"/> cannot be evaluated to a valid property</exception>
+		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process; if not given, defaults to <see cref="DefaultCriterionHandler"/></param>
 		/// <returns>The filtered record set</returns>
-		protected IEnumerable<TDto> GetRecords<T, TDto, TId>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers, Expression<Func<T, TId>> idSelector) where TDto : new() {
-			if (request.FetchAll) {
-				var filter = request.
-					Criteria
-					.Aggregate<Criterion, Expression<Func<T, bool>>>(null, (expression, criterion) => 
-						ExpressionHelper.Compose(
-							expression, 
-							GetCriterionHandler(criterion.FieldName, criterionHandlers).HandleCriterion<T>(criterion), 
-							FieldValueModifier.BooleanAnd
-						)
-					);
+		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers = null) where TDto : new() {
+			var filter = request
+				.Criteria
+				.Aggregate<Criterion, Expression<Func<T, bool>>>(null, (expression, criterion) => 
+					ExpressionHelper.Compose(
+						expression, 
+						GetCriterionHandler(criterion.FieldName, criterionHandlers).HandleCriterion<T>(criterion), 
+						FieldValueModifier.BooleanAnd
+					)
+				);
 
-				if (filter != null) {
-					records = records.Where(filter);
-				}
-
-				records = GetSortedRecords(records, request.SortInfo);
-			} else if (idSelector == null) {
-				throw new RestException("Unable to fetch single values based on ID");
-			} else {
-				records = records.Where(entity => Equals(idSelector.Compile()(entity), ConvertId(request.Id, GetPropertyType(idSelector))));
+			if (filter != null) {
+				records = records.Where(filter);
 			}
 
+			records = GetSortedRecords(records, request.SortInfo);
 			return records.ToArray().Select(entity => entity.ToDto<TDto>());
-		}
-
-		/// <summary>
-		/// Fetches records, filtering by the given <c cref="RestRequest.Criteria">criteria</c>. This method does not allow
-		/// selecting a single record by ID; if that is desired use the <see cref="GetRecords{T,TDto,TId}"/> overload.
-		/// </summary>
-		/// <typeparam name="T">The type of entity to fetch</typeparam>
-		/// <typeparam name="TDto">The DTO representation of the entity, suitable for serialization</typeparam>
-		/// <param name="request">The object representing the RESTful request</param>
-		/// <param name="records">Initial record set to filter</param>
-		/// <param name="criterionHandlers">Specific criterion handlers to guide the filtering process</param>
-		/// <returns>The filtered record set</returns>
-		/// <seealso cref="GetRecords{T,TDto,TId}"/>
-		protected IEnumerable<TDto> GetRecords<T, TDto>(RestRequest request, IQueryable<T> records, IDictionary<string, ICriterionHandler> criterionHandlers) where TDto : new() {
-			return GetRecords<T, TDto, object>(request, records, criterionHandlers, idSelector: null);
-		}
-
-		private static Type GetPropertyType<T, TReturn>(Expression<Func<T, TReturn>> expression) {
-			try {
-				return ((PropertyInfo)((MemberExpression)expression.Body).Member).PropertyType;
-			} catch (Exception e) {
-				throw new InvalidOperationException("idSelector needs to be a MemberExpression pointing to a property in the form of foo => foo.Id", e);
-			}
-		}
-
-		/// <summary>
-		/// Converts the string value of an entity's identifier to the correct type. Default
-		/// implementation uses <see cref="Convert.ChangeType(object, Type)"/>.
-		/// </summary>
-		/// <param name="idValue">The string value of the entity's identifier</param>
-		/// <param name="idType">The type of the identifier</param>
-		protected virtual object ConvertId(string idValue, Type idType) {
-			return Convert.ChangeType(idValue, idType);
 		}
 	}
 }

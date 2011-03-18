@@ -29,7 +29,7 @@ namespace Portoa.Web.Tests.Rest {
 			var binder = new RestRequestModelBinder(idParser);
 
 			var values = new NameValueCollection {
-				{ RestRequestModelBinder.IdValueKey, "5" }
+				{ "id", "5" }
 			};
 
 			var bindingContext = new ModelBindingContext {
@@ -40,18 +40,21 @@ namespace Portoa.Web.Tests.Rest {
 			Assert.That(model, Is.TypeOf<RestRequest>());
 			var request = (RestRequest)model;
 
-			Assert.That(request.Criteria, Has.Count.EqualTo(0));
-			Assert.That(request.Id, Is.EqualTo("5"));
+			Assert.That(request.Criteria, Has.Count.EqualTo(1));
+			Assert.That(request.Criteria["id"], Is.Not.Null);
+			Assert.That(request.Criteria["id"].Values.Count(), Is.EqualTo(1));
+			Assert.That(request.Criteria["id"].Values.First().RawValue, Is.EqualTo("5"));
 		}
 
 		[Test]
 		public void Should_add_model_error_for_invalid_id() {
 			var idParser = new Mock<IRestIdParser>();
 			idParser.Setup(parser => parser.ParseId("5")).Throws(new InvalidIdException("5"));
+			idParser.SetupGet(parser => parser.IdKey).Returns("id");
 			var binder = new RestRequestModelBinder(idParser.Object);
 
 			var values = new NameValueCollection {
-				{ RestRequestModelBinder.IdValueKey, "5" }
+				{ "id", "5" }
 			};
 
 			var bindingContext = new ModelBindingContext {
@@ -71,7 +74,7 @@ namespace Portoa.Web.Tests.Rest {
 			var valueProvider = new DictionaryValueProvider<object>(
 				new Dictionary<string, object> { 
 					{ RestRequestModelBinder.SortValueKey, new[] { "foo|asc", "bar|desc", "baz|ascending", "bat|descending" } },
-					{ RestRequestModelBinder.IdValueKey, idParser.FetchAllIdValue }
+					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture
 			);
@@ -103,7 +106,7 @@ namespace Portoa.Web.Tests.Rest {
 			var valueProvider = new DictionaryValueProvider<object>(
 				new Dictionary<string, object> { 
 					{ RestRequestModelBinder.SortValueKey, new[] { "foo|asdf" } },
-					{ RestRequestModelBinder.IdValueKey, idParser.FetchAllIdValue }
+					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture
 			);
