@@ -9,11 +9,13 @@
 		/// of only fetching records by ID
 		/// </summary>
 		bool AllowFetchAll { get; }
+
 		/// <summary>
 		/// Gets the value that should be sent in place of an actual ID when the
 		/// user wants to fetch all records
 		/// </summary>
 		string FetchAllIdValue { get; }
+
 		/// <summary>
 		/// Verifies the given value as an identifier, possibly transforming it
 		/// in the process
@@ -21,6 +23,7 @@
 		/// <param name="idValue">The value of the id given in the request</param>
 		/// <exception cref="InvalidIdException"/>
 		string ParseId(string idValue);
+
 		/// <summary>
 		/// Gets the key of the identifier value in the request
 		/// </summary>

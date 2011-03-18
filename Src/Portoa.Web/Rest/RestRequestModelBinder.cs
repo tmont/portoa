@@ -10,53 +10,67 @@ namespace Portoa.Web.Rest {
 	/// <see cref="IModelBinder"/> implementation for a <see cref="RestRequest"/>
 	/// </summary>
 	public class RestRequestModelBinder : IModelBinder {
-		private readonly ICriterionParserFactory parserFactory;
 		public const string SortValueKey = "sort";
 		public const string CriteriaValueKey = "criteria";
-		private readonly IRestIdParser idParser;
+		
 
 		/// <param name="idParser">Optional object to use to parse ids; default is <see cref="IdentityIdParser"/></param>
 		/// <param name="parserFactory">Optional object to use to create criterion parsers; default is <see cref="DefaultCriterionParserFactory"/></param>
 		public RestRequestModelBinder(IRestIdParser idParser = null, ICriterionParserFactory parserFactory = null) {
-			this.parserFactory = parserFactory ?? new DefaultCriterionParserFactory();
-			this.idParser = idParser ?? new IdentityIdParser();
+			ParserFactory = parserFactory ?? new DefaultCriterionParserFactory();
+			IdParser = idParser ?? new IdentityIdParser();
 		}
+
+		protected ICriterionParserFactory ParserFactory { get; private set; }
+		protected IRestIdParser IdParser { get; private set; }
 
 		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-			var model = new RestRequest();
-
-			new CommandCenter()
-				.Add(new CriteriaCommand(parserFactory))
-				.Add(new IdCommand(idParser))
-				.Add(new SortCommand())
-				.Execute(controllerContext, bindingContext, model);
-
-			return model;
+			return new CommandCenter(GetCommands()).Execute(controllerContext, bindingContext, new RestRequest());
 		}
 
-		private interface ICommand {
+		/// <summary>
+		/// Gets the commands to execute while the <see cref="ViewDataDictionary.ModelState"/> is valid.
+		/// The default commands are <see cref="CriteriaCommand"/>,<see cref="IdCommand"/> and <see cref="SortCommand"/>.
+		/// </summary>
+		protected virtual IEnumerable<ICommand> GetCommands() {
+			return new ICommand[] {
+				new CriteriaCommand(ParserFactory),
+				new IdCommand(IdParser),
+				new SortCommand()
+			};
+		}
+
+		/// <summary>
+		/// Provides an interface for executing an action (such as parsing a value from the request) that
+		/// populates the <c cref="RestRequest">model</c> in some way.
+		/// </summary>
+		protected interface ICommand {
 			void Execute(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model);
 		}
 
-		private class CommandCenter : ICommand {
-			private readonly IList<ICommand> commands = new List<ICommand>();
+		private class CommandCenter {
+			private readonly List<ICommand> commands = new List<ICommand>();
 
-			public CommandCenter Add(ICommand command) {
-				commands.Add(command);
-				return this;
+			public CommandCenter(IEnumerable<ICommand> commands) {
+				this.commands.AddRange(commands);
 			}
 
-			public void Execute(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
+			public RestRequest Execute(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
 				foreach (var command in commands) {
 					command.Execute(controllerContext, bindingContext, model);
 					if (!controllerContext.IsValid()) {
 						break;
 					}
 				}
+
+				return model;
 			}
 		}
 
-		private class CriteriaCommand : ICommand {
+		/// <summary>
+		/// Parses the value in the <see cref="ModelBindingContext.ValueProvider"/> keyed by <see cref="CriteriaValueKey"/>
+		/// </summary>
+		protected sealed class CriteriaCommand : ICommand {
 			private readonly ICriterionParserFactory parserFactory;
 
 			public CriteriaCommand(ICriterionParserFactory parserFactory) {
@@ -77,7 +91,10 @@ namespace Portoa.Web.Rest {
 			}
 		}
 
-		private class SortCommand : ICommand {
+		/// <summary>
+		/// Parses the value in the <see cref="ModelBindingContext.ValueProvider"/> keyed by <see cref="SortValueKey"/>
+		/// </summary>
+		protected sealed class SortCommand : ICommand {
 			public void Execute(ControllerContext controllerContext, ModelBindingContext bindingContext, RestRequest model) {
 				var valueResult = bindingContext.ValueProvider.GetValue(SortValueKey);
 				if (valueResult == null) {
@@ -113,7 +130,10 @@ namespace Portoa.Web.Rest {
 			}
 		}
 
-		private class IdCommand : ICommand {
+		/// <summary>
+		/// Parses the id value in the <see cref="ModelBindingContext.ValueProvider"/> keyed by <see cref="IRestIdParser.IdKey"/>
+		/// </summary>
+		protected sealed class IdCommand : ICommand {
 			private readonly IRestIdParser idParser;
 
 			public IdCommand(IRestIdParser idParser) {
