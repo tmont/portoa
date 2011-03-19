@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using NUnit.Framework;
 using Portoa.Web.Rest;
 
@@ -199,6 +200,12 @@ namespace Portoa.Web.Tests.Rest {
 
 			new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
 		}
+
+		//[Test]
+		//public void Should_do_stuff() {
+		//    Expression<Func<object, bool>> foo = obj => obj.GetType() == typeof(int) && obj.GetHashCode() > 1000;
+
+		//}
 
 		public class MyEntity {
 			public string Foo { get; set; }

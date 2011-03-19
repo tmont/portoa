@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Tests", "Tests\Porto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.EventLog", "Src\Portoa.EventLog\Portoa.EventLog.csproj", "{33589DDE-1987-43C8-9B5B-4A6EF19A6E92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portoa.Web.Rest.MvcTest", "Tests\Portoa.Web.Rest.MvcTest\Portoa.Web.Rest.MvcTest.csproj", "{43566F7D-0FCB-4611-B9D8-15E0EF82937E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{33589DDE-1987-43C8-9B5B-4A6EF19A6E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33589DDE-1987-43C8-9B5B-4A6EF19A6E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33589DDE-1987-43C8-9B5B-4A6EF19A6E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43566F7D-0FCB-4611-B9D8-15E0EF82937E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43566F7D-0FCB-4611-B9D8-15E0EF82937E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43566F7D-0FCB-4611-B9D8-15E0EF82937E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43566F7D-0FCB-4611-B9D8-15E0EF82937E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +71,6 @@ Global
 		{33589DDE-1987-43C8-9B5B-4A6EF19A6E92} = {DDAE992F-95A1-4BA3-8513-81107A5A430A}
 		{DAEB3C41-EFF8-4E32-B84D-D3CD894667A9} = {34662050-EC53-45F2-8BE5-C7BACAC410AA}
 		{C52BB79D-6206-46B4-A9D0-E0219FF9E2DC} = {34662050-EC53-45F2-8BE5-C7BACAC410AA}
+		{43566F7D-0FCB-4611-B9D8-15E0EF82937E} = {34662050-EC53-45F2-8BE5-C7BACAC410AA}
 	EndGlobalSection
 EndGlobal

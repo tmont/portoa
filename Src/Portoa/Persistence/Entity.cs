@@ -2,7 +2,7 @@
 
 namespace Portoa.Persistence {
 	/// <summary>
-	/// Represents a domain object that can be persisted by a <c cref="IRepository{T, TId}">repository</c>
+	/// Represents a domain object that can be persisted by a <c cref="IRepository{T}">repository</c>
 	/// </summary>
 	/// <typeparam name="TId">The entity's identifier type</typeparam>
 	public abstract class Entity<TId> : IIdentifiable<TId> {

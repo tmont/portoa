@@ -1,0 +1,8 @@
+﻿@model Portoa.Web.ErrorHandling.ErrorModel
+
+@if (Model.Exception != null) {
+	<h2>Exception Details</h2>
+	@Html.Partial("RecursiveExceptionView", Model.Exception)
+} else {
+	<p class="info">No exception was thrown.</p>
+}

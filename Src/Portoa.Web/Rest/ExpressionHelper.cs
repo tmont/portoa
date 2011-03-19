@@ -21,7 +21,7 @@ namespace Portoa.Web.Rest {
 				case FieldValueModifier.BooleanOr:
 					return Expression.Lambda<Func<T, bool>>(Expression.MakeBinary(ExpressionType.Or, left.Body, right.Body), left.Parameters);
 				default:
-					return Expression.Lambda<Func<T, bool>>(Expression.MakeBinary(ExpressionType.And, left.Body, right.Body), left.Parameters);
+					return Expression.Lambda<Func<T, bool>>(Expression.MakeBinary(ExpressionType.AndAlso, left.Body, right.Body), left.Parameters);
 			}
 		}
 	}

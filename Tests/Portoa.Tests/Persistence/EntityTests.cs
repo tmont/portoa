@@ -47,6 +47,12 @@ namespace Portoa.Tests.Persistence {
 			Assert.That(entity, Is.EqualTo(other));
 		}
 
+		[Test]
+		public void Should_be_transient_even_if_not_strongly_typed() {
+			object entity = new MockEntity();
+			Assert.That(entity.IsTransient(), Is.True);
+		}
+
 		public class MockEntity : Entity<int> { }
 		public class DerivedMockEntity : MockEntity { }
 	}

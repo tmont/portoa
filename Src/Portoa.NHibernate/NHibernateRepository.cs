@@ -3,7 +3,6 @@ using System.Linq;
 using NHibernate;
 using NHibernate.Linq;
 using Portoa.Persistence;
-using Portoa.Util;
 
 namespace Portoa.NHibernate {
 
@@ -23,12 +22,12 @@ namespace Portoa.NHibernate {
 		}
 
 		public virtual T Save(T entity) {
-			if (Session.Contains(entity) || Session.GetIdentifier(entity).IsDefaultValue()) {
+			if (Session.Contains(entity) || entity.IsTransient()) {
 				Session.SaveOrUpdate(entity);
 				return entity;
 			}
 
-			return (T)Session.SaveOrUpdateCopy(entity);
+			return (T)Session.Merge(entity);
 		}
 
 		public T Reload(T entity) {

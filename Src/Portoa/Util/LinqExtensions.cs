@@ -16,10 +16,12 @@ namespace Portoa.Util {
 		/// Use <c cref="WalkDeferred{T}">WalkDeferred</c> if deferred execution is needed.
 		/// </summary>
 		/// <seealso cref="WalkDeferred{T}"/>
-		public static void Walk<T>(this IEnumerable<T> collection, Action<T> action) {
+		public static IEnumerable<T> Walk<T>(this IEnumerable<T> collection, Action<T> action) {
 			foreach (var item in collection) {
 				action(item);
 			}
+
+			return collection;
 		}
 
 		/// <summary>

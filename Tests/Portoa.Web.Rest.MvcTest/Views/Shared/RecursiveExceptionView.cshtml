@@ -1,0 +1,14 @@
+﻿@model Exception
+@using Portoa.Util
+
+<p class="exception-message">@Model.GetType().GetFriendlyName(false): <code style="white-space: pre">@Model.Message</code></p>
+
+<pre>@Model.StackTrace</pre>
+
+<hr />
+
+<div style="margin-left: 20px">
+	@if (Model.InnerException != null) {
+		Html.RenderPartial("RecursiveExceptionView", Model.InnerException);
+	}
+</div>

@@ -1,0 +1,23 @@
+<p>
+	Hi there. This is a test of Portoa&rsquo;s REST API. You should first install the
+	<a href="https://addons.mozilla.org/en-US/firefox/addon/jsonview/">JSONView</a>
+	addon (if using Firefox), or figure out some other means of viewing JSON in the
+	browser.
+</p>
+
+<p>
+	Click on any of the links below to see how the REST API works (take notice of the URL).
+	You can fiddle around by modifying the URL to create your own requests.
+</p>
+
+<ul>
+	<li>@Html.ActionLink("List all users", "ListUsers", "Rest")</li>
+	<li>@Html.ActionLink("Show user #1", "ListUsers", "Rest", new { id = 1 }, null)</li>
+	<li>@Html.ActionLink("Show users sorted by username", "ListUsers", "Rest", new { sort = new[] { "username" } }, null)</li>
+	<li>@Html.ActionLink("Show users sorted by username descending", "ListUsers", "Rest", new { sort = new[] { "username|desc" } }, null)</li>
+	<li>@Html.ActionLink("Show users sorted by username descending, then by email", "ListUsers", "Rest", new { sort = new[] { "username|desc", "email" } }, null)</li>
+	<li>@Html.ActionLink("Show users with username starting with B", "ListUsers", "Rest", new { criteria = "username/~B" }, null)</li>
+	<li>@Html.ActionLink("Show users with username starting with B and email starting not equal to foo@bar.com", "ListUsers", "Rest", new { criteria = "username/~B/email/!foo@bar.com" }, null)</li>
+	<li>@Html.ActionLink("Show users with IDs between 5 and 10", "ListUsers", "Rest", new { criteria = "id/>=5,<=10" }, null)</li>
+	<li>@Html.ActionLink("Show users created before January 1, 2000", "ListUsers", "Rest", new { criteria = "created/<2000-01-01" }, null)</li>
+</ul>
