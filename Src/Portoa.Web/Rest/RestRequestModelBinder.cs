@@ -12,7 +12,6 @@ namespace Portoa.Web.Rest {
 	public class RestRequestModelBinder : IModelBinder {
 		public const string SortValueKey = "sort";
 		public const string CriteriaValueKey = "criteria";
-		
 
 		/// <param name="idParser">Optional object to use to parse ids; default is <see cref="IdentityIdParser"/></param>
 		/// <param name="parserFactory">Optional object to use to create criterion parsers; default is <see cref="DefaultCriterionParserFactory"/></param>
@@ -101,26 +100,20 @@ namespace Portoa.Web.Rest {
 					return;
 				}
 
-				var sortValues = (string[])valueResult.ConvertTo(typeof(string[]));
-
-				if (sortValues == null || sortValues.Length == 0) {
-					return;
-				}
-
-				foreach (var splitSortValue in sortValues.Select(sortValue => sortValue.Split('|'))) {
+				foreach (var splitSortValue in valueResult.AttemptedValue.Split(',').Select(sortValue => sortValue.Split('|'))) {
 					var sortOrder = SortOrder.Ascending;
 					if (splitSortValue.Length > 1) {
-						switch (splitSortValue[1]) {
-							case "descending":
-							case "desc":
+						switch (splitSortValue[1].ToUpperInvariant()) {
+							case "DESCENDING":
+							case "DESC":
 								sortOrder = SortOrder.Descending;
 								break;
-							case "ascending":
-							case "asc":
+							case "ASCENDING":
+							case "ASC":
 								sortOrder = SortOrder.Ascending;
 								break;
 							default:
-								controllerContext.AddModelError(SortValueKey, string.Format("The sort order \"{0}\" is invalid", splitSortValue[1]));
+								controllerContext.AddModelError(SortValueKey, string.Format("The sort order \"{0}\" is invalid for field \"{1}\"", splitSortValue[1], splitSortValue[0]));
 								return;
 						}
 					}

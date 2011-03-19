@@ -71,9 +71,9 @@ namespace Portoa.Web.Tests.Rest {
 			var idParser = new AlwaysTrueIdParser();
 			var binder = new RestRequestModelBinder(idParser);
 
-			var valueProvider = new DictionaryValueProvider<object>(
-				new Dictionary<string, object> { 
-					{ RestRequestModelBinder.SortValueKey, new[] { "foo|asc", "bar|desc", "baz|ascending", "bat|descending" } },
+			var valueProvider = new NameValueCollectionValueProvider(
+				new NameValueCollection { 
+					{ RestRequestModelBinder.SortValueKey, "foo|asc,bar|DeSC,baz|ascending,bat|descending" },
 					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture
@@ -103,9 +103,9 @@ namespace Portoa.Web.Tests.Rest {
 			var idParser = new AlwaysTrueIdParser();
 			var binder = new RestRequestModelBinder(idParser);
 
-			var valueProvider = new DictionaryValueProvider<object>(
-				new Dictionary<string, object> { 
-					{ RestRequestModelBinder.SortValueKey, new[] { "foo|asdf" } },
+			var valueProvider = new NameValueCollectionValueProvider(
+				new NameValueCollection { 
+					{ RestRequestModelBinder.SortValueKey, "foo|asdf" },
 					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture
