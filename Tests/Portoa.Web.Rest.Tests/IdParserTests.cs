@@ -1,8 +1,7 @@
 using Moq;
 using NUnit.Framework;
-using Portoa.Web.Rest;
 
-namespace Portoa.Web.Tests.Rest {
+namespace Portoa.Web.Rest.Tests {
 	[TestFixture]
 	public class IdParserTests {
 		[Test]

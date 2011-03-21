@@ -1,9 +1,7 @@
 using System;
-using System.Linq.Expressions;
 using NUnit.Framework;
-using Portoa.Web.Rest;
 
-namespace Portoa.Web.Tests.Rest {
+namespace Portoa.Web.Rest.Tests {
 	[TestFixture]
 	public class DefaultCriterionHandlerTests {
 

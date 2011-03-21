@@ -35,10 +35,6 @@
     <NoWarn>1591,1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.1.3.42154, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\log4net.dll</HintPath>
@@ -81,60 +77,6 @@
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
     <Compile Include="NHibernateDrivenMvcApplication.cs" />
-    <Compile Include="Rest\Configuration\CriterionElement.cs" />
-    <Compile Include="Rest\Configuration\CriterionHandlerCollection.cs" />
-    <Compile Include="Rest\Configuration\CriterionHandlerElement.cs" />
-    <Compile Include="Rest\Configuration\Defaults.cs" />
-    <Compile Include="Rest\Configuration\ResourceCollection.cs" />
-    <Compile Include="Rest\Configuration\ResourceElement.cs" />
-    <Compile Include="Rest\Configuration\RestSectionHandler.cs" />
-    <Compile Include="Rest\Configuration\SpecialCriterionCollection.cs" />
-    <Compile Include="Rest\Configuration\UnnamedTypedElement.cs" />
-    <Compile Include="Rest\CriterionHandlingException.cs" />
-    <Compile Include="Rest\DefaultCriteriaHandler.cs" />
-    <Compile Include="Rest\Criterion.cs" />
-    <Compile Include="Rest\CriterionFieldValue.cs" />
-    <Compile Include="Rest\CriterionSet.cs" />
-    <Compile Include="Rest\DateTimeParseStrategy.cs" />
-    <Compile Include="Rest\DefaultLimitHandler.cs" />
-    <Compile Include="Rest\DefaultOffsetHandler.cs" />
-    <Compile Include="Rest\DefaultValueHandler.cs" />
-    <Compile Include="Rest\ExpressionHelper.cs" />
-    <Compile Include="Rest\FieldValueOperator.cs" />
-    <Compile Include="Rest\ICommand.cs" />
-    <Compile Include="Rest\ICriterionHandlerFactory.cs" />
-    <Compile Include="Rest\IValueHandler.cs" />
-    <Compile Include="Rest\DefaultIdHandler.cs" />
-    <Compile Include="Rest\Parser\DefaultCriterionParserFactory.cs" />
-    <Compile Include="Rest\DoubleParseStrategy.cs" />
-    <Compile Include="Rest\IFieldValueParseStrategy.cs" />
-    <Compile Include="Rest\IntegerParseStrategy.cs" />
-    <Compile Include="Rest\ParserHelper.cs" />
-    <Compile Include="Rest\FieldValueModifier.cs" />
-    <Compile Include="Rest\InvalidIdException.cs" />
-    <Compile Include="Rest\Parser\CriterionBuilder.cs" />
-    <Compile Include="Rest\Parser\CriterionParser.Analyzer.cs">
-      <DependentUpon>CriterionParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Rest\Parser\CriterionLexer.cs" />
-    <Compile Include="Rest\Parser\CriterionParser.cs" />
-    <Compile Include="Rest\Parser\ICriterionParserFactory.cs" />
-    <Compile Include="Rest\NaturalIntegerValueHandler.cs" />
-    <Compile Include="Rest\RegexExtensions.cs" />
-    <Compile Include="Rest\RestConfigurationException.cs" />
-    <Compile Include="Rest\RestException.cs" />
-    <Compile Include="Rest\IdentityIdParser.cs" />
-    <Compile Include="Rest\IRestIdParser.cs" />
-    <Compile Include="Rest\RestIdParserBase.cs" />
-    <Compile Include="Rest\RestRequest.cs" />
-    <Compile Include="Rest\RestRequestModelBinder.cs" />
-    <Compile Include="Rest\RestRequestValueProvider.cs" />
-    <Compile Include="Rest\RestRequestValueProviderFactory.cs" />
-    <Compile Include="Rest\RestServiceBase.cs" />
-    <Compile Include="Rest\DefaultSortHandler.cs" />
-    <Compile Include="Rest\SortGrouping.cs" />
-    <Compile Include="Rest\SortOrder.cs" />
-    <Compile Include="Rest\UnknownCriterionException.cs" />
     <Compile Include="Results\CompositeResult.cs" />
     <Compile Include="Results\InjectableJsonResult.cs" />
     <Compile Include="Security\FormsAuthenticationServiceBase.cs" />
@@ -206,10 +148,6 @@
       <Project>{FE1019C1-D129-48B4-9026-A4B06039D258}</Project>
       <Name>Portoa</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Rest\Parser\Criterion.g" />
-    <None Include="Rest\Parser\Criterion.tokens" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

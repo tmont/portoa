@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{283F35CD-50F6-4244-A5A9-10F58C2EF430}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Portoa.Web.Rest</RootNamespace>
+    <AssemblyName>Portoa.Web.Rest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Debug\Portoa.Web.Rest.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Release\Portoa.Web.Rest.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\CriterionElement.cs" />
+    <Compile Include="Configuration\CriterionHandlerCollection.cs" />
+    <Compile Include="Configuration\CriterionHandlerElement.cs" />
+    <Compile Include="Configuration\Defaults.cs" />
+    <Compile Include="Configuration\ResourceCollection.cs" />
+    <Compile Include="Configuration\ResourceElement.cs" />
+    <Compile Include="Configuration\RestSectionHandler.cs" />
+    <Compile Include="Configuration\SpecialCriterionCollection.cs" />
+    <Compile Include="Configuration\UnnamedTypedElement.cs" />
+    <Compile Include="Criterion.cs" />
+    <Compile Include="CriterionFieldValue.cs" />
+    <Compile Include="CriterionHandlingException.cs" />
+    <Compile Include="CriterionSet.cs" />
+    <Compile Include="DateTimeParseStrategy.cs" />
+    <Compile Include="DefaultCriteriaHandler.cs" />
+    <Compile Include="DefaultIdHandler.cs" />
+    <Compile Include="DefaultLimitHandler.cs" />
+    <Compile Include="DefaultOffsetHandler.cs" />
+    <Compile Include="DefaultSortHandler.cs" />
+    <Compile Include="DefaultValueHandler.cs" />
+    <Compile Include="DoubleParseStrategy.cs" />
+    <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="FieldValueModifier.cs" />
+    <Compile Include="FieldValueOperator.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="ICriterionHandlerFactory.cs" />
+    <Compile Include="IdentityIdParser.cs" />
+    <Compile Include="IFieldValueParseStrategy.cs" />
+    <Compile Include="IntegerParseStrategy.cs" />
+    <Compile Include="InvalidIdException.cs" />
+    <Compile Include="IRestIdParser.cs" />
+    <Compile Include="IValueHandler.cs" />
+    <Compile Include="NaturalIntegerValueHandler.cs" />
+    <Compile Include="ParserHelper.cs" />
+    <Compile Include="Parser\CriterionBuilder.cs" />
+    <Compile Include="Parser\CriterionLexer.cs" />
+    <Compile Include="Parser\CriterionParser.Analyzer.cs">
+      <DependentUpon>CriterionParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\CriterionParser.cs" />
+    <Compile Include="Parser\DefaultCriterionParserFactory.cs" />
+    <Compile Include="Parser\ICriterionParserFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegexExtensions.cs" />
+    <Compile Include="RestConfigurationException.cs" />
+    <Compile Include="RestException.cs" />
+    <Compile Include="RestIdParserBase.cs" />
+    <Compile Include="RestRequest.cs" />
+    <Compile Include="RestRequestModelBinder.cs" />
+    <Compile Include="RestRequestValueProvider.cs" />
+    <Compile Include="RestRequestValueProviderFactory.cs" />
+    <Compile Include="RestServiceBase.cs" />
+    <Compile Include="SortGrouping.cs" />
+    <Compile Include="SortOrder.cs" />
+    <Compile Include="UnknownCriterionException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Parser\Criterion.g" />
+    <None Include="Parser\Criterion.tokens" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Portoa.Web\Portoa.Web.csproj">
+      <Project>{7C208EF0-7430-49E6-975F-35C54DF36231}</Project>
+      <Name>Portoa.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Portoa\Portoa.csproj">
+      <Project>{FE1019C1-D129-48B4-9026-A4B06039D258}</Project>
+      <Name>Portoa</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
@@ -6,10 +5,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
-using Portoa.Web.Rest;
 using Portoa.Web.Util;
 
-namespace Portoa.Web.Tests.Rest {
+namespace Portoa.Web.Rest.Tests {
 	[TestFixture]
 	public class RestRequestTests {
 

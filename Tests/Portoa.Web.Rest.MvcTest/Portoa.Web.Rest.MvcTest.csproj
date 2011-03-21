@@ -137,6 +137,10 @@
       <Project>{E1EF75C3-80CC-4A0E-B5A3-8C7758C85177}</Project>
       <Name>Portoa.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Src\Portoa.Web.Rest\Portoa.Web.Rest.csproj">
+      <Project>{283F35CD-50F6-4244-A5A9-10F58C2EF430}</Project>
+      <Name>Portoa.Web.Rest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Src\Portoa.Web\Portoa.Web.csproj">
       <Project>{7C208EF0-7430-49E6-975F-35C54DF36231}</Project>
       <Name>Portoa.Web</Name>
