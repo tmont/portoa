@@ -13,7 +13,7 @@ namespace Portoa.Web.Rest.MvcTest {
 		}
 
 		protected override void RegisterRoutes(RouteCollection routes) {
-			routes.MapRoute("rest", "user/{id}", new { controller = "Rest", action = "ListUsers", id = "all" }, new { id = @"\d+|all" });
+			routes.MapRoute("rest", "{resource}/{id}", new { controller = "Rest", action = "GetResources", id = "all" }, new { id = @"\d+|all", resource = "user" });
 			routes.MapRoute("Default", "", new { controller = "Rest", action = "Index" });
 		}
 

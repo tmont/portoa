@@ -30,7 +30,7 @@ namespace Portoa.NHibernate {
 			return (T)Session.Merge(entity);
 		}
 
-		public T Reload(T entity) {
+		public virtual T Reload(T entity) {
 			Session.Refresh(entity);
 			return entity;
 		}
@@ -40,7 +40,7 @@ namespace Portoa.NHibernate {
 		}
 
 		public void Delete(object id) {
-			Delete(Session.Get<T>(id));
+			Delete(Session.Load<T>(id));
 		}
 
 		public virtual T FindById(object id) {

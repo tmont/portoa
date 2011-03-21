@@ -26,7 +26,7 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_bind_RestRequest_with_single_id() {
 			var idParser = new AlwaysTrueIdParser();
-			var binder = new RestRequestModelBinder(idParser);
+			var binder = new RestRequestModelBinder(null, null);
 
 			var values = new NameValueCollection {
 				{ "id", "5" }
@@ -51,7 +51,7 @@ namespace Portoa.Web.Tests.Rest {
 			var idParser = new Mock<IRestIdParser>();
 			idParser.Setup(parser => parser.ParseId("5")).Throws(new InvalidIdException("5"));
 			idParser.SetupGet(parser => parser.IdKey).Returns("id");
-			var binder = new RestRequestModelBinder(idParser.Object);
+			var binder = new RestRequestModelBinder(null, null);
 
 			var values = new NameValueCollection {
 				{ "id", "5" }
@@ -69,11 +69,11 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_parse_sort_info() {
 			var idParser = new AlwaysTrueIdParser();
-			var binder = new RestRequestModelBinder(idParser);
+			var binder = new RestRequestModelBinder(null, null);
 
 			var valueProvider = new NameValueCollectionValueProvider(
 				new NameValueCollection { 
-					{ RestRequestModelBinder.SortValueKey, "foo|asc,bar|DeSC,baz|ascending,bat|descending" },
+					{ ":sort", "foo|asc,bar|DeSC,baz|ascending,bat|descending" },
 					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture
@@ -101,11 +101,11 @@ namespace Portoa.Web.Tests.Rest {
 		[Test]
 		public void Should_add_model_error_for_invalid_sort_value() {
 			var idParser = new AlwaysTrueIdParser();
-			var binder = new RestRequestModelBinder(idParser);
+			var binder = new RestRequestModelBinder(null, null);
 
 			var valueProvider = new NameValueCollectionValueProvider(
 				new NameValueCollection { 
-					{ RestRequestModelBinder.SortValueKey, "foo|asdf" },
+					{ ":sort", "foo|asdf" },
 					{ "id", idParser.FetchAllIdValue }
 				},
 				CultureInfo.InvariantCulture

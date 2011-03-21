@@ -59,7 +59,12 @@ namespace Portoa.Web.Rest.MvcTest.Controllers {
 		}
 
 		public ActionResult ListUsers(RestRequest request) {
-			return Json(restService.GetUsers(request), JsonRequestBehavior.AllowGet);
+			switch (request.ResourceName) {
+				case "user":
+					return Json(restService.GetUsers(request), JsonRequestBehavior.AllowGet);
+				default:
+					return Json(string.Format("Unknown resource \"{0}\"", request.ResourceName), JsonRequestBehavior.AllowGet);
+			}
 		}
 
 	}

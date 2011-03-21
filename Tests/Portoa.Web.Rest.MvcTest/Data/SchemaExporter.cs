@@ -11,7 +11,7 @@ namespace Portoa.Web.Rest.MvcTest.Data {
 	public class SchemaExporter {
 		[Test]
 		public void GenerateSchemaAndData() {
-			var cfg = new Configuration().Configure();
+			var cfg = new global::NHibernate.Cfg.Configuration().Configure();
 			new SchemaExport(cfg)
 				.SetDelimiter(";")
 				.Execute(false, true, false);

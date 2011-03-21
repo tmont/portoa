@@ -16,7 +16,7 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bar" }), Is.True);
 		}
 
@@ -30,7 +30,7 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bar" }), Is.True);
 
 			criterion = new Criterion {
@@ -41,7 +41,7 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bar" }), Is.False);
 		}
 
@@ -55,10 +55,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bar" }), Is.True);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "foo" }), Is.True);
 		}
 
@@ -71,10 +71,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 4 }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 6 }), Is.True);
 		}
 
@@ -87,10 +87,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 4 }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 5 }), Is.True);
 		}
 
@@ -103,10 +103,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 6 }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 5 }), Is.True);
 		}
 
@@ -119,10 +119,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 5 }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 4 }), Is.True);
 		}
 
@@ -135,10 +135,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bar" }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "lulz" }), Is.True);
 		}
 
@@ -151,10 +151,10 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "boring" }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Foo = "bartender" }), Is.True);
 		}
 
@@ -170,13 +170,13 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			var expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			var expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 6 }), Is.False);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = 5 }), Is.True);
 
-			expression = new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			expression = new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 			Assert.That(expression.Compile()(new MyEntity { Bar = -1 }), Is.True);
 		}
 
@@ -189,7 +189,7 @@ namespace Portoa.Web.Tests.Rest {
 				}
 			};
 
-			new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 		}
 
 		[Test, ExpectedException(typeof(InvalidOperationException))]
@@ -198,7 +198,7 @@ namespace Portoa.Web.Tests.Rest {
 				FieldName = "asdf"
 			};
 
-			new DefaultCriterionHandler().HandleCriterion<MyEntity>(criterion);
+			new DefaultValueHandler().CreateExpression<MyEntity>(criterion);
 		}
 
 		//[Test]

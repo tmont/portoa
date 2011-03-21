@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace Portoa.Web.Rest {
 	/// <summary>
@@ -12,14 +11,28 @@ namespace Portoa.Web.Rest {
 		}
 
 		/// <summary>
-		/// Gets or sets the sorting information for the record set
+		/// Gets the sorting information for the record set
 		/// </summary>
-		[NotNull]
 		public IList<SortGrouping> SortInfo { get; private set; }
+
 		/// <summary>
-		/// Gets or sets the criteria passed in from the URL, including the id, if given
+		/// Gets or sets the maximum number of records to return (zero means no limit)
 		/// </summary>
-		[NotNull]
+		public int Limit { get; set; }
+
+		/// <summary>
+		/// Gets or sets the number of records to skip
+		/// </summary>
+		public int Offset { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the requested resource
+		/// </summary>
+		public string ResourceName { get; set; }
+
+		/// <summary>
+		/// Gets the criteria passed in from the URL, including the id, if given
+		/// </summary>
 		public CriterionSet Criteria { get; private set; }
 	}
 }

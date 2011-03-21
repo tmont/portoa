@@ -72,13 +72,13 @@ namespace Portoa.Web.Tests.Rest {
 			var criterion = new Criterion { FieldName = "whatever", Values = new[] { new CriterionFieldValue { RawValue = "asdf" } } };
 			request.Criteria.Add(criterion);
 
-			var handler = new Mock<ICriterionHandler>();
+			var handler = new Mock<IValueHandler>();
 			handler
-				.Setup(h => h.HandleCriterion<Resource1>(criterion))
+				.Setup(h => h.CreateExpression<Resource1>(criterion))
 				.Returns(r => true)
 				.Verifiable();
 
-			var handlers = new Dictionary<string, ICriterionHandler> {
+			var handlers = new Dictionary<string, IValueHandler> {
 				{ "whatever", handler.Object }
 			};
 
@@ -92,8 +92,8 @@ namespace Portoa.Web.Tests.Rest {
 			var request = new RestRequest();
 			request.Criteria.Add("whatever", "asdf");
 
-			var handlers = new Dictionary<string, ICriterionHandler> {
-				{ "asdf", new DefaultCriterionHandler() }
+			var handlers = new Dictionary<string, IValueHandler> {
+				{ "asdf", new DefaultValueHandler() }
 			};
 
 			new RestService().GetResource1s(request, handlers);
@@ -132,7 +132,7 @@ namespace Portoa.Web.Tests.Rest {
 				return GetRecords<Resource1, Resource1Dto>(request, Resource1s);
 			}
 
-			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request, IDictionary<string, ICriterionHandler> handlers) {
+			public IEnumerable<Resource1Dto> GetResource1s(RestRequest request, IDictionary<string, IValueHandler> handlers) {
 				return GetRecords<Resource1, Resource1Dto>(request, Resource1s, handlers);
 			}
 
