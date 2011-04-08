@@ -18,7 +18,7 @@ namespace Portoa.Web.SmartCasing {
 
 		public IHttpHandler GetHttpHandler(RequestContext requestContext) {
 			var actionName = requestContext.RouteData.Values["action"] ?? string.Empty;
-			requestContext.RouteData.Values["action"] = SmartCaseConverter.ConvertTo(actionName.ToString());
+			requestContext.RouteData.Values["action"] = SmartCaseConverter.ConvertFrom(actionName.ToString());
 
 			return routeHandler.GetHttpHandler(requestContext);
 		}

@@ -21,6 +21,7 @@ namespace Portoa.Tests.Mail {
 					Assert.That(message.ReplyToList, Has.Count.EqualTo(1));
 					Assert.That(message.ReplyToList[0].Address, Is.EqualTo("foo@bar.com"));
 					Assert.That(message.ReplyToList[0].DisplayName, Is.EqualTo("Foo Bar"));
+					Assert.That(message.Body, Is.EqualTo("body"));
 				}).Verifiable();
 
 			var settings = new ContactEmailService.ContactEmailSettings {
@@ -31,7 +32,8 @@ namespace Portoa.Tests.Mail {
 			};
 
 			var contactService = new ContactEmailService(emailService.Object, settings);
-			contactService.Send("foo@bar.com", "Foo Bar");
+			contactService.Send("body", "foo@bar.com", "Foo Bar");
+			emailService.VerifyAll();
 		}
 
 		[Test, ExpectedException(typeof(ArgumentException), ExpectedMessage = "ContactEmailSettings.FromAddress is required")]

@@ -1,5 +1,6 @@
 ﻿using System.Web.Security;
 using Portoa.Logging;
+using Portoa.Persistence;
 
 namespace Portoa.Web.Security {
 	/// <summary>
@@ -7,11 +8,13 @@ namespace Portoa.Web.Security {
 	/// mechanism
 	/// </summary>
 	public abstract class FormsAuthenticationServiceBase : IAuthenticationService {
+		[UnitOfWork]
 		void IAuthenticationService.Login(string username) {
 			FormsAuthentication.SetAuthCookie(username, true);
 			Login(username);
 		}
 
+		[UnitOfWork]
 		void IAuthenticationService.Logout() {
 			FormsAuthentication.SignOut();
 			Logout();

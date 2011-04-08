@@ -22,6 +22,24 @@ namespace Portoa.Web.Tests.SmartCasing {
 		}
 
 		[Test]
+		public void Should_convert_requestContext_action_value() {
+			var innerHandler = new Mock<IRouteHandler>();
+			innerHandler.Setup(h => h.GetHttpHandler(It.IsAny<RequestContext>())).Verifiable();
+			var handler = new SmartCaseRouteHandler(innerHandler.Object);
+
+			var requestContext = new RequestContext {
+				RouteData = new RouteData()
+			};
+
+			requestContext.RouteData.Values["action"] = "video-games";
+
+			handler.GetHttpHandler(requestContext);
+
+			Assert.That(requestContext.RouteData.Values["action"], Is.EqualTo("VideoGames"));
+			innerHandler.VerifyAll();
+		}
+
+		[Test]
 		public void Should_replace_capital_letters_hyphens_and_lowercase_letters() {
 			Assert.That(SmartCaseConverter.ConvertTo("fooBar"), Is.EqualTo("foo-bar"));
 		}

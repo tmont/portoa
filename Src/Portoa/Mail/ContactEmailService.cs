@@ -14,9 +14,10 @@ namespace Portoa.Mail {
 		/// header will be given the value of <paramref name="fromAddress"/> while <paramref name="fromName"/> will be
 		/// the display name.
 		/// </summary>
+		/// <param name="body">The body of the message</param>
 		/// <param name="fromAddress">The address of the user who filled out the contact form</param>
 		/// <param name="fromName">The display name of the user who filled out the contact form</param>
-		void Send(string fromAddress, string fromName);
+		void Send(string body, string fromAddress, string fromName);
 	}
 
 	/// <summary>
@@ -32,9 +33,10 @@ namespace Portoa.Mail {
 			this.settings = settings;
 		}
 
-		public void Send(string fromAddress, string fromName) {
+		public void Send(string body, string fromAddress, string fromName) {
 			var message = new MailMessage(new MailAddress(settings.FromAddress, settings.FromName), new MailAddress(settings.ToAddress)) {
-				Subject = string.Format(settings.SubjectFormat, fromAddress, fromName)
+				Subject = string.Format(settings.SubjectFormat, fromAddress, fromName),
+				Body = body ?? string.Empty
 			};
 
 			message.ReplyToList.Add(new MailAddress(fromAddress, fromName));

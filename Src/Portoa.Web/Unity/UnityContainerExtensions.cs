@@ -120,7 +120,6 @@ namespace Portoa.Web.Unity {
 			}
 
 			container
-				.RegisterType<T>(lifetimeManager, members)
 				.Configure<Interception>()
 				.SetInterceptorFor<T>(new TransparentProxyInterceptor());
 
@@ -158,7 +157,6 @@ namespace Portoa.Web.Unity {
 			}
 			
 			container
-				.RegisterType(typeFrom, typeTo, lifetimeManager, members)
 				.Configure<Interception>()
 				.SetInterceptorFor(typeFrom, new InterfaceInterceptor());
 
