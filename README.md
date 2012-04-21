@@ -1,4 +1,4 @@
-# Porota
+# Portoa
 by [Tommy Montgomery](http://tmont.com)
 
 ## What is Portoa?
@@ -6,7 +6,7 @@ by [Tommy Montgomery](http://tmont.com)
 application that uses [Unity](http://unity.codeplex.com/) and [NHibernate](http://nhforge.org/)
 (NHibernate is optional, Unity is kind of required).
 
-Basically, it wires everything up (e.g. ControllFactory, the Unity Container, etc.) so that you
+Basically, it wires everything up (e.g. ControllerFactory, the Unity Container, etc.) so that you
 don't have to. It also provides some other utilities, like JSON parsing (default implementation
 uses [Json.NET](http://james.newtonking.com/projects/json-net.aspx)), logging interfaces (default
 implementation is [log4net](http://logging.apache.org/log4net/)), searching using
