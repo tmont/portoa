@@ -35,8 +35,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\..\Lib\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\Lib\Moq.dll</HintPath>
     </Reference>
@@ -64,17 +68,13 @@
     <Compile Include="Unity\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Portoa.Web.Rest\Portoa.Web.Rest.csproj">
-      <Project>{283F35CD-50F6-4244-A5A9-10F58C2EF430}</Project>
-      <Name>Portoa.Web.Rest</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Src\Portoa.Web\Portoa.Web.csproj">
       <Project>{7C208EF0-7430-49E6-975F-35C54DF36231}</Project>
       <Name>Portoa.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Src\Portoa\Portoa.csproj">
       <Project>{FE1019C1-D129-48B4-9026-A4B06039D258}</Project>
-      <Name>Portoa</Name>
+      <Name>Portoa %28Src\Portoa\Portoa%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
