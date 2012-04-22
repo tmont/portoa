@@ -11,7 +11,7 @@ namespace Portoa.NHibernate {
 	/// </summary>
 	/// <typeparam name="T">The entity type</typeparam>
 	[DebuggerNonUserCode]
-	public class NHibernateRepository<T> : IRepository<T> {
+	public class NHibernateRepository<T> : IRepository<T> where T : class {
 		/// <summary>
 		/// The current session
 		/// </summary>
@@ -27,7 +27,7 @@ namespace Portoa.NHibernate {
 				return entity;
 			}
 
-			return (T)Session.Merge(entity);
+			return Session.Merge(entity);
 		}
 
 		public virtual T Reload(T entity) {

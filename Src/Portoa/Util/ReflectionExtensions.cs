@@ -31,7 +31,7 @@ namespace Portoa.Util {
 		}
 
 		/// <summary>
-		/// Determines if the given <paramref cref="provider"/> has the specified attribute
+		/// Determines if the given provider has the specified attribute
 		/// </summary>
 		/// <typeparam name="T">The type of attribute to check for</typeparam>
 		public static bool HasAttribute<T>(this ICustomAttributeProvider provider) where T : Attribute {

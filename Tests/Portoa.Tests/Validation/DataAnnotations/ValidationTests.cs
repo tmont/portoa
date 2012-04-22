@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using JetBrains.Annotations;
 using NUnit.Framework;
 using Portoa.Validation.DataAnnotations;
 
@@ -77,9 +78,11 @@ namespace Portoa.Tests.Validation.DataAnnotations {
 		}
 
 		private class Validatable {
+			[UsedImplicitly]
 			private object notValidated;
 
 			[Required]
+			[UsedImplicitly]
 			private string notNullField;
 
 			public Validatable(string notNullField = null) {

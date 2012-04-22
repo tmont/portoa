@@ -18,7 +18,7 @@ namespace Portoa.Web.Unity.Matching {
 			}
 
 			var genericArguments = declaringType.GetGenericArguments();
-			if (!declaringType.IsGenericType || genericArguments.Length != 2) {
+			if (!declaringType.IsGenericType || genericArguments.Length != 1) {
 				return false; 
 			}
 
