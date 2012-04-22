@@ -29,7 +29,9 @@ namespace Portoa.Web {
 		protected static readonly IUnityContainer Container = new UnityContainer();
 
 		protected MvcApplicationBase() {
+			var startTime = 0;
 			BeginRequest += (sender, args) => {
+				startTime = DateTime.UtcNow.ToUnixTimestamp();
 				if (!Container.IsRegistered<ILogger>()) {
 					return;
 				}
@@ -41,10 +43,12 @@ namespace Portoa.Web {
 			};
 
 			EndRequest += (sender, args) => {
+				var requestDuration = DateTime.UtcNow.ToUnixTimestamp() - startTime;
 				if (Container.IsRegistered<ILogger>()) {
 					var logger = Container.Resolve<ILogger>();
 					if (logger.IsDebugEnabled) {
-						logger.Debug(new string('-', 20));
+						var message = " " + requestDuration + "ms ";
+						logger.Debug(new string('-', 15) + message + new string('-', 15 - message.Length));
 					}
 				}
 			};
