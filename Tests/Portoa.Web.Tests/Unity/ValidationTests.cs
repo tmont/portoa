@@ -65,7 +65,7 @@ namespace Portoa.Web.Tests.Unity {
 			mockRepo.VerifyAll();
 		}
 
-		public class MyRepository<T> : IRepository<T> {
+		public class MyRepository<T> : IRepository<T> where T : class {
 			public T Save(T entity) {
 				return entity;
 			}

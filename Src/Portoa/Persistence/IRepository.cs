@@ -6,7 +6,7 @@ namespace Portoa.Persistence {
 	/// Provides a CRUD interface to a persistence medium
 	/// </summary>
 	/// <typeparam name="T">The entity's type</typeparam>
-	public interface IRepository<T> {
+	public interface IRepository<T> where T : class {
 		/// <summary>
 		/// Persists an entity (inserts or updates)
 		/// </summary>

@@ -21,7 +21,7 @@ namespace Portoa.Web.Tests.Unity.Matching {
 		}
 
 		public class MyEntity : Entity<int> { }
-		public class MyRepository<T> : IRepository<T> {
+		public class MyRepository<T> : IRepository<T> where T : class {
 			public T Save(T entity) {
 				return entity;
 			}
