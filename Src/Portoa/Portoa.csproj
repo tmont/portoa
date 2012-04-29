@@ -44,8 +44,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Globalization\Country.cs" />
@@ -95,11 +93,6 @@
     <Compile Include="Security\SecurityExtensions.cs" />
     <Compile Include="Util\ServiceProviderExtensions.cs" />
     <Compile Include="Util\StringBuilderExtensions.cs" />
-    <Compile Include="Testing\DbTestingUtility.cs" />
-    <Compile Include="Testing\DeferredScript.cs" />
-    <Compile Include="Testing\IDbFactory.cs" />
-    <Compile Include="Testing\IExecutableScript.cs" />
-    <Compile Include="Testing\QueryExecutor.cs" />
     <Compile Include="Validation\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="Validation\DataAnnotations\EntityValidator.cs" />
     <Compile Include="Validation\DataAnnotations\GreaterThanZeroAttribute.cs" />

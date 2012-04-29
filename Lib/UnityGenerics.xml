@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnityGenerics</name>
+    </assembly>
+    <members>
+        <member name="T:UnityGenerics.InjectionMethod`2">
+            <summary>
+            Configures injection for a method
+            </summary>
+            <typeparam name="T">The type to perform injection on</typeparam>
+            <typeparam name="TReturn">The return type of the method</typeparam>
+        </member>
+        <member name="T:UnityGenerics.InjectionMethod`1">
+            <summary>
+            Configures injection for a method
+            </summary>
+            <typeparam name="T">The type to perform injection on</typeparam>
+        </member>
+        <member name="T:UnityGenerics.IGenericInjectionProperty`1">
+            <summary>
+            Dummy interface for easier type registration
+            </summary>
+        </member>
+        <member name="M:UnityGenerics.InjectionMethod`1.#ctor(System.Linq.Expressions.Expression{System.Action{`0}})">
+            <param name="methodExpression">Expression identifying the method to perform injection for e.g. <c>foo => foo.Bar()</c></param>
+        </member>
+        <member name="M:UnityGenerics.InjectionMethod`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <param name="methodExpression">Expression identifying the method to perform injection for e.g. <c>foo => foo.Bar("arg", 3)</c></param>
+        </member>
+        <member name="T:UnityGenerics.InjectionConstructor`1">
+            <summary>
+            Configures injection for a constructor
+            </summary>
+            <typeparam name="T">The type on which to perform injection</typeparam>
+        </member>
+        <member name="M:UnityGenerics.InjectionConstructor`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0}})">
+            <param name="constructorCall">Expression identifying the constructor to perform injection for e.g. <c>() => new Foo(param1, param2)</c></param>
+        </member>
+        <member name="T:UnityGenerics.InjectionProperty`2">
+            <summary>
+            Configures injection for a property
+            </summary>
+            <typeparam name="T">The type on which to perform property injection</typeparam>
+            <typeparam name="TReturn">The type that the injected property returns</typeparam>
+        </member>
+        <member name="M:UnityGenerics.InjectionProperty`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <param name="propertyAccessor">Expression representing the property to inject (i.e. foo => foo.Bar)</param>
+        </member>
+        <member name="M:UnityGenerics.InjectionProperty`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},`1)">
+            <param name="propertyAccessor">Expression representing the property to inject (i.e. foo => foo.Bar)</param>
+            <param name="propertyValue">The value to inject</param>
+        </member>
+        <member name="T:UnityGenerics.InjectionProperty`1">
+            <summary>
+            Configures injection for a class property
+            </summary>
+            <typeparam name="T">The type on which to perform property injection</typeparam>
+        </member>
+        <member name="M:UnityGenerics.InjectionProperty`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <param name="propertyAccessor">Expression representing the property to inject (i.e. foo => foo.Bar)</param>
+        </member>
+        <member name="M:UnityGenerics.InjectionProperty`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.Object)">
+            <param name="propertyAccessor">Expression representing the property to inject (i.e. foo => foo.Bar)</param>
+            <param name="propertyValue">The value to inject</param>
+        </member>
+        <member name="M:UnityGenerics.ContainerExtensions.RegisterType``1(Microsoft.Practices.Unity.IUnityContainer,UnityGenerics.IGenericInjectionProperty{``0}[])">
+            <summary>
+            Registers a type with specified injection members with the container
+            </summary>
+            <typeparam name="T">The type to register</typeparam>
+            <param name="properties">Properties to perform injection on</param>
+        </member>
+    </members>
+</doc>

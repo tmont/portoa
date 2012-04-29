@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvcTestingHelpers</name>
+    </assembly>
+    <members>
+        <member name="T:MvcTestingHelpers.ControllerActionExecutor">
+            <summary>
+            Helper class that enables the full suite of controller invocations in ASP.NET MVC
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.ExecuteActionWithFilters``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Executes the given action using the MVC framework, which will execute each of the action filters.
+            Use this overload only if your controller has a default constructor and you're using the default
+            ControllerActionInvoker.
+            </summary>
+            <param name="actionMethod">The action method on the controller to invoke</param>
+            <returns>The action result that is returned from the given action method</returns>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.ExecuteActionWithFilters``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Executes the given action using the MVC framework, which will execute each of the action filters.
+            Use this overload only if your controller has a default constructor and you're using the default
+            ControllerActionInvoker.
+            </summary>
+            <param name="actionMethod">The action method on the controller to invoke</param>
+            <param name="httpMethod">The HTTP method of the incoming request</param>
+            <returns>The action result that is returned from the given action method</returns>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.ExecuteActionWithFilters``2(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``0,System.Linq.Expressions.Expression{System.Func{``1}})">
+            <summary>
+            Executes the given action using the MVC framework
+            </summary>
+            <param name="actionMethod">The action method on the controller to invoke</param>
+            <param name="controller">The controller to invoke the action method on</param>
+            <param name="newInvokerExpression">A factory function to create an action invoker, e.g. () => new ControllerActionInvoker()</param>
+            <returns>The action result that is returned from the given action method</returns>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.ExecuteActionWithFilters``2(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``0,System.Linq.Expressions.Expression{System.Func{``1}},System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Executes the given action using the MVC framework
+            </summary>
+            <param name="actionMethod">The action method on the controller to invoke</param>
+            <param name="controller">The controller on which to invoke the action method</param>
+            <param name="newInvokerExpression">The controller action invoker</param>
+            <param name="httpMethod">The HTTP method of the incoming request</param>
+            <returns>The action result that is returned from the given action method</returns>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.ExecuteActionWithFilters``2(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``0,System.Linq.Expressions.Expression{System.Func{``1}},System.Web.Mvc.HttpVerbs,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Executes the given action using the MVC framework with the given ControllerContext
+            instead of creating one internally
+            </summary>
+            <param name="actionMethod">The action method on the controller to invoke</param>
+            <param name="controller">The controller on which to invoke the action method</param>
+            <param name="newInvokerExpression">A factory function to create an action invoker</param>
+            <param name="httpMethod">The HTTP method that the AcceptVerbs attribute expects</param>
+            <param name="controllerContext">The ControllerContext to attach to the controller</param>
+            <returns>The action result that is returned from the given action method</returns>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.CreateControllerContext``1(``0,System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Creates a ControllerContext for the controller
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.CreateHttpContext(System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Creates an HttpContext for the ControllerContext
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.CreateHttpSession">
+            <summary>
+            Creates an HttpSession for the HttpContext
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.CreateHttpRequest(System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Creates an HttpRequest for the HttpContext
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionExecutor.CreateHttpResponse">
+            <summary>
+            Creates an HttpResponse for the HttpContext
+            </summary>
+        </member>
+        <member name="T:MvcTestingHelpers.IInterceptedMethodHandler">
+            <summary>
+            Handler for methods intercepted by the dynamic proxy
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.IInterceptedMethodHandler.HandleMethod(Castle.Core.Interceptor.IInvocation)">
+            <summary>
+            Performs any needed actions for the specified method invocation
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="P:MvcTestingHelpers.IInterceptedMethodHandler.Method">
+            <summary>
+            The name of the method to handle
+            </summary>
+        </member>
+        <member name="T:MvcTestingHelpers.ActionResultExtensions">
+            <summary>
+            NUnit extensions for ActionResult
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.GetModel``1(System.Web.Mvc.ActionResult)">
+            <summary>
+            Gets the strongly typed model from the view data
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.GetRedirectAction(System.Web.Mvc.ActionResult)">
+            <summary>
+            Gets the action route value from the RedirectToRouteResult
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.AssertModelStateError``1(System.Web.Mvc.ActionResult,System.String,System.Int32)">
+            <summary>
+            Asserts that the model state contains an Exception of type TException
+            </summary>
+            <param name="result">The action result</param>
+            <param name="key">The model state key</param>
+            <param name="index">The error index</param>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.AssertModelStateError(System.Web.Mvc.ActionResult,System.String,System.Int32,System.String)">
+            <summary>
+            Asserts that the model state contains an error with the specified message
+            </summary>
+            <param name="result">The action result</param>
+            <param name="key">The model state key</param>
+            <param name="message">The error message</param>
+            <param name="index">The error index</param>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.AssertRouteValues(System.Web.Mvc.ActionResult,System.Object)">
+            <summary> 
+            Asserts that the redirect route's route values are correct. If a null value is needed, use (object)null. 
+            </summary>
+            <param name="result">The action result</param>
+            <param name="expectedRouteValues">e.g. new { controller = "Home", action = "Index" }</param>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.As``1(System.Web.Mvc.ActionResult)">
+            <summary>
+            Performs a safe cast using assertions to the specified ActionResult type
+            </summary>
+        </member>
+        <member name="T:MvcTestingHelpers.ActionResultExtensions.AssertionException">
+            <summary>
+            Thrown when one of the assertion extensions fails
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ActionResultExtensions.AssertionException.#ctor(System.String)">
+            <param name="message">The failure message</param>
+        </member>
+        <member name="T:MvcTestingHelpers.InvokeActionResultHandler">
+            <summary>
+            Handles intercepted calls to ControllerActionInvoker.InvokeActionResult()
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.InvokeActionResultHandler.#ctor(System.Action{System.Web.Mvc.ActionResult})">
+            <param name="callback">A callback to invoke when ControllerActionInvoker.InvokeActionResult() is called</param>
+        </member>
+        <member name="T:MvcTestingHelpers.ControllerActionInvokerInterceptor">
+            <summary>
+            Method interceptor for proxies of ControllerActionInvoker
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionInvokerInterceptor.#ctor(System.Collections.Generic.IEnumerable{MvcTestingHelpers.IInterceptedMethodHandler})">
+            <summary/>
+        </member>
+        <member name="M:MvcTestingHelpers.ControllerActionInvokerInterceptor.Intercept(Castle.Core.Interceptor.IInvocation)">
+            <summary>
+            Invokes the appropriate method handler for the given invocation
+            </summary>
+        </member>
+        <member name="P:MvcTestingHelpers.ControllerActionInvokerInterceptor.MethodHandlers">
+            <summary>
+            The method handlers associated with this interceptor
+            </summary>
+        </member>
+        <member name="T:MvcTestingHelpers.GetParameterValuesHandler">
+            <summary>
+            Handles intercepted calls to ControllerActionInvoker.GetParameterValues()
+            </summary>
+        </member>
+        <member name="M:MvcTestingHelpers.GetParameterValuesHandler.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <param name="parameters">The method arguments given to the controller's action method invocation</param>
+        </member>
+    </members>
+</doc>
