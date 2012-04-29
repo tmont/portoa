@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using NUnit.Framework;
 using Portoa.Testing;
 using MvcTestingHelpers;
+using Portoa.Web.Filters;
+using Portoa.Web.Unity;
 
 namespace Portoa.Web.Testing {
 	[TestFixture]
@@ -27,6 +29,9 @@ namespace Portoa.Web.Testing {
 				.RegisterInstance<HttpContextBase>(new FakeHttpContext())
 				.RegisterInstance(new RouteData())
 				.RegisterType<T>();
+
+			FilterProviders.Providers.Clear();
+			FilterProviders.Providers.Add(new AdjustableFilterProvider(new InjectionFilterAdjuster(Container)));
 		}
 
 		[TearDown]

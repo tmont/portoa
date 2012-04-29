@@ -76,6 +76,7 @@
     <Compile Include="ErrorHandling\IErrorResultFactory.cs" />
     <Compile Include="Filters\AdjustableFilterProvider.cs" />
     <Compile Include="Filters\GlobalFilterExtensions.cs" />
+    <Compile Include="Filters\IFilterAdjuster.cs" />
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Controllers\ContainerControllerFactory.cs" />
     <Compile Include="Unity\DependsOnExtensionsAttribute.cs" />
     <Compile Include="Unity\ExtensionDependencyException.cs" />
+    <Compile Include="Unity\InjectionFilterAdjuster.cs" />
     <Compile Include="Unity\Matching\OnEntitySaved.cs" />
     <Compile Include="Unity\Validation\ValidateEntityOnSave.cs" />
     <Compile Include="Unity\Validation\ValidationCallHandler.cs" />

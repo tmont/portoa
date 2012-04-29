@@ -188,14 +188,7 @@ namespace Portoa.Web {
 		/// to build up each filter instance using the <see cref="Container"/>
 		/// </summary>
 		protected virtual void RegisterFilterProviders(FilterProviderCollection providers) {
-			FilterProviders.Providers.Add(new AdjustableFilterProvider(BuildUpFilter));
-		}
-
-		private static Filter BuildUpFilter(Filter filter) {
-			var instanceType = filter.Instance.GetType();
-			return instanceType.HasAttribute<NeedsBuildUpAttribute>()
-				? new Filter(Container.BuildUp(instanceType, filter.Instance), filter.Scope, filter.Order)
-				: filter;
+			FilterProviders.Providers.Add(new AdjustableFilterProvider(new InjectionFilterAdjuster(Container)));
 		}
 
 		/// <summary>

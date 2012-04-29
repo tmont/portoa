@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -12,12 +11,12 @@ namespace Portoa.Web.Filters {
 	/// them to the controller action
 	/// </summary>
 	public class AdjustableFilterProvider : IFilterProvider, IEnumerable<IFilterProvider> {
-		private readonly Func<Filter, Filter> filterAdjuster;
+		private readonly IFilterAdjuster filterAdjuster;
 		private readonly IList<IFilterProvider> providers = new List<IFilterProvider>();
 
 		/// <param name="filterAdjuster">Function to run on each filter, which should return the adjusted filter</param>
 		/// <param name="initWithDefaultMvcProviders"><c>false</c> if using the default ASP.NET MVC filter providers is undesired</param>
-		public AdjustableFilterProvider([NotNull]Func<Filter, Filter> filterAdjuster, bool initWithDefaultMvcProviders = true) {
+		public AdjustableFilterProvider([NotNull]IFilterAdjuster filterAdjuster, bool initWithDefaultMvcProviders = true) {
 			this.filterAdjuster = filterAdjuster;
 
 			if (initWithDefaultMvcProviders) {
@@ -36,7 +35,7 @@ namespace Portoa.Web.Filters {
 		}
 
 		public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor) {
-			return providers.SelectMany(provider => provider.GetFilters(controllerContext, actionDescriptor).Select(filter => filterAdjuster(filter)));
+			return providers.SelectMany(provider => provider.GetFilters(controllerContext, actionDescriptor).Select(filter => filterAdjuster.AdjustFilter(filter)));
 		}
 
 		public IEnumerator<IFilterProvider> GetEnumerator() {
