@@ -42,7 +42,7 @@ namespace Portoa.Web {
 				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterAndIntercept(typeof(IRepository<>), typeof(NHibernateRepository<>))
-				.RegisterType<ISessionFactory>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
+				.RegisterType<ISessionFactory>(new ContainerControlledLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
 				.RegisterType<ISession>(new PerRequestLifetimeManager(), new InjectionFactory(container => container.Resolve<ISessionFactory>().OpenSession()));
 
 			ConfigureUnityForApplication();
