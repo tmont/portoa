@@ -98,6 +98,7 @@
     <Compile Include="Unity\DependsOnExtensionsAttribute.cs" />
     <Compile Include="Unity\ExtensionDependencyException.cs" />
     <Compile Include="Unity\InjectionFilterAdjuster.cs" />
+    <Compile Include="Unity\Lifetime\PerSessionLifetimeManager.cs" />
     <Compile Include="Unity\Matching\OnEntitySaved.cs" />
     <Compile Include="Unity\Validation\ValidateEntityOnSave.cs" />
     <Compile Include="Unity\Validation\ValidationCallHandler.cs" />
