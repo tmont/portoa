@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Portoa.Logging;
 
 namespace Portoa.Testing {
@@ -45,7 +46,7 @@ namespace Portoa.Testing {
 		/// <summary>
 		/// Sets up the test, creating the database and running the setup scripts
 		/// </summary>
-		public void SetUp() {
+		public DbTestingUtility SetUp() {
 			handledErrors = false;
 			errors.Clear();
 			logger.Info("Setting up the test");
@@ -55,6 +56,7 @@ namespace Portoa.Testing {
 			RunSetUpScripts();
 
 			CheckForErrors();
+			return this;
 		}
 		
 		private void CheckForErrors() {
@@ -153,4 +155,5 @@ namespace Portoa.Testing {
 			return this;
 		}
 	}
+
 }
