@@ -10,7 +10,7 @@ namespace Portoa.Tests.Validation.DataAnnotations {
 	public class ValidationTests {
 		[Test]
 		public void Should_validate_all_properties_and_fields() {
-			var validator = new EntityValidator(new ActivatorServiceProvider());
+			var validator = new EntityValidator(new ActivatorServiceProvider(), null);
 			var entity = new Validatable();
 			var results = validator.Validate(entity);
 
@@ -29,7 +29,7 @@ namespace Portoa.Tests.Validation.DataAnnotations {
 
 		[Test]
 		public void Should_stop_validating_after_first_error() {
-			var validator = new EntityValidator(new ActivatorServiceProvider());
+			var validator = new EntityValidator(new ActivatorServiceProvider(), null);
 			var entity = new Validatable();
 			var results = validator.Validate(entity, stopOnFirstError: true);
 

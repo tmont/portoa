@@ -14,13 +14,10 @@ namespace Portoa.Web.Unity.Validation {
 		}
 
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext) {
-			var entity = input.Arguments[0];
-			var results = validator.Validate(entity);
-			if (!results.Any()) {
-				return getNext()(input, getNext);
-			}
-
-			return input.CreateExceptionMethodReturn(new ValidationFailedException(results));
+			var results = input.Arguments.Cast<object>().SelectMany(entity => validator.Validate(entity));
+			return !results.Any() 
+				? getNext()(input, getNext) //no errors
+				: input.CreateExceptionMethodReturn(new ValidationFailedException(results));
 		}
 
 		public int Order { get; set; }

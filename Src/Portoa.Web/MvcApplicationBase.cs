@@ -51,6 +51,8 @@ namespace Portoa.Web {
 						logger.Debug(new string('-', 15) + message + new string('-', 15 - message.Length));
 					}
 				}
+
+				OnRequestEnded();
 			};
 
 			Error += (sender, args) => {
@@ -60,6 +62,12 @@ namespace Portoa.Web {
 				HandleApplicationError(exception);
 			};
 		}
+
+		/// <summary>
+		/// Performs actions at the end of each request; default implementation
+		/// does nothing
+		/// </summary>
+		protected virtual void OnRequestEnded() { }
 
 		/// <summary>
 		/// Handles uncaught application exceptions; default implementation uses <see cref="ApplicationErrorHandler"/>

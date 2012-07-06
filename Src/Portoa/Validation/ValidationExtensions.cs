@@ -21,7 +21,7 @@ namespace Portoa.Validation {
 		/// </summary>
 		/// <param name="separator">Separator to use to divide each error message</param>
 		public static string CombineErrorMessages(this IEnumerable<IValidationResult> results, string separator = "\n") {
-			return results.Aggregate("Validation errors:", (current, next) => current + separator + next.ErrorMessage);
+			return results.Implode(result => result.ErrorMessage, separator);
 		}
 
 		/// <summary>
