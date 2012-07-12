@@ -77,7 +77,11 @@
     <Compile Include="Search\ISearchService.cs" />
     <Compile Include="Search\SearchIndexException.cs" />
     <Compile Include="Search\SearchResult.cs" />
+    <Compile Include="Security\AuthCredentials.cs" />
     <Compile Include="Security\CaptchaManager.cs" />
+    <Compile Include="Security\IAuthenticationService.cs" />
+    <Compile Include="Security\IAuthenticator.cs" />
+    <Compile Include="Security\ICurrentUserProvider.cs" />
     <Compile Include="Util\CollectionExtensions.cs" />
     <Compile Include="Security\DefaultPasswordProtector.cs" />
     <Compile Include="Persistence\Entity.cs" />

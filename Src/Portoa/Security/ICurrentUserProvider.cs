@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Portoa.Web.Security {
+namespace Portoa.Security {
 	/// <summary>
 	/// Provides an interface for identifying the current user
 	/// </summary>

@@ -5,6 +5,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using Portoa.NHibernate;
 using Portoa.Persistence;
+using Portoa.Security;
 using Portoa.Web.ErrorHandling;
 using Portoa.Web.Security;
 using Portoa.Web.Unity;

@@ -1,20 +1,23 @@
 ﻿using System.Web.Security;
-using Portoa.Logging;
-using Portoa.Persistence;
+using Portoa.Security;
 
 namespace Portoa.Web.Security {
 	/// <summary>
 	/// Base class for authenticating users using the built-in <see cref="FormsAuthentication"/>
 	/// mechanism
 	/// </summary>
-	public abstract class FormsAuthenticationServiceBase : IAuthenticationService {
-		[UnitOfWork]
+	public class FormsAuthenticationServiceBase : IAuthenticationService {
+		private readonly IAuthenticator authenticator;
+
+		public FormsAuthenticationServiceBase(IAuthenticator authenticator) {
+			this.authenticator = authenticator;
+		}
+
 		void IAuthenticationService.Login(string username) {
 			FormsAuthentication.SetAuthCookie(username, true);
 			Login(username);
 		}
 
-		[UnitOfWork]
 		void IAuthenticationService.Logout() {
 			FormsAuthentication.SignOut();
 			Logout();
@@ -31,6 +34,8 @@ namespace Portoa.Web.Security {
 		/// <param name="username">The name of the user to login</param>
 		protected virtual void Login(string username) { }
 
-		public abstract bool IsValid(string username, [DoNotLog]string password);
+		bool IAuthenticator.IsValid(AuthCredentials credentials) {
+			return authenticator.IsValid(credentials);
+		}
 	}
 }
