@@ -18,7 +18,7 @@ namespace Portoa.Web.Controllers {
 
 		protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType) {
 			if (controllerType == null) {
-				return base.GetControllerInstance(requestContext, controllerType);
+				return base.GetControllerInstance(requestContext, null);
 			}
 
 			return container.Resolve(controllerType) as IController;
