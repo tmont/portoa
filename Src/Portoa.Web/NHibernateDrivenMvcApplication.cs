@@ -7,7 +7,6 @@ using Portoa.NHibernate;
 using Portoa.Persistence;
 using Portoa.Security;
 using Portoa.Web.ErrorHandling;
-using Portoa.Web.Security;
 using Portoa.Web.Unity;
 using Portoa.Web.Unity.Lifetime;
 using Portoa.Web.Unity.UnitOfWork;

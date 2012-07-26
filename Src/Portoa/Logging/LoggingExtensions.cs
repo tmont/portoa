@@ -40,6 +40,14 @@ namespace Portoa.Logging {
 		}
 
 		/// <summary>
+		/// Logs a formatted <c>Error</c> message
+		/// </summary>
+		/// <see cref="ILogger.Error"/>
+		public static void Error(this ILogger logger, string message, params object[] args) {
+			logger.Error(string.Format(CultureInfo.InvariantCulture, message, args));
+		}
+
+		/// <summary>
 		/// Logs an exception using <see cref="ILogger.Debug"/>
 		/// </summary>
 		/// <see cref="ILogger.Debug"/>
