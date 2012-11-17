@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Security.Principal;
 using System.Web;
@@ -27,6 +28,11 @@ namespace Portoa.Web {
 		/// The container associated with this application
 		/// </summary>
 		protected static readonly IUnityContainer Container = new UnityContainer();
+
+		/// <summary>
+		/// Extensions to register with the <see cref="Container"/>
+		/// </summary>
+		protected static readonly ISet<UnityContainerExtension> Extensions = new HashSet<UnityContainerExtension>();
 
 		protected MvcApplicationBase() {
 			var startTime = 0;
@@ -94,7 +100,9 @@ namespace Portoa.Web {
 				.RegisterAndIntercept<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
 
-			ConfigureUnity();
+			foreach (var extension in Extensions) {
+				Container.AddExtension(extension);
+			}
 
 			if (!Container.IsRegistered<ILogger>()) {
 				Container.RegisterType<ILogger, NullLogger>();
@@ -198,12 +206,6 @@ namespace Portoa.Web {
 		protected virtual void RegisterFilterProviders(FilterProviderCollection providers) {
 			FilterProviders.Providers.Add(new AdjustableFilterProvider(new InjectionFilterAdjuster(Container)));
 		}
-
-		/// <summary>
-		/// Performs any application-specific configuration for Unity; default implementation
-		/// does nothing
-		/// </summary>
-		protected virtual void ConfigureUnity() { }
 
 		protected void Application_End() {
 			OnApplicationEnd();
