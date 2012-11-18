@@ -6,7 +6,7 @@ using Portoa.NHibernate;
 using Portoa.Persistence;
 using Portoa.Web.Unity.Lifetime;
 
-namespace Portoa.Web.Unity.UnitOfWork {
+namespace Portoa.Web.Unity.Persistence {
 	/// <summary>
 	/// Registers everything needed to use NHibernate with Unity
 	/// </summary>

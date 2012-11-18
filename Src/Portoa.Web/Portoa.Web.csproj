@@ -80,7 +80,6 @@
     <Compile Include="Filters\PrivateActionAttribute.cs" />
     <Compile Include="Models\ICaptchaModel.cs" />
     <Compile Include="Models\PagingMenuModel.cs" />
-    <Compile Include="NHibernateDrivenMvcApplication.cs" />
     <Compile Include="Results\CompositeResult.cs" />
     <Compile Include="Results\InjectableJsonResult.cs" />
     <Compile Include="Security\AuthTicketService.cs" />
@@ -94,14 +93,14 @@
     <Compile Include="Models\FlagEnumModelBinder.cs" />
     <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\ResolveWithContainerModelBinder.cs" />
-    <Compile Include="MvcApplicationBase.cs" />
+    <Compile Include="UnityDrivenApplication.cs" />
     <Compile Include="Controllers\ContainerControllerFactory.cs" />
     <Compile Include="Unity\DependsOnExtensionsAttribute.cs" />
     <Compile Include="Unity\ExtensionDependencyException.cs" />
     <Compile Include="Unity\InjectionFilterAdjuster.cs" />
     <Compile Include="Unity\Lifetime\PerSessionLifetimeManager.cs" />
     <Compile Include="Unity\Matching\OnEntitySaved.cs" />
-    <Compile Include="Unity\UnitOfWork\EnableNHibernate.cs" />
+    <Compile Include="Unity\Persistence\EnableNHibernate.cs" />
     <Compile Include="Unity\Validation\BuildUpAttributeProvider.cs" />
     <Compile Include="Unity\Validation\ValidateEntityOnSave.cs" />
     <Compile Include="Unity\Validation\ValidationCallHandler.cs" />
@@ -123,7 +122,7 @@
     <Compile Include="Unity\ConfigureUsingAppConfig.cs" />
     <Compile Include="Unity\CallHandlerExtensions.cs" />
     <Compile Include="Unity\Logging\ConfigureLog4Net.cs" />
-    <Compile Include="Unity\UnitOfWork\EnableUnitOfWork.cs" />
+    <Compile Include="Unity\Persistence\EnableUnitOfWork.cs" />
     <Compile Include="Unity\ContainerResolvingServiceProvider.cs" />
     <Compile Include="Unity\Matching\HasAttribute.cs" />
     <Compile Include="Unity\Logging\LogAllMethodCalls.cs" />
@@ -132,7 +131,7 @@
     <Compile Include="Unity\Matching\InstanceOf.cs" />
     <Compile Include="Unity\Matching\PropertyGetOrSet.cs" />
     <Compile Include="Unity\Lifetime\PerRequestLifetimeManager.cs" />
-    <Compile Include="Unity\UnitOfWork\UnitOfWorkCallHandler.cs" />
+    <Compile Include="Unity\Persistence\UnitOfWorkCallHandler.cs" />
     <Compile Include="Unity\UnityContainerExtensions.cs" />
     <Compile Include="Util\HtmlHelperExtensions.cs" />
     <Compile Include="ErrorHandling\IErrorController.cs" />

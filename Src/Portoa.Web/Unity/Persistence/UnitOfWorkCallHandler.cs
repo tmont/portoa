@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
 
-namespace Portoa.Web.Unity.UnitOfWork {
+namespace Portoa.Web.Unity.Persistence {
 	/// <summary>
 	/// Call handler that wraps a method call in a unit of work
 	/// </summary>

@@ -5,10 +5,12 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using JetBrains.Annotations;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
+using Portoa.Security;
 using Portoa.Util;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
@@ -23,7 +25,7 @@ namespace Portoa.Web {
 	/// <summary>
 	/// Base for an MVC application using Unity
 	/// </summary>
-	public abstract class MvcApplicationBase : HttpApplication {
+	public abstract class UnityDrivenApplication : HttpApplication {
 		/// <summary>
 		/// The container associated with this application
 		/// </summary>
@@ -34,7 +36,7 @@ namespace Portoa.Web {
 		/// </summary>
 		protected static readonly ISet<UnityContainerExtension> Extensions = new HashSet<UnityContainerExtension>();
 
-		protected MvcApplicationBase() {
+		protected UnityDrivenApplication() {
 			var startTime = 0;
 			BeginRequest += (sender, args) => {
 				startTime = DateTime.UtcNow.ToUnixTimestamp();
@@ -221,5 +223,24 @@ namespace Portoa.Web {
 		/// later.
 		/// </summary>
 		protected virtual void OnApplicationEnd() { }
+	}
+
+	/// <summary>
+	/// Base for an MVC application that supports a userbase
+	/// </summary>
+	/// <typeparam name="T">The user type</typeparam>
+	public abstract class UnityDrivenApplication<T> : UnityDrivenApplication where T : class {
+		[CanBeNull]
+		private static T GetCurrentUser() {
+			return Container.IsRegistered<ICurrentUserProvider<T>>()
+				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser
+				: default(T);
+		}
+
+		protected override void ConfigureErrorHandlers() {
+			Container.RegisterType<IErrorResultFactory, ErrorWithUserResultFactory<T>>(
+				new InjectionFactory(container => new ErrorWithUserResultFactory<T>(GetCurrentUser()))
+			);
+		}
 	}
 }
