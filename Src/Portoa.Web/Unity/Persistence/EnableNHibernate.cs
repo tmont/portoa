@@ -7,22 +7,16 @@ using Portoa.Persistence;
 using Portoa.Web.Unity.Lifetime;
 
 namespace Portoa.Web.Unity.Persistence {
+
 	/// <summary>
 	/// Registers everything needed to use NHibernate with Unity
 	/// </summary>
 	/// <seealso cref="EnableUnitOfWork"/>
 	public class EnableNHibernate : UnityContainerExtension {
-		private readonly Func<IUnityContainer, Configuration> configFactory;
-
-		/// <param name="configFactory">Optional factory delegate for creating the NHibernate configuration</param>
-		public EnableNHibernate(Func<IUnityContainer, Configuration> configFactory = null) {
-			this.configFactory = configFactory;
-		}
-
 		protected override void Initialize() {
 			Container
 				.AddNewExtension<EnableUnitOfWork>()
-				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(configFactory ?? CreateNHibernateConfiguration))
+				.RegisterType<Configuration>(new ContainerControlledLifetimeManager(), new InjectionFactory(CreateNHibernateConfiguration))
 				.RegisterType<IUnitOfWork, NHibernateUnitOfWork>()
 				.RegisterAndIntercept(typeof(IRepository<>), typeof(NHibernateRepository<>))
 				.RegisterType<ISessionFactory>(new ContainerControlledLifetimeManager(), new InjectionFactory(container => container.Resolve<Configuration>().BuildSessionFactory()))
