@@ -48,6 +48,11 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\CssCacheOptions.cs" />
+    <Compile Include="Css\CssCompilerOptions.cs" />
+    <Compile Include="Css\ICssCacheStrategy.cs" />
+    <Compile Include="Css\ICssCompiler.cs" />
+    <Compile Include="Css\InMemoryCacheStrategy.cs" />
     <Compile Include="Globalization\Country.cs" />
     <Compile Include="Json\IJsonSerializer.cs" />
     <Compile Include="Json\JsonExtensions.cs" />
