@@ -5,7 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Portoa.Persistence;
 using Portoa.Web.Unity;
-using Portoa.Web.Unity.UnitOfWork;
+using Portoa.Web.Unity.Persistence;
 
 namespace Portoa.Web.Tests.Unity {
 	[TestFixture]

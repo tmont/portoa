@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using JetBrains.Annotations;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Logging;
+using Portoa.Security;
 using Portoa.Util;
 using Portoa.Web.Controllers;
 using Portoa.Web.ErrorHandling;
@@ -22,13 +25,18 @@ namespace Portoa.Web {
 	/// <summary>
 	/// Base for an MVC application using Unity
 	/// </summary>
-	public abstract class MvcApplicationBase : HttpApplication {
+	public abstract class UnityDrivenApplication : HttpApplication {
 		/// <summary>
 		/// The container associated with this application
 		/// </summary>
 		protected static readonly IUnityContainer Container = new UnityContainer();
 
-		protected MvcApplicationBase() {
+		/// <summary>
+		/// Extensions to register with the <see cref="Container"/>
+		/// </summary>
+		protected static readonly ISet<UnityContainerExtension> Extensions = new HashSet<UnityContainerExtension>();
+
+		protected UnityDrivenApplication() {
 			var startTime = 0;
 			BeginRequest += (sender, args) => {
 				startTime = DateTime.UtcNow.ToUnixTimestamp();
@@ -94,7 +102,9 @@ namespace Portoa.Web {
 				.RegisterAndIntercept<ISessionStore, HttpSessionStore>(new PerRequestLifetimeManager())
 				.RegisterType<HttpContextBase>(new PerRequestLifetimeManager(), new InjectionFactory(c => new HttpContextWrapper(HttpContext.Current)));
 
-			ConfigureUnity();
+			foreach (var extension in Extensions) {
+				Container.AddExtension(extension);
+			}
 
 			if (!Container.IsRegistered<ILogger>()) {
 				Container.RegisterType<ILogger, NullLogger>();
@@ -199,12 +209,6 @@ namespace Portoa.Web {
 			FilterProviders.Providers.Add(new AdjustableFilterProvider(new InjectionFilterAdjuster(Container)));
 		}
 
-		/// <summary>
-		/// Performs any application-specific configuration for Unity; default implementation
-		/// does nothing
-		/// </summary>
-		protected virtual void ConfigureUnity() { }
-
 		protected void Application_End() {
 			OnApplicationEnd();
 
@@ -219,5 +223,24 @@ namespace Portoa.Web {
 		/// later.
 		/// </summary>
 		protected virtual void OnApplicationEnd() { }
+	}
+
+	/// <summary>
+	/// Base for an MVC application that supports a userbase
+	/// </summary>
+	/// <typeparam name="T">The user type</typeparam>
+	public abstract class UnityDrivenApplication<T> : UnityDrivenApplication where T : class {
+		[CanBeNull]
+		private static T GetCurrentUser() {
+			return Container.IsRegistered<ICurrentUserProvider<T>>()
+				? Container.Resolve<ICurrentUserProvider<T>>().CurrentUser
+				: default(T);
+		}
+
+		protected override void ConfigureErrorHandlers() {
+			Container.RegisterType<IErrorResultFactory, ErrorWithUserResultFactory<T>>(
+				new InjectionFactory(container => new ErrorWithUserResultFactory<T>(GetCurrentUser()))
+			);
+		}
 	}
 }

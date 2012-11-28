@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using Portoa.Persistence;
 using Portoa.Web.Unity.Matching;
 
-namespace Portoa.Web.Unity.UnitOfWork {
+namespace Portoa.Web.Unity.Persistence {
 	/// <summary>
 	/// Enables the use of the <see cref="UnitOfWorkAttribute"/> to perform
 	/// transactions around method calls
