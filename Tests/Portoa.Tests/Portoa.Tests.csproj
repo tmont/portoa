@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGenerator.cs" />
+    <Compile Include="Css\CacheTests.cs" />
     <Compile Include="Globalization\CountryTests.cs" />
     <Compile Include="Json\JsonSerializationTests.cs" />
     <Compile Include="Mail\ContactEmailServiceTests.cs" />

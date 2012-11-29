@@ -5,6 +5,8 @@ using System.Collections.Generic;
 namespace Portoa.Css {
 	/// <summary>
 	/// Stores cached items in a local <see cref="ConcurrentDictionary{TKey,TValue}"/>.
+	/// This class is thread safe-ish. There are no locks, so items could be updated
+	/// in one thread while be reading in a different thread, so be aware.
 	/// </summary>
 	public class InMemoryCacheStrategy : ICssCacheStrategy {
 		private readonly IDictionary<string, CssCacheItem> lessMap = new ConcurrentDictionary<string, CssCacheItem>();
@@ -15,10 +17,16 @@ namespace Portoa.Css {
 			}
 
 			var item = lessMap[key];
-			if (item.Created.Add(item.Ttl) > DateTime.UtcNow) {
-				//expired, remove from cache
-				Delete(key);
-				return null;
+			try {
+				if (item.Ttl != TimeSpan.MaxValue && item.Created.Add(item.Ttl) <= DateTime.UtcNow) {
+					//expired, remove from cache
+					Delete(key);
+					return null;
+				}
+			}
+			catch (ArgumentOutOfRangeException) {
+				//if this happens, the TTL was high enough that it caused an overflow.
+				//in this case we just assume that it's not expired.
 			}
 
 			return item;

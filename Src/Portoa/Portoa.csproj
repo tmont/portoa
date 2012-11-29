@@ -48,6 +48,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\CssCacheItem.cs" />
     <Compile Include="Css\CssCacheOptions.cs" />
     <Compile Include="Css\CssCompilerOptions.cs" />
     <Compile Include="Css\ICssCacheStrategy.cs" />
