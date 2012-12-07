@@ -208,7 +208,9 @@ namespace Portoa.NHibernate.Testing {
 		}
 
 		public object SaveOrUpdateCopy(object obj) {
+#pragma warning disable 612,618
 			return CommitAndEvict(() => session.SaveOrUpdateCopy(obj), obj);
+#pragma warning restore 612,618
 		}
 
 		public void Delete(object obj) {
@@ -216,7 +218,9 @@ namespace Portoa.NHibernate.Testing {
 		}
 
 		public object SaveOrUpdateCopy(object obj, object id) {
+#pragma warning disable 612,618
 			return CommitAndEvict(() => session.SaveOrUpdateCopy(obj, id), obj);
+#pragma warning restore 612,618
 		}
 
 		public void Delete(string entityName, object obj) {

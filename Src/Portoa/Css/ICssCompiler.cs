@@ -6,7 +6,7 @@ namespace Portoa.Css {
 	/// </summary>
 	public interface ICssCompiler {
 		/// <summary>
-		/// Compiles <see cref="source"/> to CSS
+		/// Compiles <c>source</c> to CSS
 		/// </summary>
 		/// <param name="source">The raw source to compile to CSS</param>
 		/// <param name="fileName">The originating file name</param>
@@ -17,7 +17,7 @@ namespace Portoa.Css {
 
 	public static class CssCompilerExtensions {
 		/// <summary>
-		/// Reads from <see cref="fileName"/> and compiles its contents into CSS.
+		/// Reads from <c>fileName</c> and compiles its contents into CSS.
 		/// Note that this method does no error handling, so all IO exceptions
 		/// should be handled by the caller.
 		/// </summary>

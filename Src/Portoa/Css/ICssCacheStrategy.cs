@@ -4,14 +4,14 @@ namespace Portoa.Css {
 	/// </summary>
 	public interface ICssCacheStrategy {
 		/// <summary>
-		/// Gets the cached CSS at <see cref="key"/>, or <c>null</c>
+		/// Gets the cached CSS at <c>key</c>, or <c>null</c>
 		/// if the key isn't set
 		/// </summary>
 		/// <param name="key">The cache key</param>
 		CssCacheItem Get(string key);
 
 		/// <summary>
-		/// Sets the cached CSS at <see cref="key"/>. This will override
+		/// Sets the cached CSS at <c>key</c>. This will override
 		/// anything already set at the key.
 		/// </summary>
 		/// <param name="key">The cache key</param>
@@ -19,7 +19,7 @@ namespace Portoa.Css {
 		void Set(string key, string compiled, CssCacheOptions options = null);
 
 		/// <summary>
-		/// Deletes compiled CSS at <see cref="key"/>. If the key is not
+		/// Deletes compiled CSS at <c>key</c>. If the key is not
 		/// set, this is a no-op.
 		/// </summary>
 		/// <param name="key">The cache key</param>
