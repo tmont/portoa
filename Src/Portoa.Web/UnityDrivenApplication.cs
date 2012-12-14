@@ -119,6 +119,7 @@ namespace Portoa.Web {
 			RegisterViewEngines(ViewEngines.Engines);
 			RegisterAreas();
 			RegisterRoutes(RouteTable.Routes);
+			RegisterGlobalFilters();
 			AfterStartUp();
 		}
 
@@ -179,7 +180,7 @@ namespace Portoa.Web {
 		/// <summary>
 		/// Registers global filters; default adds a filter to disable validation input
 		/// </summary>
-		protected virtual void RegisterGlobalFilters(GlobalFilterCollection filters) {
+		protected virtual void RegisterGlobalFilters() {
 			GlobalFilters.Filters.Add(new ValidateInputAttribute(false));
 		}
 
