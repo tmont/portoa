@@ -153,7 +153,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Portoa\Portoa.csproj">
       <Project>{FE1019C1-D129-48B4-9026-A4B06039D258}</Project>
-      <Name>Portoa %28Src\Portoa\Portoa%29</Name>
+      <Name>Portoa</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
